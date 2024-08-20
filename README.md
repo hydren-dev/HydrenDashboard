@@ -25,9 +25,9 @@ All features:
 
 # Install Guide
 
-:Warning: You need Skyport already set up on a domain for PalPod to work
+:Warning: You need Skyport already set up on a domain for Helaport to work
 
-1. Upload the file above onto a Skyport NodeJS server [Download the egg from pelican-eggs Repository](https://github.com/pelican-eggs/eggs/blob/master/generic/nodejs/egg-node-js-generic.json)
+1. Make a Instance of Nodejs and upload the files and start the server you must configure .env first
 2. Unarchive the file and set the server to use NodeJS 21
 3. Configure `.env`, `/storage/eggs.json` & `/storage/plans.json` with the scan or manuel and ports `/storage/ports.json`
 4. Run `npm i`
