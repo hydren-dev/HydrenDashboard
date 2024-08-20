@@ -158,6 +158,7 @@ router.get('/create-server', ensureAuthenticated, async (req, res) => {
       user: req.user, // User info (if logged in)
       admin: await db.get(`admin-${req.user.email}`), // Admin status
       coins: await db.get(`coins-${req.user.email}`), // Coins
+      discordserver: process.env.DISCORD_SERVER,
       images: require('../storage/images.json'), // Images data
       nodes: require('../storage/nodes.json') // Nodes data
     });
