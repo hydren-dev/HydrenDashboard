@@ -1,9 +1,9 @@
 {
-  "name": "palpod",
+  "name": "Helaport",
   "version": "1.0.0",
   "description": "The better version of Heliactyl.",
   "main": "index.js",
-  "author": "overnode",
+  "author": "MrStateGaming1",
   "license": "ISC",
   "scripts": {
     "start": "nodemon app.js",
