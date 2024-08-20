@@ -86,6 +86,7 @@ router.get('/', (req, res) => {
   res.render('index', {
     req: req, // Requests (queries) 
     name: process.env.APP_NAME, // Dashboard name
+    discordserver: process.env.DISCORD_SERVER,
     user: req.user // User info (if logged in)
   });
 });
@@ -97,7 +98,8 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
     console.log("init dash")
     try {
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
-        userId: req.user.id
+        userId: req.user.id,
+        discordserver: process.env.DISCORD_SERVER
       }, {
         headers: {
           'x-api-key': skyport.key
@@ -119,6 +121,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
         coins: await db.get(`coins-${req.user.email}`) || 0, // User's coins
         req: req, // Request (queries)
         name: process.env.APP_NAME || "Helaport", // Dashboard name
+        discordserver: process.env.DISCORD_SERVER,
         user: req.user, // User info
         servers, // Servers the user owns
         existing, // Existing resources
@@ -161,6 +164,7 @@ router.get('/servers', ensureAuthenticated, async (req, res) => {
         coins: await db.get(`coins-${req.user.email}`) || 0, // User's coins
         req: req, // Request (queries)
         name: process.env.APP_NAME || "Helaport", // Dashboard name
+        discordserver: process.env.DISCORD_SERVER,
         user: req.user, // User info
         servers, // Servers the user owns
         existing, // Existing resources
@@ -182,6 +186,7 @@ router.get('/credentials', ensureAuthenticated, async (req, res) => {
     coins: await db.get(`coins-${req.user.email}`), // User's coins
     req: req, // Request (queries)
     name: process.env.APP_NAME, // Dashboard name
+    discordserver: process.env.DISCORD_SERVER,
     user: req.user, // User info
     admin: await db.get(`admin-${req.user.email}`), // Admin status
     password: await checkPassword(req.user.email) // Account password
@@ -193,6 +198,7 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
   res.render('profile', { 
     coins: await db.get(`coins-${req.user.email}`), // User's coins
     req: req, // Request (queries)
+    discordserver: process.env.DISCORD_SERVER,
     name: process.env.APP_NAME, // Dashboard name
     user: req.user, // User info
     admin: await db.get(`admin-${req.user.email}`), // Admin status
