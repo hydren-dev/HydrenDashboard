@@ -1,0 +1,68 @@
+
+<body class="bg-[#10181e]" style="font-family: 'Space Grotesk', sans-serif;">
+  <div>
+    <%- include('./components/wrapper') %>
+    <div class="md:pl-64 flex flex-col flex-1 h-screen"> <%- include('./components/header') %>
+      <main class="flex-1 pb-32">
+        <div class="py-6">
+          <%- include('./components/skeleton') %>
+          <div class="hidden max-w-screen-2xl pt-8 mx-auto px-4 sm:px-6 md:px-16" id="content">
+            <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+              <div class="min-w-0 flex-1">
+                <div class="flex">
+                  <div class="relative">
+                    <h2 class="text-xl font-semibold text-white sm:truncate tracking-tight">Resources Store</h2>
+                    <p class="text-sm font-normal text-zinc-400">Buy resources with your choice of <%= coins %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="productList" class="flex flex-row gap-4 flex-wrap w-full mb-2">
+              <!-- Products will be inserted here by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </main>
+      <script>
+        // Define products data
+        const products = [
+          { type: 'ram', name: '1GB of memory', costZTT: <%= name %> },
+          { type: 'cpu', name: '1 CPU core', costZTT: <%= name %> },
+          { type: 'disk', name: '2GB of storage', costZTT: <%= name %> },
+          { type: 'servers', name: '1 server slot', costZTT: <%= name %> },
+        ];
+
+        // Function to update the product display based on selected currency
+        function updateProductDisplay(currency) {
+          const productList = document.getElementById('productList');
+          productList.innerHTML = ''; // Clear existing products
+
+          // Generate HTML for each product based on the selected currency
+          products.forEach(product => {
+            const cost = `${product.costZTT} <%= coins %>` 
+            const productHTML = `
+              <div class="decoration flex flex-col relative w-full md:w-72">
+                <a href="/buy?type=${product.type}&amount=1" class="w-full md:w-72 flex flex-col space-y-2 bg-[#121b21] border-2 border-transparent hover:border-[#121b21] focus:border-[#121b21] rounded-lg shadow-md transition relative">
+                  <div class="w-full h-full bg-no-repeat bg-center bg-cover rounded-lg rounded-b-none" style="background-image: url('${product.image}');">
+                    <div class="bg-gradient-to-t from-[#121b21] to-[#121b21]/20 w-full h-full backdrop-blur-sm rounded-kg"></div>
+                  </div>
+                  <div class="flex flex-col p-6">
+                    <div class="flex flex-row justify-between">
+                      <h4 class="font-semibold text-white text-md mt-1">${product.name}</h4>
+                      <p class="text-xl font-semibold text-white flex flex-row items-center gap-2">
+                        <span class="text-[#0a9875] text-sm ml-3 bg-[#0a9875]/10 px-4 py-1.5 rounded-full">${cost}</span>
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>`;
+            productList.innerHTML += productHTML;
+          });
+        }
+        // Initial display update
+        updateProductDisplay('ZTT');
+      </script>
+      <%- include('./components/footer') %>
+    </div>
+  </div>
+</body>

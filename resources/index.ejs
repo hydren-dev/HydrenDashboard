@@ -1,0 +1,92 @@
+<html class="h-full">
+  <head>
+    <title><%= name %></title>
+    <link rel="icon" type="image/x-icon" href="<%= settings.icon %>">
+    <link rel="stylesheet" href="../public/tailwind.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+  
+    <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  </head>
+  <% if (req.query.err == "INTERNALERROR") { %>
+   <div class="bg-red-900/50 border-l-4 border-red-400 rounded-lg text-red-100 px-4 py-3 relative" role="alert">
+     <div class="flex">
+       <div class="py-1">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400 mr-3">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+         </svg>
+       </div>
+       <div>
+         <p class="font-bold">Internal Server Error</p>
+         <p class="text-sm relative"><%= name %> couldn't process the action due to an internal issue.</p>
+       </div>
+     </div>
+   </div>
+   <% } %> <% if (req.query.err == "BANNED") { %>
+     <div class="bg-red-900/50 border-l-4 border-red-400 rounded-lg text-red-100 px-4 py-3 relative" role="alert">
+       <div class="flex">
+         <div class="py-1">
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400 mr-3">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+           </svg>
+         </div>
+         <div>
+           <span data-config-id="auto-txt-15-2">Your account has been banned</span>
+           <p class="text-sm relative">You were banned for this reason: <%= req.query.reason %></p>
+         </div>
+       </div>
+     </div>
+     <% } %>      
+<body class="h-full bg-[#10181e] p-12" style="font-family: 'Space Grotesk'">
+    <div class="" id="content">
+       <section data-section-id="1" data-share="" data-category="sign-up" data-component-id="6c5b97a6_02_awz" class="relative py-5 2xl:py-5 overflow-hidden">
+          <div class="container px-4 mx-auto">
+             <div class="max-w-7xl mx-auto">
+                <div class="flex flex-wrap -mx-4">
+                   <div class="w-full lg:w-1/2 px-4 order-last lg:order-first">
+                      <div class="relative max-w-lg mx-auto lg:mx-0 lg:max-w-2xl h-full">
+                         <img class="block w-full h-142 sm:h-full object-cover rounded-5xl" src="../public/v2LB.png" alt="" data-config-id="auto-img-1-2" style="border-radius: 3rem;">
+                         <div class="absolute bottom-0 w-full left-0 h-full flex items-center justify-center p-10">
+                            <div class="max-w-md mx-auto">
+                               <h4 class="font-heading text-3xl sm:text-5xl lg:text-6xl text-white font-bold mb-8" data-config-id="auto-txt-1-2">Sign in to your <%= name %> account.</h4>
+                               <div class="md:flex mb-20">
+                                  <div>
+                                     <p class="text-lg font-normal text-zinc-400" data-config-id="auto-txt-2-2">Welcome back! Login to your <%= name %> account through one of our OAuth2 providers. If you don't have an account, one will be created.</p>
+                                  </div>
+                               </div>
+                               <div class="flex items-center">
+                                  <div class="flex mr-4 items-center">
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   
+                   <div class="w-full lg:w-1/2 px-4 mb-16 lg:mb-0 border border-white/5" style="border-radius: 3rem;">
+                      <div class="max-w-lg lg:pt-32 2xl:pt-64 lg:pb-8 mx-auto 2xl:mr-0">
+                         <h3 class="text-4xl sm:text-3xl text-white font-medium tracking-tight mb-3" data-config-id="auto-txt-6-2">Continue to dashboard</h3>
+                         <p class="text-md text-zinc-400 mb-15" data-config-id="auto-txt-7-2">Select an OAuth2 provider to continue with.</p>
+                         <form class="mt-12">
+                            <a href="../login/discord" class="relative group block w-96 mb-32 py-3 px-5 text-center text-sm font-semibold text-white bg-[#0a9875] rounded-2xl overflow-hidden" type="submit">
+                               <div class="absolute top-0 right-full w-full h-full bg-[#0a9875] transform group-hover:translate-x-full group-hover:scale-102 transition duration-150"></div>
+                               <span class="relative" data-config-id="auto-txt-15-2">Sign in using Discord</span>
+                            </a>
+                            <div>
+                               <span class="text-xs font-semibold text-white">
+                               <span data-config-id="auto-txt-16-2">Need help?</span>
+                               <a href="https://discord.gg/skyport" class="inline-block ml-1 text-[#0a9875] transition" data-config-id="auto-txt-17-2"><%= settings.name %> Discord Server</a>
+                               </span>
+                            </div>
+                         </form>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </section>
+    </div>
+ </body>

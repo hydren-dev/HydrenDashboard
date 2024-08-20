@@ -1,0 +1,149 @@
+<%- include('./components/header') %>
+
+<body class="bg-[#10181e]" style="font-family: 'Space Grotesk', sans-serif;">
+  <div>
+    <%- include('./components/wrapper') %>
+    <div class="md:pl-64 flex flex-col flex-1 h-screen"> <%- include('./components/header') %>
+      <main class="flex-1 pb-32">
+        <div class="py-6">
+          <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
+          <%- include('./components/skeleton') %>
+          <div class="hidden max-w-screen-2xl pt-8 mx-auto px-4 sm:px-6 md:px-16" id="content">
+            <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+              <div class="min-w-0 flex-1">
+                <div class="flex">
+                  <div class="relative">
+                    <h2 class="text-xl font-semibold text-white sm:truncate tracking-tight">Admin</h2>
+                    <p class="text-sm font-normal text-zinc-400">Perform admin actions on the Heliactyl dashboard.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% if (req.query.err) { %>
+            <div class="rounded-2xl border border-white/5 p-4 mb-5">
+              <div class="flex">
+                <div>
+                  <div class="pl-4 text-sm text-white">
+                    <p>Error code: <code><%= req.query.err %></code></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <% if (req.query.success) { %>
+              <div class="rounded-2xl border border-white/5 p-4 mb-5">
+                <div class="flex">
+                  <div>
+                    <div class="pl-4 text-sm text-white">
+                      <p>Action Success: <code><%= req.query.success %></code></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            <% if (admin == true) { %>
+              <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <!-- Add coins -->
+              <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                <h1 class="text-lg font-semibold text-white">Add coins</h1>
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ac-email" placeholder="Discord ID">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ac-amount" placeholder="Amount">
+                <a href="javascript:addCoins()" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                  </svg>
+                  Add Coins
+                </a>
+              </div>
+
+            
+              <!-- Add resources -->
+              <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                <h1 class="text-lg font-semibold text-white">Add resources</h1>
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-email" placeholder="Email">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-cpu" placeholder="CPU Cores">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-ram" placeholder="Memory (GiB)">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-disk" placeholder="Storage (GiB)">
+                <a href="javascript:addResources()" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                  </svg>
+                  Add Resources
+                </a>
+              </div>
+              <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <!-- Ban -->
+                <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                  <h1 class="text-lg font-semibold text-white">Ban Anyone</h1>
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ban-email" placeholder="Email">
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ban-reason" placeholder="Reason">
+                  <a href="javascript:ban()" class="inline-flex items-center justify-center rounded-full border-none bg-red-600 px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-red-600 transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    Ban 
+                  </a>
+                </div>
+                <!-- Ban -->
+                <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                  <h1 class="text-lg font-semibold text-white">unBan Anyone</h1>
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="unban-email" placeholder="Email">
+                  <a href="javascript:unban()" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    unBan 
+                  </a>
+                </div>
+                <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                  <h1 class="text-lg font-semibold text-white">Scan Nodes</h1>
+                  <a href="../scannodes" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    Scan Nodes
+                  </a>
+                </div>
+                <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                  <h1 class="text-lg font-semibold text-white">Scan Images </h1>
+                  <a href="../scanimages" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    Scan Images 
+                  </a>
+                </div>
+            </div>
+        </div>
+      </main>
+      <%- include('./components/footer') %>
+    </div>
+  </div>
+  <% } %>
+  <script>
+    async function unban() {
+          let email = encodeURIComponent(document.getElementById("unban-email").value);
+          document.location.href = `/unban?email=${email}`;
+        };
+
+     async function ban() {
+          let email = encodeURIComponent(document.getElementById("ban-email").value);
+          let reason = encodeURIComponent(document.getElementById("ban-reason").value);
+          document.location.href = `/ban?email=${email}&reason=${reason}`;
+        };
+
+     async function addCoins() {
+          let email = encodeURIComponent(document.getElementById("ac-email").value);
+          let amount = encodeURIComponent(document.getElementById("ac-amount").value);
+          document.location.href = `/addcoins?amount=${amount}&email=${email}`;
+        };
+
+        async function addResources() {
+          let email = encodeURIComponent(document.getElementById("ar-email").value);
+          let cpu = encodeURIComponent(document.getElementById("ar-cpu").value);
+          let ram = encodeURIComponent(document.getElementById("ar-ram").value);
+          let disk = encodeURIComponent(document.getElementById("ar-disk").value);
+          document.location.href = `/addresources?email=${email}&cpu=${cpu}&ram=${ram}&disk=${disk}`;
+        };
+  </script>
+</body>

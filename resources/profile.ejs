@@ -1,0 +1,135 @@
+
+
+<body class="bg-[#10181e]" style="font-family: 'Space Grotesk', sans-serif;">
+  <%- include('./components/wrapper') %>
+  <div class="md:pl-64 flex flex-col flex-1 h-screen">
+    <main class="flex-1 pb-32">
+      <div class="py-6">
+        <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
+        <%- include('./components/skeleton') %>
+        <div class="hidden max-w-screen-2xl pt-8 mx-auto px-4 sm:px-6 md:px-16" id="content">
+          <div>
+            <div>
+            </div>
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+              <div class="mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+                <div class="flex">
+                  <img class="h-24 w-24 rounded-3xl ring-8 ring-[#171717] sm:h-32 sm:w-32" src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>?size=256" alt="">
+                </div>
+                <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+                  <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
+                    <h1 class="truncate text-2xl font-semibold tracking-tight text-white"><%= user.global_name %> <span class="text-zinc-500">(<%= user.username %>)</span></h1>
+                  </div>
+                  <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+                    <a href="../profile?platform=account" type="button" class="transition inline-flex  items-center rounded-2xl bg-[#222224]/50 px-8 py-2.5 text-sm font-medium text-white hover:bg-[#222224] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-0.5 mr-1.5 h-5 w-5 text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                      </svg>
+                      Refresh
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-4 mt-8">
+            <div class="relative flex items-center space-x-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition bg-[#162027]/30">
+              <div class="flex-shrink-0 text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7 text-[#0a9875] mr-2">
+                  <path fill-rule="evenodd" d="M1 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V6Zm4 1.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2 3a4 4 0 0 0-3.665 2.395.75.75 0 0 0 .416 1A8.98 8.98 0 0 0 7 14.5a8.98 8.98 0 0 0 3.249-.604.75.75 0 0 0 .416-1.001A4.001 4.001 0 0 0 7 10.5Zm5-3.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 6.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm.75-4a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5h-2.5Z" clip-rule="evenodd" />
+                </svg>                               
+              </div>
+              <div class="min-w-0 flex-1">
+                  <span class="absolute inset-0" aria-hidden="true"></span>
+                  <p class="text-sm font-semibold text-white">User ID</p>
+                  <span class="text-xs font-normal text-zinc-400"><%= user.id %></span>
+              </div>
+            </div>
+            <div class="relative flex items-center space-x-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition bg-[#162027]/30">
+              <div class="flex-shrink-0 text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7 text-[#0a9875] mr-2">
+                  <path fill-rule="evenodd" d="M5.404 14.596A6.5 6.5 0 1 1 16.5 10a1.25 1.25 0 0 1-2.5 0 4 4 0 1 0-.571 2.06A2.75 2.75 0 0 0 18 10a8 8 0 1 0-2.343 5.657.75.75 0 0 0-1.06-1.06 6.5 6.5 0 0 1-9.193 0ZM10 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clip-rule="evenodd" />
+                </svg>                                  
+              </div>
+              <div class="min-w-0 flex-1">
+                  <span class="absolute inset-0" aria-hidden="true"></span>
+                  <p class="text-sm font-semibold text-white">Email</p>
+                  <span class="text-xs font-normal text-zinc-400"><%= user.email %></span>
+              </div>
+              </div>
+              <div class="relative flex items-center space-x-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition bg-[#162027]/30">
+                <div class="flex-shrink-0 text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7 text-[#0a9875] mr-2">
+                    <path d="M7.75 2.75a.75.75 0 0 0-1.5 0v1.258a32.987 32.987 0 0 0-3.599.278.75.75 0 1 0 .198 1.487A31.545 31.545 0 0 1 8.7 5.545 19.381 19.381 0 0 1 7 9.56a19.418 19.418 0 0 1-1.002-2.05.75.75 0 0 0-1.384.577 20.935 20.935 0 0 0 1.492 2.91 19.613 19.613 0 0 1-3.828 4.154.75.75 0 1 0 .945 1.164A21.116 21.116 0 0 0 7 12.331c.095.132.192.262.29.391a.75.75 0 0 0 1.194-.91c-.204-.266-.4-.538-.59-.815a20.888 20.888 0 0 0 2.333-5.332c.31.031.618.068.924.108a.75.75 0 0 0 .198-1.487 32.832 32.832 0 0 0-3.599-.278V2.75Z" />
+                    <path fill-rule="evenodd" d="M13 8a.75.75 0 0 1 .671.415l4.25 8.5a.75.75 0 1 1-1.342.67L15.787 16h-5.573l-.793 1.585a.75.75 0 1 1-1.342-.67l4.25-8.5A.75.75 0 0 1 13 8Zm2.037 6.5L13 10.427 10.964 14.5h4.073Z" clip-rule="evenodd" />
+                  </svg>                                      
+                </div>
+                <div class="min-w-0 flex-1">
+                    <span class="absolute inset-0" aria-hidden="true"></span>
+                    <p class="text-sm font-semibold text-white">Language</p>
+                    <span class="text-xs font-normal text-zinc-400">Undefined</span>
+                </div>
+                </div>
+                <div class="relative flex items-center space-x-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition bg-[#162027]/30">
+                  <div class="flex-shrink-0 text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7 text-[#0a9875] mr-2">
+                      <path d="M4.464 3.162A2 2 0 0 1 6.28 2h7.44a2 2 0 0 1 1.816 1.162l1.154 2.5c.067.145.115.291.145.438A3.508 3.508 0 0 0 16 6H4c-.288 0-.568.035-.835.1.03-.147.078-.293.145-.438l1.154-2.5Z" />
+                      <path fill-rule="evenodd" d="M2 9.5a2 2 0 0 1 2-2h12a2 2 0 1 1 0 4H4a2 2 0 0 1-2-2Zm13.24 0a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V9.5Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V9.5a.75.75 0 0 0-.75-.75h-.01ZM2 15a2 2 0 0 1 2-2h12a2 2 0 1 1 0 4H4a2 2 0 0 1-2-2Zm13.24 0a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V15Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75h-.01Z" clip-rule="evenodd" />
+                    </svg>                                         
+                  </div>
+                  
+                  <div class="min-w-0 flex-1">
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                      <p class="text-sm font-semibold text-white">Servers</p>
+                      <span class="text-xs font-normal text-zinc-400">undefined</span>
+                  </div>
+            </div>
+          </div>
+          
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const claimReferralButton = document.getElementById('claimReferralButton');
+      
+          claimReferralButton.addEventListener('click', async function() {
+              const codeInput = document.getElementById('refCode');
+              const code = codeInput.value.trim();
+      
+              if (!code) {
+                  alert('Please enter a referral code.');
+                  return;
+              }
+      
+              try {
+                  const response = await fetch('/referral/claim', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      credentials: 'include', // Necessary if your session authentication relies on cookies
+                      body: JSON.stringify({ code: code })
+                  });
+                  const data = await response.json();
+      
+                  if (data.success) {
+                      alert('Referral code successfully claimed!');
+                  } else {
+                      alert('Failed to claim referral code: ' + (data.error || 'Unknown error'));
+                  }
+              } catch (error) {
+                  console.error('Error claiming referral code:', error);
+                  alert('There was a problem processing your request. Please try again.');
+              }
+          });
+      });
+      </script>      
+    <%- include('./components/footer') %>
+  </div>
+  </div>
+</body>

@@ -1,0 +1,86 @@
+<%- include('./components/header') %>
+
+<body class="bg-[#10181e]" style="font-family: 'Space Grotesk', sans-serif;">
+  <div>
+    <%- include('./components/wrapper') %>
+    <div class="md:pl-64 flex flex-col flex-1 h-screen"> <%- include('./components/header') %>
+      <main class="flex-1 pb-32">
+        <div class="py-6">
+          <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
+          <%- include('./components/skeleton') %>
+          <div class="hidden max-w-screen-2xl pt-8 mx-auto px-4 sm:px-6 md:px-16" id="content">
+            <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+              <div class="min-w-0 flex-1">
+                <div class="flex">
+                  <div class="relative">
+                    <h2 class="text-xl font-semibold text-white sm:truncate tracking-tight">Create-Server</h2>
+                    <p class="text-sm font-normal text-zinc-400">Create Your Server under 60 sec.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% if (req.query.err) { %>
+            <div class="rounded-2xl border border-white/5 p-4 mb-5">
+              <div class="flex">
+                <div>
+                  <div class="pl-4 text-sm text-white">
+                    <p>Error code: <code><%= req.query.err %></code></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <% if (req.query.success) { %>
+              <div class="rounded-2xl border border-white/5 p-4 mb-5">
+                <div class="flex">
+                  <div>
+                    <div class="pl-4 text-sm text-white">
+                      <p>Action Success: <code><%= req.query.success %></code></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+              <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <!-- Add coins -->
+                <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                  <h1 class="text-lg font-semibold text-white">Server information</h1>
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="name" placeholder="My Best Server">
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="disk" placeholder="Disk (No Need Default is 10)">                  
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="cpu" placeholder="Cpu (Cores)">
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ram" placeholder="Ram (MB)">
+                  <label class="block mb-2 text-white font-medium text-sm">Node:</label>
+       <select name="node" id="node" class="rounded-lg focus:ring-transparent focus:border-transparent text-white text-sm mt-2 w-full pr-10 items-center transition justify-left gap-16 hover:bg-white/5 px-4 py-2 flex border-white/5 bg-neutral-900 placeholder:text-white/20 border border-black/10">
+                        
+        <% nodes.forEach(function(node) { %>
+          <option value="<%= node.id %>"><%= node.name %></option>
+        <% }); %>
+                    
+                      </select>      
+     <label class="block mb-2 text-white font-medium text-sm">Software:</label>
+                  <select name="image" id="image" class="rounded-lg focus:ring-transparent focus:border-transparent text-white text-sm mt-2 w-full pr-10 items-center transition justify-left gap-16 hover:bg-white/5 px-4 py-2 flex border-white/5 bg-neutral-900 placeholder:text-white/20 border border-black/10">
+                   
+                    <% images.forEach(function(image) { %>
+                      <option value="<%= image.Id %>"><%= image.Name %></option>
+                    <% }); %>
+                      
+
+                                     </select> 
+                  <button onclick="submitForm()" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    Create Server
+                  </button>
+                </div>
+                <script>
+                  async function submitForm() {
+                    let name = encodeURIComponent(document.getElementById("name").value);
+                    let image = encodeURIComponent(document.getElementById("image").value);
+                    let ram = encodeURIComponent(document.getElementById("ram").value);
+                    // let disk = encodeURIComponent(document.getElementById("disk").value);
+                    let cpu = encodeURIComponent(document.getElementById("cpu").value);
+                    let node = encodeURIComponent(document.getElementById("node").value);
+                    document.location.href = `/create?name=${name}&image=${image}&ram=${ram}&cpu=${cpu}&node=${node}`; // &disk=${disk}
+                  }
+                </script>
