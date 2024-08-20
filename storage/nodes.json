@@ -1,18 +1,1 @@
-[
-  {
-    "id": "2b8f0293-2a48-490a-9183-2a2c54398557",
-    "name": "test",
-    "tags": "test",
-    "processor": "5",
-    "ram": "5",
-    "disk": "5"
-  },
-  {
-    "id": "190a85c9-644c-4afe-941b-4cead760930f",
-    "name": "EU-2-Node",
-    "tags": "t - t - t - t",
-    "processor": "Intel X",
-    "ram": "350000",
-    "disk": "4500000"
-  }
-]
+[]

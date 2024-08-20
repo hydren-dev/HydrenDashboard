@@ -14,6 +14,45 @@ const expressWs = require('express-ws')(app);
 
 const { db } = require('./function/db');
 
+// Function to send a Discord notification
+// Function to send a Discord notification
+async function sendDiscordNotification(message) {
+  const webhookURL = process.env.DISCORD_WEBHOOK_URL;
+  const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
+
+  if (!notificationsEnabled) {
+    console.log('Discord notifications are disabled.');
+    return;
+  }
+
+  if (!webhookURL) {
+    console.log('Discord webhook URL is not set.');
+    return;
+  }
+
+  const embed = {
+    title: 'Server Notification',
+    description: message,
+    color: 3066993, // Green color
+    thumbnail: {
+      url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+    },
+    timestamp: new Date().toISOString(),
+  };
+
+  const data = {
+    username: 'Server Bot',
+    embeds: [embed],
+  };
+
+  try {
+    await axios.post(webhookURL, data);
+    console.log('Notification sent to Discord successfully.');
+  } catch (error) {
+    console.error(`Error sending notification to Discord: ${error.message}`);
+  }
+}
+
 
 const init = async () => {
   if (process.env.ADMIN_USERS) {
@@ -81,8 +120,12 @@ const init = async () => {
   app.use(express.static(path.join(__dirname, 'public')));
 
   const port = process.env.APP_PORT || 3000;
-  app.listen(port, () => {
-    console.log(`PalPod has been started on ${process.env.APP_URL || `http://localhost:${port}`}!`);
+  app.listen(port, async () => {
+    const appUrl = process.env.APP_URL || `http://localhost:${port}`;
+    console.log(`Helaport has been started on ${appUrl}!`);
+
+    // Send Discord notification that the server has started
+    await sendDiscordNotification(`Helaport has started.`);
   });
 };
 

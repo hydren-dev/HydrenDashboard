@@ -17,51 +17,142 @@
                 </div>
               </div>
             </div>
+            <% if (req.query.success == "BOUGHTRESOURCE") { %>
+              <div class="bg-green-900/50 border-l-4 border-green-400 rounded-lg text-green-100 px-4 py-3 relative" role="alert">
+                <div class="flex">
+                  <div class="py-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-400 mr-3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-bold">Purchase Successful</p>
+                    <p class="text-sm relative">The resources have been added to your account.</p>
+                  </div>
+                  <span onclick="location.href = '../store';" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-400">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <% } %> <% if (req.query.err == "NOTENOUGHCOINS") { %>
+              <div class="bg-red-900/50 border-l-4 border-red-400 rounded-lg text-red-100 px-4 py-3 relative" role="alert">
+                <div class="flex">
+                  <div class="py-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400 mr-3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-bold">Insufficient Balance</p>
+                    <p class="text-sm relative">You do not have enough coins to complete this purchase.</p>
+                  </div>
+                  <span onclick="location.href = '../store';" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <% } else if (req.query.err == "INVALIDAMOUNT") { %>
+                <div class="bg-red-900/50 border-l-4 border-red-400 rounded-lg text-red-100 px-4 py-3 relative mb-8" role="alert">
+                  <div class="flex">
+                    <div class="py-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400 mr-3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="font-bold">Invalid Amount</p>
+                      <p class="text-sm relative">The amount entered is invalid. Please check and try again.</p>
+                    </div>
+                    <span onclick="location.href = '../admin';" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                <% } else if (req.query.success == "BOUGHTPLAN") { %>
+                  <div class="bg-green-900/50 border-l-4 border-green-400 rounded-lg text-green-100 px-4 py-3 relative mb-8" role="alert">
+                    <div class="flex">
+                      <div class="py-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-400 mr-3">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="font-bold">Plan Purchased Successfully</p>
+                        <p class="text-sm relative">You have successfully purchased the plan.</p>
+                      </div>
+                      <span onclick="location.href = '/store';" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                  <% } else if (req.query.err == "ALREADYPLAN") { %>
+                    <div class="bg-yellow-900/50 border-l-4 border-yellow-400 rounded-lg text-yellow-100 px-4 py-3 relative mb-8" role="alert">
+                      <div class="flex">
+                        <div class="py-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-400 mr-3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p class="font-bold">Plan Already Purchased</p>
+                          <p class="text-sm relative">You already have this plan.</p>
+                        </div>
+                        <span onclick="location.href = '/store';" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                    <% } else if (req.query.err == "INVALIDPLAN") { %>
+                      <div class="bg-red-900/50 border-l-4 border-red-400 rounded-lg text-red-100 px-4 py-3 relative mb-8" role="alert">
+                        <div class="flex">
+                          <div class="py-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400 mr-3">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <p class="font-bold">Invalid Plan</p>
+                            <p class="text-sm relative">The plan you selected is not valid. Please choose a valid plan.</p>
+                          </div>
+                          <span onclick="location.href = '/store';" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </span>
+                        </div>
+                      </div>
+                    <% } %>
             <div id="productList" class="flex flex-row gap-4 flex-wrap w-full mb-2">
-              <!-- Products will be inserted here by JavaScript -->
-            </div>
-          </div>
-        </div>
-      </main>
-      <script>
-        // Define products data
-        const products = [
-          { type: 'ram', name: '1GB of memory', costZTT: <%= name %> },
-          { type: 'cpu', name: '1 CPU core', costZTT: <%= name %> },
-          { type: 'disk', name: '2GB of storage', costZTT: <%= name %> },
-          { type: 'servers', name: '1 server slot', costZTT: <%= name %> },
-        ];
-
-        // Function to update the product display based on selected currency
-        function updateProductDisplay(currency) {
-          const productList = document.getElementById('productList');
-          productList.innerHTML = ''; // Clear existing products
-
-          // Generate HTML for each product based on the selected currency
-          products.forEach(product => {
-            const cost = `${product.costZTT} <%= coins %>` 
-            const productHTML = `
               <div class="decoration flex flex-col relative w-full md:w-72">
-                <a href="/buy?type=${product.type}&amount=1" class="w-full md:w-72 flex flex-col space-y-2 bg-[#121b21] border-2 border-transparent hover:border-[#121b21] focus:border-[#121b21] rounded-lg shadow-md transition relative">
-                  <div class="w-full h-full bg-no-repeat bg-center bg-cover rounded-lg rounded-b-none" style="background-image: url('${product.image}');">
+                <a href="../buyresource?resource=ram&amount=1" class="w-full md:w-72 flex flex-col space-y-2 bg-[#121b21] border-2 border-transparent hover:border-[#121b21] focus:border-[#121b21] rounded-lg shadow-md transition relative">
+                  <div class="w-full h-full bg-no-repeat bg-center bg-cover rounded-lg rounded-b-none" style="background-image: url('');">
                     <div class="bg-gradient-to-t from-[#121b21] to-[#121b21]/20 w-full h-full backdrop-blur-sm rounded-kg"></div>
                   </div>
                   <div class="flex flex-col p-6">
                     <div class="flex flex-row justify-between">
-                      <h4 class="font-semibold text-white text-md mt-1">${product.name}</h4>
+                      <h4 class="font-semibold text-white text-md mt-1">Buy extra RAM</h4>
                       <p class="text-xl font-semibold text-white flex flex-row items-center gap-2">
-                        <span class="text-[#0a9875] text-sm ml-3 bg-[#0a9875]/10 px-4 py-1.5 rounded-full">${cost}</span>
+                        <span class="text-[#0a9875] text-sm ml-3 bg-[#0a9875]/10 px-4 py-1.5 rounded-full"><%= resourceCosts.ram %></span>
                       </p>
                     </div>
                   </div>
                 </a>
-              </div>`;
-            productList.innerHTML += productHTML;
-          });
-        }
-        // Initial display update
-        updateProductDisplay('ZTT');
-      </script>
+              </div>
+            </div>  
+          </div>
+        </div>
+      </main>
+      
       <%- include('./components/footer') %>
     </div>
   </div>
