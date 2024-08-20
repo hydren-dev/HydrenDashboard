@@ -21,7 +21,7 @@ async function sendDiscordNotification(message) {
   const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
 
   if (!notificationsEnabled) {
-    console.log('Discord notifications are disabled.');
+    console.log('❗ Discord notifications are disabled.');
     return;
   }
 
@@ -47,9 +47,9 @@ async function sendDiscordNotification(message) {
 
   try {
     await axios.post(webhookURL, data);
-    console.log('Notification sent to Discord successfully.');
+    console.log('✅ Notification sent to Discord successfully.');
   } catch (error) {
-    console.error(`Error sending notification to Discord: ${error.message}`);
+    console.error(`❗ Error sending notification to Discord: ${error.message}`);
   }
 }
 
@@ -122,13 +122,13 @@ const init = async () => {
   const port = process.env.APP_PORT || 3000;
   app.listen(port, async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
-    console.log(`Helaport has been started on ${appUrl}!`);
+    console.log(`✅ Helaport has been started on ${appUrl}!`);
 
     // Send Discord notification that the server has started
-    await sendDiscordNotification(`Helaport has started.`);
+    await sendDiscordNotification(`✅ Helaport has started.`);
   });
 };
 
 init().catch(err => {
-  console.error('Failed to start the application:', err);
+  console.error('🛑 Failed to start the application:', err);
 });
