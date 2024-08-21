@@ -55,20 +55,52 @@ async function sendDiscordNotification(message) {
     await axios.post(webhookURL, data);
     console.log('✅ Notification sent to Discord successfully.');
   } catch (error) {
-    console.error(`❗ Error sending notification to Discord: ${error.message}`);
+    console.error(`❗ Error sending notification to Discord: ${error.message} | Error Code - 607`);
   }
 }
 
 
 console.log(chalk.gray(ascii) + chalk.white(`${process.env.APP_VERSION}\n`));
 
+function checkFooter() {
+  const footerPath = path.join(__dirname, './resources/components/footer.ejs');
+  
+  if (!fs.existsSync(footerPath)) {
+    console.error('🛑 Footer file not found.| Error Code - 201');
+    process.exit(1);
+  }
+
+  const footerContent = fs.readFileSync(footerPath, 'utf8');
+
+  const requiredCode = `
+<div class="mx-auto px-2 sm:px-6 lg:px-8">
+<center><div class="semi-bold text-white">© By HydrenDashboard https://github.com/hydren-dev/HydrenDashboard</center>
+</div>
+</div>
+</body>
+</html>`;
+
+  if (!footerContent.includes(requiredCode.trim())) {
+    console.error('🛑 Sorry But You Have Changed something in footer.ejs server wont start. | Error Code - 781');
+    process.exit(1);
+  }
+}
+
 const init = async () => {
+    checkFooter();
+
+  if (process.env.CODESPACE_NAME) {
+    log.error("HydrenDashboard does not support running on github codespaces.")
+    process.exit(1)
+}
+
   if (process.env.ADMIN_USERS) {
     const admins = process.env.ADMIN_USERS.split(',');
     admins.forEach(admin => db.set(`admin-${admin}`, true));
   } else {
     console.warn('No admin users defined. Skipping admin user creation.');
   }
+
 
   try {
     const response = await axios.get(`${process.env.SKYPORT_URL}/api/name`, {
@@ -95,7 +127,7 @@ const init = async () => {
 
   app.use(async (req, res, next) => {
     const ipAddress = req.clientIp;
-
+ 
     if (!ipaddr.isValid(ipAddress)) {
       console.error(`Invalid IP Address: ${ipAddress}`);
       return res.status(400).json('Invalid IP address format.');
@@ -140,5 +172,5 @@ const init = async () => {
 }; 
 
 init().catch(err => {
-  console.error('🛑 Failed to start the application:', err);
+  console.error('🛑 Failed to start the application | Error Code - 405:', err);
 });

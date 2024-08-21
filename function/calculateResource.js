@@ -9,7 +9,7 @@ const skyport = {
 // Figure out how what the user's total resource usage is right now
 async function calculateResource(userID, resource) {
     try {
-      console.log("Starting resource calculation for user:", userID);
+      console.log("Connection from:", userID);
   
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
         userId: userID
