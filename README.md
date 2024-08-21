@@ -11,6 +11,7 @@ All features:
 - Store (buy resources with coins)
 - Dashboard (view resources & servers)
 - Admin (set, add, remove coins/scan images & nodes)
+- API (Info)
 
 <br>
 
