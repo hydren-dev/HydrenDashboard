@@ -13,13 +13,7 @@ All features:
 
 <br>
 
-| :exclamation:  This is an extremely early version of HydrenDashboard and doesn't have all of features we want to add yet                                   |
-|------------------------------------------------------------------------------------------------------------------------------------------------------|
-
-<br>
-
-
-|------------------------------------------------------------------------------------------------------------------------------------------------------|
+# Full Stable Release of HydrenDashboard is here
 
 <hr>
 
