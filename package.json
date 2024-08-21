@@ -17,6 +17,8 @@
     "ejs": "^3.1.10",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "cat-loggr": "^1.2.2",
+    "chalk": "^4.1.2",
     "express-ws": "^5.0.2",
     "fs": "^0.0.1-security",
     "ipaddr.js": "^2.2.0",

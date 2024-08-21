@@ -1,9 +1,12 @@
 const express = require('express');
 const session = require('express-session');
 const fs = require('fs');
+const CatLoggr = require('cat-loggr');
 const passport = require('passport');
+const ascii = fs.readFileSync('./function/ascii.txt', 'utf8');
 const ejs = require('ejs');
 const path = require('path');
+const chalk = require('chalk');
 const axios = require('axios');
 const ipaddr = require('ipaddr.js');
 const requestIp = require('request-ip');
@@ -13,6 +16,9 @@ const app = express();
 const expressWs = require('express-ws')(app);
 
 const { db } = require('./function/db');
+
+const log = new CatLoggr();
+
 
 // Function to send a Discord notification
 // Function to send a Discord notification
@@ -53,6 +59,8 @@ async function sendDiscordNotification(message) {
   }
 }
 
+
+console.log(chalk.gray(ascii) + chalk.white(`${process.env.APP_VERSION}\n`));
 
 const init = async () => {
   if (process.env.ADMIN_USERS) {
@@ -122,12 +130,12 @@ const init = async () => {
   const port = process.env.APP_PORT || 3000;
   app.listen(port, async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
-    console.log(`✅ Helaport has been started on ${appUrl}!`);
+    console.log(`✅ Helaport has been started on ${appUrl}:${process.env.APP_PORT}!`);
 
     // Send Discord notification that the server has started
-    await sendDiscordNotification(`✅ Helaport has started.`);
+    await sendDiscordNotification(`✅ ${process.env.APP_NAME} has started.`);
   });
-};
+}; 
 
 init().catch(err => {
   console.error('🛑 Failed to start the application:', err);

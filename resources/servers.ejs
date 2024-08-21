@@ -14,7 +14,7 @@
               <div class="flex">
                 <div class="relative">
                   <h2 class="text-xl font-semibold text-white sm:truncate tracking-tight">Servers</h2>
-                  <p class="text-sm font-normal text-zinc-400">View a list of your servers on <%= settings.name %>.</p>
+                  <p class="text-sm font-normal text-zinc-400">View a list of your servers on <%= name %>.</p>
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
           <div class="rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 p-8 mb-5">
             <div class="flex">
               <div class="flex-shrink-0">
-                <img src="../assets/giftOpened.png" class="h-7 w-7 mt-2">
+                <img src="../public/done.png" class="h-7 w-7 mt-2">
               </div>
               <div class="ml-5">
                 <h3 class="text-md font-medium tracking-tight text-white">Server queued for deployment</h3>
@@ -43,12 +43,13 @@
               </div>
             </div>
           </div>
+          
           <% } %>
           <% if (req.query.err && req.query.err == "MODIFIED") { %>
             <div class="rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 p-8 mb-5">
               <div class="flex">
                 <div class="flex-shrink-0">
-                  <img src="../assets/giftOpened.png" class="h-7 w-7 mt-2">
+                  <img src="../public/done.png" class="h-7 w-7 mt-2">
                 </div>
                 <div class="ml-5">
                   <h3 class="text-md font-medium tracking-tight text-white">Server queued for modification</h3>
@@ -98,14 +99,14 @@
             <% } %>
               <div class="px-4 py-5 bg-transparent rounded-2xl border-dashed border-2 border-white/5 overflow-hidden sm:p-6 justify-center">
                 <div class="flex flex-col items-center justify-center h-full">
-                  <a onclick="toggleModal()" class="transition inline-flex  items-center rounded-2xl bg-[#162027]/30 p-4 text-sm font-light text-white hover:text-white hover:bg-[#0a9875] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                  <a href="/create-server" class="transition inline-flex  items-center rounded-2xl bg-[#162027]/30 p-4 text-sm font-light text-white hover:text-white hover:bg-[#0a9875] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                   </a>
                 </div>
               </div>
-            <% } %>
+              <% } %>
           </dl>
         </div>
       </div>

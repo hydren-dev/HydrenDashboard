@@ -42,8 +42,8 @@
                   <div class="min-w-0 flex-1">
                     <a href="../store" class="focus:outline-none">
                       <span class="absolute inset-0" aria-hidden="true"></span>
-                      <p class="text-sm font-semibold text-white"><%= max.ram - existing.ram %>MB available memory</p>
-                      <span class="text-xs font-normal text-zinc-400">Usage: <%= max.ram %> MB </span>
+                      <p class="text-sm font-semibold text-white"><%= max.ram %>MB available memory</p>
+                      <span class="text-xs font-normal text-zinc-400">Usage: <%= max.ram - existing.ram %> MB </span>
                     </a>
                   </div>
                 </div>
@@ -57,8 +57,8 @@
                   <div class="min-w-0 flex-1">
                     <a href="../store" class="focus:outline-none">
                       <span class="absolute inset-0" aria-hidden="true"></span>
-                      <p class="text-sm font-semibold text-white"><%= max.cpu - existing.cpu %> available CPU %</p>
-                      <span class="text-xs font-normal text-zinc-400">Usage: <%= max.cpu %>%</span>
+                      <p class="text-sm font-semibold text-white"><%= max.cpu %> available CPU %</p>
+                      <span class="text-xs font-normal text-zinc-400">Usage: <%= max.cpu - existing.cpu %>%</span>
                     </a>
                   </div>
                   </div>
@@ -71,8 +71,8 @@
                     <div class="min-w-0 flex-1">
                       <a href="../store" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
-                        <p class="text-sm font-semibold text-white"><%= max.ram - existing.ram %> GB available disk</p>
-                        <span class="text-xs font-normal text-zinc-400">Usage: <%= max.disk %></span>
+                        <p class="text-sm font-semibold text-white"><%= max.disk %> GB available disk</p>
+                        <span class="text-xs font-normal text-zinc-400">Usage: <%= max.disk - existing.disk %></span>
                       </a>
                     </div>
                     </div>
@@ -86,8 +86,8 @@
                       <div class="min-w-0 flex-1">
                         <a href="../store" class="focus:outline-none">
                           <span class="absolute inset-0" aria-hidden="true"></span>
-                          <p class="text-sm font-semibold text-white">1 available server slots</p>
-                          <span class="text-xs font-normal text-zinc-400">Usage: 1</span>
+                          <p class="text-sm font-semibold text-white"><%= max.server %> available server slots</p>
+                          <span class="text-xs font-normal text-zinc-400">Usage: <%= max.server - existing.server %></span>
                         </a>
                       </div>
                 </div>
