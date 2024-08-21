@@ -130,7 +130,7 @@ const init = async () => {
   const port = process.env.APP_PORT || 3000;
   app.listen(port, async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
-    console.log(`✅ Helaport has been started on ${appUrl}:${process.env.APP_PORT}!`);
+    console.log(`✅ HydrenDashboard has been started on ${appUrl}:${process.env.APP_PORT}!`);
 
     // Send Discord notification that the server has started
     await sendDiscordNotification(`✅ ${process.env.APP_NAME} has started.`);

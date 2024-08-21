@@ -1,9 +1,9 @@
 {
-  "name": "Helaport",
+  "name": "HydrenDashboard",
   "version": "1.0.0",
   "description": "The better version of Heliactyl For Skyport.",
   "main": "index.js",
-  "author": "MrStateGaming1",
+  "author": "Hydrenlabs",
   "license": "ISC",
   "scripts": {
     "start": "nodemon app.js",

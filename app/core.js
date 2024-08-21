@@ -120,7 +120,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
       res.render('dashboard', { 
         coins: await db.get(`coins-${req.user.email}`) || 0, // User's coins
         req: req, // Request (queries)
-        name: process.env.APP_NAME || "Helaport", // Dashboard name
+        name: process.env.APP_NAME || "HydrenDashboard", // Dashboard name
         discordserver: process.env.DISCORD_SERVER,
         user: req.user, // User info
         servers, // Servers the user owns
@@ -163,7 +163,7 @@ router.get('/servers', ensureAuthenticated, async (req, res) => {
       res.render('servers', { 
         coins: await db.get(`coins-${req.user.email}`) || 0, // User's coins
         req: req, // Request (queries)
-        name: process.env.APP_NAME || "Helaport", // Dashboard name
+        name: process.env.APP_NAME || "HydrenDashboard", // Dashboard name
         discordserver: process.env.DISCORD_SERVER,
         user: req.user, // User info
         servers, // Servers the user owns
