@@ -1,5 +1,5 @@
 
-# Helaport
+# HydrenDashboard
 
 All features:
 - Resource Management (Use it to create servers, gift them, etc)
@@ -13,19 +13,13 @@ All features:
 
 <br>
 
-| :exclamation:  This is an extremely early version of Helaport and doesn't have all of features we want to add yet                                   |
-|------------------------------------------------------------------------------------------------------------------------------------------------------|
-
-<br>
-
-
-|------------------------------------------------------------------------------------------------------------------------------------------------------|
+# Full Stable Release of HydrenDashboard is here
 
 <hr>
 
 # Install Guide
 
-:Warning: You need Skyport already set up on a domain for Helaport to work
+:Warning: You need Skyport already set up on a domain for HydrenDashboard to work
 
 1. Make a Instance of Nodejs and upload the files and start the server you must configure .env first
 2. Unarchive the file and set the server to use NodeJS 21
@@ -41,11 +35,11 @@ All features:
  - npm 10
 2. Clone the Repo
 ```git
-git clone https://github.com/MrStateGaming1/Helaport.git
+git clone https://github.com/MrStateGaming1/HydrenDashboard.git
 ```
 3.Enter the Directory and install depencencies
 ```bash
-cd Helaport && npm i
+cd HydrenDashboard && npm i
 ```
 4.Configure Skyport and Auth Settings in .env 
 ```bash
