@@ -19,8 +19,8 @@ const { db } = require('./function/db');
 
 const log = new CatLoggr();
 
+const apiRouter = require('./app/apiRouter');
 
-// Function to send a Discord notification
 // Function to send a Discord notification
 async function sendDiscordNotification(message) {
   const webhookURL = process.env.DISCORD_WEBHOOK_URL;
@@ -118,6 +118,8 @@ const init = async () => {
 
     next();
   });
+
+  app.use('/api', apiRouter);
 
   const allRoutes = fs.readdirSync('./app');
   allRoutes.forEach(routeFile => {
