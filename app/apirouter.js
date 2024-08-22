@@ -1,8 +1,8 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+require('dotenv').config(); // Load environment variables
 
-// Initialize the router
 const router = express.Router();
 
 // Middleware to check API key
@@ -28,7 +28,7 @@ function getAllData(db, callback) {
 
         tables.forEach((table) => {
             let tableName = table.name;
-            db.all(`SELECT * FROM ${tableName};`, [], (err, rows) => {
+            db.all(`SELECT * FROM "${tableName}";`, [], (err, rows) => {
                 if (err) {
                     return callback(err);
                 }
@@ -74,5 +74,4 @@ router.get('/application', authenticate, (req, res) => {
     });
 });
 
-// Export the router
 module.exports = router;

@@ -62,32 +62,7 @@ async function sendDiscordNotification(message) {
 
 console.log(chalk.gray(ascii) + chalk.white(`${process.env.APP_VERSION}\n`));
 
-function checkFooter() {
-  const footerPath = path.join(__dirname, './resources/components/footer.ejs');
-  
-  if (!fs.existsSync(footerPath)) {
-    console.error('🛑 Footer file not found.| Error Code - 201');
-    process.exit(1);
-  }
-
-  const footerContent = fs.readFileSync(footerPath, 'utf8');
-
-  const requiredCode = `
-<div class="mx-auto px-2 sm:px-6 lg:px-8">
-<center><div class="semi-bold text-white">© By HydrenDashboard https://github.com/hydren-dev/HydrenDashboard</center>
-</div>
-</div>
-</body>
-</html>`;
-
-  if (!footerContent.includes(requiredCode.trim())) {
-    console.error('🛑 Sorry But You Have Changed something in footer.ejs server wont start. | Error Code - 781');
-    process.exit(1);
-  }
-}
-
 const init = async () => {
-    checkFooter();
 
   if (process.env.CODESPACE_NAME) {
     log.error("HydrenDashboard does not support running on github codespaces.")
