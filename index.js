@@ -58,7 +58,8 @@ async function sendDiscordNotification(message) {
     console.error(`❗ Error sending notification to Discord: ${error.message} | Error Code - 607`);
   }
 }
-
+require('./function/console');
+require('./function/skyport');
 
 console.log(chalk.gray(ascii) + chalk.white(`${process.env.APP_VERSION}\n`));
 
@@ -74,16 +75,6 @@ const init = async () => {
     admins.forEach(admin => db.set(`admin-${admin}`, true));
   } else {
     console.warn('No admin users defined. Skipping admin user creation.');
-  }
-
-
-  try {
-    const response = await axios.get(`${process.env.SKYPORT_URL}/api/name`, {
-      headers: { 'x-api-key': process.env.SKYPORT_KEY }
-    });
-    appName = response.data.name || `${process.env.APP_NAME}`;
-  } catch (error) {
-    console.error('Error fetching Skyport name:', error);
   }
 
   app.set('view engine', 'ejs');
