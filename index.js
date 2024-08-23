@@ -19,7 +19,7 @@ const { db } = require('./function/db');
 
 const log = new CatLoggr();
 
-const apiRouter = require('./app/apiRouter');
+const apiRouter = require('./app/apirouter');
 
 // Function to send a Discord notification
 async function sendDiscordNotification(message) {
