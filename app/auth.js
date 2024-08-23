@@ -80,7 +80,7 @@ async function checkAccount(email, username, id) {
         console.log('User creation conflict: User already exists in Skyport.');
         return;
       } else {
-        console.error('Failed to create user in Skyport:', err.message);
+        log.error('Failed to create user in Skyport:', err.message);
         fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Failed to create user in Skyport.\n', (err) => {
           if (err) console.log(`Failed to save log: ${err}`);
         });
@@ -88,7 +88,7 @@ async function checkAccount(email, username, id) {
       }
     }
   } catch (error) {
-    console.error('Error during account check:', error.message);
+    log.error('Error during account check:', error.message);
     fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Failed to check user account.\n', (err) => {
       if (err) console.log(`Failed to save log: ${err}`);
     });
@@ -120,7 +120,7 @@ router.get('/callback/discord', passport.authenticate('discord', {
       res.redirect(req.session.returnTo || '/dashboard');
     })
     .catch(error => {
-      console.error('Error during account check:', error.message);
+      log.error('Error during account check:', error.message);
       fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Error during account check.\n', (err) => {
         if (err) console.log(`Failed to save log: ${err}`);
       });

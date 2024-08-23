@@ -1,5 +1,22 @@
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
+const CatLoggr = require('cat-loggr');
+
+const log = new CatLoggr();
+
+log.init = (message) => {
+    process.stdout.write(`${chalk.gray(message)}\n`);
+  };
+  log.error = (message) => {
+    process.stdout.write(`${chalk.gray('master | ')} ${message}\n`);
+  };
+  log.warn = (message) => {
+    process.stdout.write(`${chalk.gray('master | ')} ${message}\n`);
+  };
+  console.info = (message) => {
+    process.stdout.write(`${chalk.gray(message)}\n`);
+  };
 
 // Path to the EJS file
 const ejsFilePath = path.join(__dirname, '../resources/components/creation.ejs');
@@ -20,20 +37,20 @@ function normalizeContent(content) {
 function checkFileContent(filePath, contentToCheck) {
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        console.log('Starting HydrenDashboard'); // Log the file content
+        log.warn('Starting HydrenDashboard'); // Log the file content
 
         // Normalize both the file content and the required content
         const normalizedFileContent = normalizeContent(fileContent);
         const normalizedRequiredContent = normalizeContent(contentToCheck);
 
         if (normalizedFileContent.includes(normalizedRequiredContent)) {
-            console.log('Checking Routes');
+            log.warn('Checking Routes');
         } else {
-            console.error('🛑: Required content not found in the EJS file. (did you changed creation.ejs?)');
+            log.error('🛑: Required content not found in the EJS file. (did you changed creation.ejs?)');
             process.exit(1); // Exit with error code
         }
     } catch (err) {
-        console.error(`🛑 reading the file: ${err.message}`);
+        log.error(`🛑 reading the file: ${err.message}`);
         process.exit(1); // Exit with error code
     }
 }

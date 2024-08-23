@@ -8,7 +8,7 @@ function ensureAuthenticated(req, res, next) {
 
             return next();
         }).catch(err => {
-            console.error(err);
+            log.error(err);
             return res.status(500).send('Internal Server Error');
         });
     } else {

@@ -69,7 +69,7 @@ router.get('/application', authenticate, (req, res) => {
     // Close the database connection
     db.close((err) => {
         if (err) {
-            console.error(err.message);
+            log.error(err.message);
         }
     });
 });
