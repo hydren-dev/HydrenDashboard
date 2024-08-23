@@ -20,7 +20,7 @@ function normalizeContent(content) {
 function checkFileContent(filePath, contentToCheck) {
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        console.log('Starting Skyport'); // Log the file content
+        console.log('Starting HydrenDashboard'); // Log the file content
 
         // Normalize both the file content and the required content
         const normalizedFileContent = normalizeContent(fileContent);

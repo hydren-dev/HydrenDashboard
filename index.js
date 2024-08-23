@@ -27,12 +27,12 @@ async function sendDiscordNotification(message) {
   const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
 
   if (!notificationsEnabled) {
-    console.log('❗ Discord notifications are disabled.');
+    log.info('❗ Discord notifications are disabled.');
     return;
   }
 
   if (!webhookURL) {
-    console.log('Discord webhook URL is not set.');
+    log.info('Discord webhook URL is not set.');
     return;
   }
 
@@ -47,13 +47,13 @@ async function sendDiscordNotification(message) {
   };
 
   const data = {
-    username: 'Server Bot',
+    username: 'Panel Data',
     embeds: [embed],
   };
 
   try {
     await axios.post(webhookURL, data);
-    console.log('✅ Notification sent to Discord successfully.');
+    log.info('✅ Notification sent to Discord successfully.');
   } catch (error) {
     console.error(`❗ Error sending notification to Discord: ${error.message} | Error Code - 607`);
   }
@@ -61,12 +61,12 @@ async function sendDiscordNotification(message) {
 require('./function/console');
 require('./function/skyport');
 
-console.log(chalk.gray(ascii) + chalk.white(`${process.env.APP_VERSION}\n`));
+console.info(chalk.gray(ascii) + chalk.white(`${process.env.APP_VERSION}\n`));
 
 const init = async () => {
 
   if (process.env.CODESPACE_NAME) {
-    log.error("HydrenDashboard does not support running on github codespaces.")
+    console.error("HydrenDashboard does not support running on github codespaces.")
     process.exit(1)
 }
 
@@ -74,11 +74,12 @@ const init = async () => {
     const admins = process.env.ADMIN_USERS.split(',');
     admins.forEach(admin => db.set(`admin-${admin}`, true));
   } else {
-    console.warn('No admin users defined. Skipping admin user creation.');
+    log.warn('No admin users defined. Skipping admin user creation.');
   }
 
   app.set('view engine', 'ejs');
   app.set('views', path.join(__dirname, '/resources'));
+
 
   app.use(session({
     secret: process.env.SESSION_SECRET || 'default_secret',
@@ -127,10 +128,14 @@ const init = async () => {
   });
   app.use(express.static(path.join(__dirname, 'public')));
 
+  app.use((req, res) => {
+    res.status(404).render('404');
+  });
+
   const port = process.env.APP_PORT || 3000;
   app.listen(port, async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
-    console.log(`✅ HydrenDashboard has been started on ${appUrl}:${process.env.APP_PORT}!`);
+    log.info(`✅ HydrenDashboard has been started on ${appUrl}:${process.env.APP_PORT}!`);
 
     // Send Discord notification that the server has started
     await sendDiscordNotification(`✅ ${process.env.APP_NAME} has started.`);
@@ -138,5 +143,5 @@ const init = async () => {
 }; 
 
 init().catch(err => {
-  console.error('🛑 Failed to start the application | Error Code - 405:', err);
+  log.info('🛑 Failed to start the application | Error Code - 405:', err);
 });

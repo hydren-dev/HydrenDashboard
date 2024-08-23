@@ -20,7 +20,7 @@ try {
   const data = fs.readFileSync('./storage/plans.json', 'utf8');
   plans = JSON.parse(data).PLAN;
 } catch (err) {
-  console.error("Failed to load plans:", err);
+  log.error("Failed to load plans:", err);
   process.exit(1);
 }
 
@@ -95,7 +95,7 @@ router.get('/', (req, res) => {
 router.get('/dashboard', ensureAuthenticated, async (req, res) => {
   try {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-    console.log("Loaded User")
+  console.log("Loaded User")
     try {
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
         userId: req.user.id,
@@ -201,6 +201,9 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
     discordserver: process.env.DISCORD_SERVER,
     name: process.env.APP_NAME, // Dashboard name
     user: req.user, // User info
+    servers, // Servers the user owns
+    existing, // Existing resources
+    max, // Max resources,
     admin: await db.get(`admin-${req.user.email}`), // Admin status
     password: await checkPassword(req.user.email) // Account password
   }) 

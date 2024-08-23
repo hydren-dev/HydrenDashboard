@@ -61,7 +61,7 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
           }
         });
         
-        console.log("b")
+        console.log("Deleted Instance")
 
         res.redirect('/servers?success=DELETE');
     } catch (error) {
@@ -145,7 +145,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       });
 
   } catch (error) {
-      console.error(error.data);
+    console.error(error.data);
       res.redirect('../create-server?err=ERRORONCREATE');
   }
 });

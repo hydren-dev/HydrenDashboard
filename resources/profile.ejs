@@ -81,7 +81,7 @@
                   <div class="min-w-0 flex-1">
                       <span class="absolute inset-0" aria-hidden="true"></span>
                       <p class="text-sm font-semibold text-white">Servers</p>
-                      <span class="text-xs font-normal text-zinc-400">undefined</span>
+                      <span class="text-xs font-normal text-zinc-400"><%= max.server %></span>
                   </div>
             </div>
           </div>
@@ -123,7 +123,7 @@
                       alert('Failed to claim referral code: ' + (data.error || 'Unknown error'));
                   }
               } catch (error) {
-                  console.error('Error claiming referral code:', error);
+                log.error('Error claiming referral code:', error);
                   alert('There was a problem processing your request. Please try again.');
               }
           });

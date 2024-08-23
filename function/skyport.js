@@ -6,7 +6,7 @@ async function checkSkyport() {
     const url = process.env.SKYPORT_URL;
 
     if (!url) {
-        console.error('Skyport invalid URL');
+        console.log('Skyport invalid URL');
         process.exit(1);
     }
 
@@ -18,16 +18,16 @@ async function checkSkyport() {
         } else {
             console.log(`🛑 Skyport isn't Running. Status Code: ${response.status}`);
         }
-    } catch (error) {
-        if (error.response) {
+    } catch (info) {
+        if (info.response) {
             // Server responded with a status other than 2xx
-            console.log(`🛑 Skyport isn't Running. Status Code: ${error.response.status}`);
-        } else if (error.request) {
+            console.log(`🛑 Skyport isn't Running. Status Code: ${info.response.status}`);
+        } else if (info.request) {
             // Request was made but no response was received
             console.log('🛑 Skyport isn\'t Running');
         } else {
             // Something else happened in making the request
-            console.error('🛑 Skyport invalid URL');
+            console.log('🛑 Skyport invalid URL');
         }
     }
 }

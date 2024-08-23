@@ -26,8 +26,8 @@
       }
     };
     ws.onerror = (err) => {
-      console.log("[WS] Error connecting to websocket.");
-      console.log(err);
+      log.error("[WS] Error connecting to websocket.");
+      log.error(err);
       document.getElementById("coinCountdown").innerHTML = "Reconnecting...";
       document.getElementById("sessionEarn").innerHTML = `Reconnecting...`;
       document.getElementById("currentCoins").innerHTML = `Reconnecting...`;
