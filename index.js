@@ -90,9 +90,9 @@ require('./function/skyport');
 
 const init = async () => {
 
-  if (process.env.CODESPACE_NAME) {
-    log.error("HydrenDashboard does not support running on github codespaces.")
-    process.exit(1)
+  if (process.env.CODESPACES || process.env.CODESPACE_NAME) {
+    console.error('HydrenDashboard does not support running on GitHub Codespaces.');
+    process.exit(1); // Exit the process with an error code
 }
 
   if (process.env.ADMIN_USERS) {
