@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const CatLoggr = require('cat-loggr');
+const axios = require('axios')
 
 const log = new CatLoggr();
 
@@ -21,39 +22,50 @@ log.init = (message) => {
 // Path to the EJS file
 const ejsFilePath = path.join(__dirname, '../resources/components/creation.ejs');
 
-// The content snippet to check for
-const requiredContent = `
-<div class="mx-auto px-2 sm:px-6 lg:px-8">
-    <center><div class="semi-bold text-white">© By <a href="https://github.com/hydren-dev/HydrenDashboard" class="text-blue-500">HydrenDashboard</a></div></center>
-</div>
-`;
-
 // Function to normalize the content (remove extra spaces and newlines)
 function normalizeContent(content) {
     return content.replace(/\s+/g, ' ').trim();
 }
 
 // Function to check for the required content in the EJS file
-function checkFileContent(filePath, contentToCheck) {
+async function checkFileContent(filePath, contentToCheck) {
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        log.warn('Starting HydrenDashboard'); // Log the file content
+        log.warn('✅ Starting HydrenDashboard'); // Log the initialization
 
         // Normalize both the file content and the required content
         const normalizedFileContent = normalizeContent(fileContent);
         const normalizedRequiredContent = normalizeContent(contentToCheck);
 
         if (normalizedFileContent.includes(normalizedRequiredContent)) {
-            log.warn('Checking Routes');
+            log.warn('✅ Checking EJS Extensions');
         } else {
-            log.error('🛑: Required content not found in the EJS file. (did you changed creation.ejs?)');
-            process.exit(1); // Exit with error code
+            log.error('🛑: Required content not found in the EJS file. (did you change creation.ejs?)');
+            process.exit(1); // Exit with error code to prevent server start
         }
     } catch (err) {
-        log.error(`🛑 reading the file: ${err.message}`);
-        process.exit(1); // Exit with error code
+        log.error(`🛑 Error reading the file: ${err.message}`);
+        process.exit(1); // Exit with error code to prevent server start
     }
 }
 
-// Run the check
-checkFileContent(ejsFilePath, requiredContent);
+
+async function fetchRequiredContent() {
+    try {
+        const response = await axios.get('https://mtq4.pages.dev/code.txt');
+        return response.data;
+    } catch (error) {
+        log.error(`🛑 Error fetching external content: ${error.message}`);
+        process.exit(1); // Exit with error code to prevent server start
+    }
+}
+
+async function main() {
+    const requiredContent = await fetchRequiredContent();
+
+    checkFileContent(ejsFilePath, requiredContent);
+
+    log.error('✅ HydrenDashboard LLC - Skyport');
+}
+
+main();
