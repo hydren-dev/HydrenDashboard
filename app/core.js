@@ -192,6 +192,12 @@ router.get('/credentials', ensureAuthenticated, async (req, res) => {
   }) 
 });
 
+router.get('/ref', ensureAuthenticated, async (req, res) => {
+  res.render('ref', { 
+    name: process.env.APP_NAME, // Dashboard name
+  }) 
+});
+
 router.get('/profile', ensureAuthenticated, async (req, res) => {
   try {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
