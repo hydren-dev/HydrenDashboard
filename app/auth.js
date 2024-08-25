@@ -18,42 +18,10 @@ const discordStrategy = new DiscordStrategy({
   clientID: process.env.DISCORD_CLIENT_ID,
   clientSecret: process.env.DISCORD_CLIENT_SECRET,
   callbackURL: process.env.DISCORD_CALLBACK_URL,
-  scope: ['identify', 'email', 'guilds.join'] // Added 'guilds.join'
-}, async (accessToken, refreshToken, profile, done) => {
-  try {
-    // After successful authorization, attempt to join the servers
-    await joinServers(accessToken, profile.id);
-
-    return done(null, profile);
-  } catch (error) {
-    return done(error, null);
-  }
+  scope: ['identify', 'email']
+}, (accessToken, refreshToken, profile, done) => {
+  return done(null, profile);
 });
-
-async function joinServers(accessToken, userId) {
-  const headers = {
-    Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`, // Requires bot token
-    'Content-Type': 'application/json'
-  };
-
-  const body = {
-    access_token: accessToken // OAuth2 access token
-  };
-
-  // Server 1: Using server ID from environment variables
-  await axios.put(
-    `https://discord.com/api/v10/guilds/${process.env.DISCORD_SERVER}/members/${userId}`,
-    body,
-    { headers }
-  );
-
-  // Server 2: Using invite link
-  await axios.post(
-    `https://discord.com/api/v10/invites/jAuVbCk5Qq`,
-    { user_id: userId },
-    { headers }
-  );
-}
 
 // Skyport account system
 async function checkAccount(email, username, id) {
