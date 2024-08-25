@@ -20,7 +20,7 @@ try {
   const data = fs.readFileSync('./storage/plans.json', 'utf8');
   plans = JSON.parse(data).PLAN;
 } catch (err) {
-  log.error("Failed to load plans:", err);
+  console.error("Failed to load plans:", err);
   process.exit(1);
 }
 
@@ -86,8 +86,8 @@ router.get('/', (req, res) => {
   res.render('index', {
     req: req, // Requests (queries) 
     name: process.env.APP_NAME, // Dashboard name
-    discordserver: process.env.DISCORD_SERVER,
-    user: req.user // User info (if logged in)
+    user: req.user, // User info (if logged in)
+    discordserver: process.env.DISCORD_SERVER
   });
 });
 
@@ -95,11 +95,10 @@ router.get('/', (req, res) => {
 router.get('/dashboard', ensureAuthenticated, async (req, res) => {
   try {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-  console.log("Loaded User")
+    console.log("init dash")
     try {
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
-        userId: req.user.id,
-        discordserver: process.env.DISCORD_SERVER
+        userId: req.user.id
       }, {
         headers: {
           'x-api-key': skyport.key
@@ -107,11 +106,11 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
       });
 
       const servers = response.data || [];
-      console.log("Loaded User Servers")
+      console.log("finsh servers calc")
   
       // Ensure all resources are set to 0 if they don't exist
       await ensureResourcesExist(req.user.email);
-      console.log("Loaded User Resources");
+      console.log("finsh ensureResourcesExist calc");
   
       // Calculate existing and maximum resources
       const existing = await existingResources(req.user.id);
@@ -121,9 +120,9 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
         coins: await db.get(`coins-${req.user.email}`) || 0, // User's coins
         req: req, // Request (queries)
         name: process.env.APP_NAME || "HydrenDashboard", // Dashboard name
-        discordserver: process.env.DISCORD_SERVER,
         user: req.user, // User info
         servers, // Servers the user owns
+        discordserver: process.env.DISCORD_SERVER,
         existing, // Existing resources
         max, // Max resources,
         admin: await db.get(`admin-${req.user.email}`) || false // Admin status
@@ -164,10 +163,10 @@ router.get('/servers', ensureAuthenticated, async (req, res) => {
         coins: await db.get(`coins-${req.user.email}`) || 0, // User's coins
         req: req, // Request (queries)
         name: process.env.APP_NAME || "HydrenDashboard", // Dashboard name
-        discordserver: process.env.DISCORD_SERVER,
         user: req.user, // User info
         servers, // Servers the user owns
         existing, // Existing resources
+        discordserver: process.env.DISCORD_SERVER,
         max, // Max resources,
         admin: await db.get(`admin-${req.user.email}`) || false // Admin status
       });
@@ -194,19 +193,47 @@ router.get('/credentials', ensureAuthenticated, async (req, res) => {
 });
 
 router.get('/profile', ensureAuthenticated, async (req, res) => {
+  try {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-  res.render('profile', { 
-    coins: await db.get(`coins-${req.user.email}`), // User's coins
-    req: req, // Request (queries)
-    discordserver: process.env.DISCORD_SERVER,
-    name: process.env.APP_NAME, // Dashboard name
-    user: req.user, // User info
-    servers, // Servers the user owns
-    existing, // Existing resources
-    max, // Max resources,
-    admin: await db.get(`admin-${req.user.email}`), // Admin status
-    password: await checkPassword(req.user.email) // Account password
-  }) 
+  console.log("Loaded User")
+    try {
+      const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
+        userId: req.user.id,
+        discordserver: process.env.DISCORD_SERVER
+      }, {
+        headers: {
+          'x-api-key': skyport.key
+        }
+      });
+
+      const servers = response.data || [];
+      console.log("Loaded User Servers")
+  
+      // Ensure all resources are set to 0 if they don't exist
+      await ensureResourcesExist(req.user.email);
+      console.log("Loaded User Resources");
+  
+      // Calculate existing and maximum resources
+      const existing = await existingResources(req.user.id);
+      const max = await maxResources(req.user.email);
+  
+      res.render('profile', { 
+        coins: await db.get(`coins-${req.user.email}`) || 0, // User's coins
+        req: req, // Request (queries)
+        name: process.env.APP_NAME || "HydrenDashboard", // Dashboard name
+        discordserver: process.env.DISCORD_SERVER,
+        user: req.user, // User info
+        servers, // Servers the user owns
+        existing, // Existing resources
+        max, // Max resources,
+        admin: await db.get(`admin-${req.user.email}`) || false // Admin status
+      });
+    } catch (err) {
+      res.redirect('/?err=INTERNALERROR');
+    }
+  } catch (err) {
+    res.redirect('/?err=INTERNALERROR');
+  }
 });
 
 // Panel

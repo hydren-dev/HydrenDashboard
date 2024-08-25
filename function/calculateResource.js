@@ -9,7 +9,7 @@ const skyport = {
 // Figure out how what the user's total resource usage is right now
 async function calculateResource(userID, resource) {
     try {
-      console.log("Connection from", userID);
+      console.log("Starting resource calculation for user:", userID);
   
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
         userId: userID
@@ -34,7 +34,7 @@ async function calculateResource(userID, resource) {
           }
           totalResources += resourceValue;
         } else {
-          log.warn(`Resource ${resource} not found in server data`, server);
+          console.warn(`Resource ${resource} not found in server data`, server);
         }
       });
   
@@ -42,9 +42,9 @@ async function calculateResource(userID, resource) {
     } catch (err) {
       // Log errors to a file
       const errorMessage = `[LOG] Failed to calculate resources for user ${userID}. Error: ${err.message}\n`;
-      log.error(errorMessage);
+      console.error(errorMessage);
       fs.appendFile(process.env.LOGS_ERROR_PATH, errorMessage, (err) => {
-        if (err) log.error(`Failed to save log: ${err.message}`);
+        if (err) console.error(`Failed to save log: ${err.message}`);
       });
       throw err;
     }

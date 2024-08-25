@@ -19,8 +19,8 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
         res.render('admin', {
             user: req.user, // User info
             coins: await db.get(`coins-${req.user.email}`), // User's coins
-            req: req, // Request (queries)
             discordserver: process.env.DISCORD_SERVER,
+            req: req, // Request (queries)
             admin: await db.get(`admin-${req.user.email}`), // Admin status
             name: process.env.APP_NAME // App name
         });
@@ -67,7 +67,7 @@ router.get('/scanimages', ensureAuthenticated, async (req, res) => {
 
             res.redirect('/admin?success=COMPLETE');
         } catch (error) {
-            log.error(`Error fetching images: ${error}`);
+            console.error(`Error fetching images: ${error}`);
             res.redirect('/admin?err=FETCH_FAILED');
         }
     } else {
@@ -108,7 +108,7 @@ router.get('/scannodes', ensureAuthenticated, async (req, res) => {
 
             res.redirect('/admin?success=COMPLETE');
         } catch (error) {
-            log.error(`Error fetching nodes: ${error}`);
+            console.error(`Error fetching nodes: ${error}`);
             res.redirect('/admin?err=FETCH_FAILED');
         }
     } else {

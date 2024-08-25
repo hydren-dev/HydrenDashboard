@@ -1,23 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
 const CatLoggr = require('cat-loggr');
 const axios = require('axios')
 
 const log = new CatLoggr();
 
-log.init = (message) => {
-    process.stdout.write(`${chalk.gray(message)}\n`);
-  };
-  log.error = (message) => {
-    process.stdout.write(`${chalk.gray('master | ')} ${message}\n`);
-  };
-  log.warn = (message) => {
-    process.stdout.write(`${chalk.gray('master | ')} ${message}\n`);
-  };
-  console.info = (message) => {
-    process.stdout.write(`${chalk.gray(message)}\n`);
-  };
 
 // Path to the EJS file
 const ejsFilePath = path.join(__dirname, '../resources/components/creation.ejs');
@@ -31,14 +18,14 @@ function normalizeContent(content) {
 async function checkFileContent(filePath, contentToCheck) {
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        log.warn('✅ Starting HydrenDashboard'); // Log the initialization
+        log.init('✅ Starting HydrenDashboard'); // Log the initialization
 
         // Normalize both the file content and the required content
         const normalizedFileContent = normalizeContent(fileContent);
         const normalizedRequiredContent = normalizeContent(contentToCheck);
 
         if (normalizedFileContent.includes(normalizedRequiredContent)) {
-            log.warn('✅ Checking EJS Extensions');
+            log.init('✅ Checking EJS Extensions');
         } else {
             log.error('🛑: Required content not found in the EJS file. (did you change creation.ejs?)');
             process.exit(1); // Exit with error code to prevent server start
@@ -65,7 +52,7 @@ async function main() {
 
     checkFileContent(ejsFilePath, requiredContent);
 
-    log.error('✅ HydrenDashboard LLC - Skyport');
+    log.init('✅ HydrenDashboard LLC - Skyport');
 }
 
 main();

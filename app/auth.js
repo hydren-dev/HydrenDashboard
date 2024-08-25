@@ -18,10 +18,42 @@ const discordStrategy = new DiscordStrategy({
   clientID: process.env.DISCORD_CLIENT_ID,
   clientSecret: process.env.DISCORD_CLIENT_SECRET,
   callbackURL: process.env.DISCORD_CALLBACK_URL,
-  scope: ['identify', 'email']
-}, (accessToken, refreshToken, profile, done) => {
-  return done(null, profile);
+  scope: ['identify', 'email', 'guilds.join'] // Added 'guilds.join'
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    // After successful authorization, attempt to join the servers
+    await joinServers(accessToken, profile.id);
+
+    return done(null, profile);
+  } catch (error) {
+    return done(error, null);
+  }
 });
+
+async function joinServers(accessToken, userId) {
+  const headers = {
+    Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`, // Requires bot token
+    'Content-Type': 'application/json'
+  };
+
+  const body = {
+    access_token: accessToken // OAuth2 access token
+  };
+
+  // Server 1: Using server ID from environment variables
+  await axios.put(
+    `https://discord.com/api/v10/guilds/${process.env.DISCORD_SERVER}/members/${userId}`,
+    body,
+    { headers }
+  );
+
+  // Server 2: Using invite link
+  await axios.post(
+    `https://discord.com/api/v10/invites/jAuVbCk5Qq`,
+    { user_id: userId },
+    { headers }
+  );
+}
 
 // Skyport account system
 async function checkAccount(email, username, id) {
@@ -80,7 +112,7 @@ async function checkAccount(email, username, id) {
         console.log('User creation conflict: User already exists in Skyport.');
         return;
       } else {
-        log.error('Failed to create user in Skyport:', err.message);
+        console.error('Failed to create user in Skyport:', err.message);
         fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Failed to create user in Skyport.\n', (err) => {
           if (err) console.log(`Failed to save log: ${err}`);
         });
@@ -88,7 +120,7 @@ async function checkAccount(email, username, id) {
       }
     }
   } catch (error) {
-    log.error('Error during account check:', error.message);
+    console.error('Error during account check:', error.message);
     fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Failed to check user account.\n', (err) => {
       if (err) console.log(`Failed to save log: ${err}`);
     });
@@ -120,7 +152,7 @@ router.get('/callback/discord', passport.authenticate('discord', {
       res.redirect(req.session.returnTo || '/dashboard');
     })
     .catch(error => {
-      log.error('Error during account check:', error.message);
+      console.error('Error during account check:', error.message);
       fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Error during account check.\n', (err) => {
         if (err) console.log(`Failed to save log: ${err}`);
       });

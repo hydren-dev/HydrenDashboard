@@ -1,1 +1,102 @@
-[]
+[
+  {
+    "Image": "quay.io/skyport/java:21",
+    "Cmd": "",
+    "Env": [
+      "START=java -Xms128M -XX:MaxRAMPercentage=95.0 -Dterminal.jline=false -Dterminal.ansi=true -jar server.jar"
+    ],
+    "Scripts": {
+      "Install": [
+        {
+          "Uri": "https://download.getbukkit.org/spigot/spigot-{{Version}}.jar",
+          "Path": "server.jar"
+        },
+        {
+          "Uri": "https://raw.githubusercontent.com/skyportlabs/images_v2/main/spigotmc/server.properties",
+          "Path": "server.properties"
+        }
+      ]
+    },
+    "Name": "Minecraft Java: SpigotMC",
+    "Description": "SpigotMC is a high-performance, open-source server software for Minecraft, designed to enhance and optimize the game's multiplayer experience. It offers extensive configuration options, a vibrant plugin ecosystem, and active community support, making it a popular choice for server administrators seeking to improve gameplay and server performance.",
+    "Author": "info@skyport.dev",
+    "AuthorName": "Skyport Labs",
+    "Meta": {
+      "Version": "Skyport Images v2"
+    },
+    "Id": "7b156065-6053-4d4f-9318-d105714000a8"
+  },
+  {
+    "Image": "quay.io/skyport/java:21",
+    "Cmd": "",
+    "Env": [
+      "START=java -Xms128M -XX:MaxRAMPercentage=95.0 -Dterminal.jline=false -Dterminal.ansi=true -jar server.jar"
+    ],
+    "Scripts": {
+      "Install": [
+        {
+          "Uri": "https://papermc.io/api/v2/projects/paper/versions/1.21/builds/119/downloads/paper-1.21-119.jar",
+          "Path": "server.jar"
+        },
+        {
+          "Uri": "https://raw.githubusercontent.com/skyportlabs/images_v2/main/spigotmc/server.properties",
+          "Path": "server.properties"
+        }
+      ]
+    },
+    "Name": "Minecraft Java: PaperMC",
+    "Description": "PaperMC is an optimized, high-performance fork of SpigotMC for Minecraft servers. It aims to improve performance and stability by offering additional features, enhanced configuration options, and bug fixes. Known for its robust plugin compatibility and active development community, PaperMC is a preferred choice for server administrators looking to enhance their Minecraft multiplayer experience.",
+    "Author": "info@skyport.dev",
+    "AuthorName": "Skyport Labs",
+    "Meta": {
+      "Version": "Skyport Images v2"
+    },
+    "Id": "bfbac486-df83-482e-8a42-8a0ee2e4a603"
+  },
+  {
+    "Image": "quay.io/skyport/python:lts",
+    "Cmd": "",
+    "Env": [
+      "START=requirements.txt && python app.py"
+    ],
+    "Scripts": {
+      "Install": [
+        {
+          "Uri": "https://raw.githubusercontent.com/skyportlabs/images_v2/main/python/requirements.txt",
+          "Path": "requirements.txt"
+        }
+      ]
+    },
+    "Name": "Generic: Python",
+    "Description": "Python is a versatile programming language known for its simplicity and readability. It excels in various applications such as web development, data analysis, artificial intelligence, and scientific computing. Python's extensive standard library and third-party packages make it easy to develop powerful and scalable applications quickly. With its clean syntax and strong community support, Python is a popular choice among developers for building everything from web apps to machine learning models.",
+    "Author": "info@skyport.dev",
+    "AuthorName": "Skyport Labs",
+    "Meta": {
+      "Version": "Skyport Images v2"
+    },
+    "Id": "f7e272f8-7e02-4f41-a4aa-ef3b8d7bbec3"
+  },
+  {
+    "Image": "quay.io/skyport/nodejs:lts",
+    "Cmd": "",
+    "Env": [
+      "START=npm install && npm start"
+    ],
+    "Scripts": {
+      "Install": [
+        {
+          "Uri": "https://raw.githubusercontent.com/skyportlabs/images_v2/main/nodejs/package.json",
+          "Path": "package.json"
+        }
+      ]
+    },
+    "Name": "Generic: Node.js",
+    "Description": "Node.js is a runtime environment that enables JavaScript code to run outside of web browsers, known for its efficiency in building scalable network applications and backend APIs. It utilizes an event-driven, non-blocking I/O model and boasts a vast ecosystem of packages (npm), making it ideal for modern web development across platforms.",
+    "Author": "info@skyport.dev",
+    "AuthorName": "Skyport Labs",
+    "Meta": {
+      "Version": "Skyport Images v2"
+    },
+    "Id": "daec2050-0d48-41ed-adc5-5e60c0f8d859"
+  }
+]

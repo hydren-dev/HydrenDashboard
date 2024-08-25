@@ -61,7 +61,7 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
           }
         });
         
-        console.log("Deleted Instance")
+        console.log("b")
 
         res.redirect('/servers?success=DELETE');
     } catch (error) {
@@ -129,27 +129,25 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       if (!image) return res.redirect('../create-server?err=INVALID_IMAGE');
       const Image = image.Image;
 
-        await axios.post(`${skyport.url}/api/instances/deploy`, {
-            image: Image,
-            memory: ram,
-            cpu: cpu,
-            ports: selectedPort,
-            nodeId: node,
-            name: name,
-            user: userId,
-            primary: selectedPort
-        }, {
-            headers: {
-                'x-api-key': skyport.key
-            }
-        });
+      await axios.post(`${skyport.url}/api/instances/deploy`, {
+          image: Image,
+          memory: ram,
+          cpu: cpu,
+          ports: selectedPort,
+          nodeId: node,
+          name: name,
+          user: userId,
+          primary: selectedPort
+      }, {
+          headers: {
+            'x-api-key': skyport.key
+          }
+      });
 
-    } catch (error) {
-        console.error('Error deploying instance:', error.response ? error.response.data : error.message);
-
-        // Redirect to /create-server with an error query parameter
-        res.redirect('/create-server?err=ERRORONCREATE');
-    }
+  } catch (error) {
+      console.error(error.data);
+      res.redirect('../create-server?err=ERRORONCREATE');
+  }
 });
 
 router.get('/create-server', ensureAuthenticated, async (req, res) => {
@@ -159,8 +157,8 @@ router.get('/create-server', ensureAuthenticated, async (req, res) => {
       name: process.env.APP_NAME,
       user: req.user, // User info (if logged in)
       admin: await db.get(`admin-${req.user.email}`), // Admin status
-      coins: await db.get(`coins-${req.user.email}`), // Coins
       discordserver: process.env.DISCORD_SERVER,
+      coins: await db.get(`coins-${req.user.email}`), // Coins
       images: require('../storage/images.json'), // Images data
       nodes: require('../storage/nodes.json') // Nodes data
     });
