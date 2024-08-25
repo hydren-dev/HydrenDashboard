@@ -61,7 +61,6 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
           }
         });
         
-        console.log("b")
 
         res.redirect('/servers?success=DELETE');
     } catch (error) {
@@ -125,12 +124,14 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
 
       const images = require('../storage/images.json');
 
-      const image = images.find(image => image.Id === imageId);
+       const image = images.find(image => image.Id === imageId);
       if (!image) return res.redirect('../create-server?err=INVALID_IMAGE');
+      const imageName = image.Name;
       const Image = image.Image;
 
       await axios.post(`${skyport.url}/api/instances/deploy`, {
           image: Image,
+          imagename: imageName,
           memory: ram,
           cpu: cpu,
           ports: selectedPort,
