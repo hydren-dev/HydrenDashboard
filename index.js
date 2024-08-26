@@ -124,6 +124,7 @@ const init = async () => {
   app.use('/api', apiUSERCOINS);
   app.use('/api', apiUSERINFO);
 
+
   const allRoutes = fs.readdirSync('./app');
   allRoutes.forEach(routeFile => {
     const route = require(`./app/${routeFile}`);
