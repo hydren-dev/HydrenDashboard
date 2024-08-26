@@ -61,7 +61,6 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
           }
         });
         
-        console.log("b")
 
         res.redirect('/servers?success=DELETE');
     } catch (error) {
@@ -104,10 +103,10 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
   try {
       const userId = await db.get(`id-${req.user.email}`);
       const name = req.query.name;
-      const node = req.query.node;
+      const nodeId = req.query.node;
       const imageId = req.query.image;
       const cpu = parseInt(req.query.cpu);
-      const ram = parseInt(req.query.ram);
+      const memory = parseInt(req.query.ram);
       // const disk = parseInt(req.query.disk); 
 
       const portsData  = require('../storage/ports.json');
@@ -125,17 +124,19 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
 
       const images = require('../storage/images.json');
 
-      const image = images.find(image => image.Id === imageId);
-      if (!image) return res.redirect('../create-server?err=INVALID_IMAGE');
-      const Image = image.Image;
+       const image2 = images.find(image => image.Id === imageId);
+      if (!image2) return res.redirect('../create-server?err=INVALID_IMAGE');
+      const imagename = image2.Name;
+      const image = image2.Image;
 
       await axios.post(`${skyport.url}/api/instances/deploy`, {
-          image: Image,
-          memory: ram,
-          cpu: cpu,
+          image,
+          imagename,
+          memory,
+          cpu,
           ports: selectedPort,
-          nodeId: node,
-          name: name,
+          nodeId,
+          name,
           user: userId,
           primary: selectedPort
       }, {
