@@ -26,6 +26,10 @@ function getAllData(db, callback) {
         let results = {};
         let remainingTables = tables.length;
 
+        if (remainingTables === 0) {
+            return callback(null, results);
+        }
+
         tables.forEach((table) => {
             let tableName = table.name;
             db.all(`SELECT * FROM "${tableName}";`, [], (err, rows) => {
@@ -40,10 +44,6 @@ function getAllData(db, callback) {
                 }
             });
         });
-
-        if (tables.length === 0) {
-            callback(null, results);
-        }
     });
 }
 
@@ -64,13 +64,13 @@ router.get('/application', authenticate, (req, res) => {
             return res.status(500).json({ error: "Query execution failed", details: err.message });
         }
         res.json(data);
-    });
 
-    // Close the database connection
-    db.close((err) => {
-        if (err) {
-            log.error(err.message);
-        }
+        // Close the database connection after the response is sent
+        db.close((err) => {
+            if (err) {
+                console.error("Failed to close the database:", err.message);
+            }
+        });
     });
 });
 
