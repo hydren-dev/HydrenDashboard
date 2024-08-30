@@ -62,7 +62,7 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
         });
         
 
-        res.redirect('/servers?success=DELETE');
+        res.redirect('/servers?success=DELETED');
     } catch (error) {
         if (error.response && error.response.status === 404) return res.redirect('../servers?err=NOTFOUND');
         
@@ -131,9 +131,10 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
 
       await axios.post(`${skyport.url}/api/instances/deploy`, {
           image,
-          imagename: selectedImage.getAttribute('data-imagename'),
+          imagename,
           memory,
           cpu,
+          // disk,
           ports: selectedPort,
           nodeId,
           name,

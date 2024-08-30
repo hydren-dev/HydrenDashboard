@@ -48,7 +48,7 @@
                   <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="cpu" placeholder="Cpu (Cores)">
                   <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="memory" placeholder="Memory (MB)">
                   <label class="block mb-2 text-white font-medium text-sm">Node:</label>
-       <select name="node" id="node" class="rounded-lg focus:ring-transparent focus:border-transparent text-white text-sm mt-2 w-full pr-10 bg-white/5 items-center transition justify-left gap-16 hover:bg-white/5 px-4 py-2 flex border-white/5 bg-neutral-900 placeholder:text-white/20 border border-black/10">
+       <select name="node" id="node" class="rounded-lg focus:ring-transparent focus:border-transparent text-black text-sm mt-2 w-full pr-10 bg-white items-center transition justify-left gap-16 hover:bg-white/5 hover:text-white hover:text-white px-4 py-2 flex border-white/5 bg-neutral-900 placeholder:text-white/20 border border-black/10">
                         
         <% nodes.forEach(function(node) { %>
           <option value="<%= node.id %>"><%= node.name %></option>
@@ -56,7 +56,7 @@
                     
                       </select>      
      <label class="block mb-2 text-white font-medium text-sm">Software:</label>
-                  <select name="image" id="image" class="rounded-lg focus:ring-transparent focus:border-transparent text-white text-sm mt-2 w-full pr-10 bg-white/5 items-center transition justify-left gap-16 hover:bg-white/5 px-4 py-2 flex border-white/5 bg-neutral-900 placeholder:text-white/20 border border-black/10">
+                  <select name="image" id="image" class="rounded-lg focus:ring-transparent focus:border-transparent text-black text-sm mt-2 w-full pr-10 bg-white items-center transition justify-left gap-16 hover:bg-white/5 hover:text-white px-4 py-2 flex border-white/5 bg-neutral-900 placeholder:text-white/20 border border-black/10">
                    
                     <% images.forEach(function(image) { %>
                       <option value="<%= image.Id %>"><%= image.Name %></option>
