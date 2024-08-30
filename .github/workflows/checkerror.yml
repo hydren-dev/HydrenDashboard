@@ -1,4 +1,4 @@
-name: ERROR CHECKER
+name: CHECK DEPENDENCIES WORK
 
 on:
   push:
