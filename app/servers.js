@@ -131,7 +131,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
 
       await axios.post(`${skyport.url}/api/instances/deploy`, {
           image,
-          imagename,
+          imagename: selectedImage.getAttribute('data-imagename'),
           memory,
           cpu,
           ports: selectedPort,
@@ -143,7 +143,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
           headers: {
             'x-api-key': skyport.key
           }
-      });
+      }); 
 
   } catch (error) {
       console.error(error);
