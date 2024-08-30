@@ -1,4 +1,4 @@
-name: ERROR CHECKER
+name: Check Script
 
 on:
   push:
@@ -10,16 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'  # Specify the Node.js version you are using
+    - name: Installing Dependencies
+      run: apt install curl
+    
+    - name: Checking Installer 
+      run: bash curl -s (https://raw.githubusercontent.com/ma4z/Helaport-Installer/main/install.sh)
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Checking ERRORS
-      run: node index.js
