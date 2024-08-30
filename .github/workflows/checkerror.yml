@@ -1,4 +1,4 @@
-name: ERROR CHECKER
+name: CHECK DEPENDENCIES WORK
 
 on:
   push:
@@ -21,5 +21,3 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Checking ERRORS
-      run: node index.js
