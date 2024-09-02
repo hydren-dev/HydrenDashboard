@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "c308e2ee-f919-41e1-903e-2162cc81c225",
+    "name": "test",
+    "tags": "tag1 - tag2",
+    "processor": "Intel X",
+    "ram": "350000",
+    "disk": "4500000"
+  }
+]

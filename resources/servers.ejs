@@ -68,7 +68,6 @@
                 </div>
                 <div class="relative text-center">
                   <h2 class="text-lg font-semibold text-white sm:truncate sm:text-2xl sm:tracking-tight"><%= server.Name || undefined%></h2>
-                  <p class="text-sm font-light text-zinc-400" style="font-family: 'Space Mono'"><%= pterodactyl.relationships.servers.data[i].attributes.identifier %></p>
 
                   <p class="text-sm font-light text-zinc-500 mt-4"> <%= server.Cpu || 0 %> CPU core(s) / <%= server.Memory || 0 %> GB RAM / <%= server.Disk || 0 %> GB storage</p>
                 </div>

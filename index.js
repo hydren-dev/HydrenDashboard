@@ -22,7 +22,9 @@ const log = new CatLoggr();
 const apiINFO = require('./api/apiINFO');
 const apiUSERCOINS = require('./api/apiUSERCOINS');
 const apiUSERINFO = require('./api/apiUSERINFO');
+const apiNODES = require('./api/apiNODES');
 const apiADDCOINS = require('./api/apiADDCOINS');
+const apiIMAGES = require('./api/apiIMAGES');
 
 async function sendDiscordNotification(message) {
     const webhookURL = process.env.DISCORD_WEBHOOK_URL;
@@ -39,7 +41,7 @@ async function sendDiscordNotification(message) {
     }
   
     const embed = {
-      title: 'Server Notification',
+      title: 'Hydren Logging',
       description: message,
       color: 3066993, // Green color
       thumbnail: {
@@ -125,6 +127,10 @@ const init = async () => {
   app.use('/api', apiUSERCOINS);
   app.use('/api', apiUSERINFO);
   app.use('/api', apiADDCOINS);
+  app.use('/api', apiNODES);
+  app.use('/api', apiIMAGES);
+
+
 
   const allRoutes = fs.readdirSync('./app');
   allRoutes.forEach(routeFile => {
