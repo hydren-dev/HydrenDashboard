@@ -1,13 +1,12 @@
 {
   "name": "HydrenDashboard",
   "version": "1.0.0",
-  "description": "The better version of Heliactyl.",
+  "description": "The better version of Heliactyl For Skyport.",
   "main": "index.js",
-  "author": "hydren-dev",
+  "author": "Hydren-LLC",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "npx tailwindcss -i ./tailwind.conf -o ./public/tailwind.css --watch"
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "@keyv/sqlite": "^3.6.7",

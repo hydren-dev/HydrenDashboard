@@ -9,7 +9,6 @@ const skyport = {
 // Figure out how what the user's total resource usage is right now
 async function calculateResource(userID, resource) {
     try {
-      console.log("Starting resource calculation for user:", userID);
   
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
         userId: userID
@@ -34,7 +33,6 @@ async function calculateResource(userID, resource) {
           }
           totalResources += resourceValue;
         } else {
-          console.warn(`Resource ${resource} not found in server data`, server);
         }
       });
   

@@ -42,12 +42,10 @@ async function checkAccount(email, username, id) {
       });
 
       // User already exists, log and return
-      console.log('User already exists in Skyport. User ID:', response.data.userId);
       await db.set(`id-${email}`, response.data.userId);
       return;
     } catch (err) {
       // If user does not exist, proceed to create
-      console.log('User does not exist in Skyport. Creating user...');
     }
 
     // Generate a random password for new user
@@ -68,7 +66,6 @@ async function checkAccount(email, username, id) {
       });
 
       // Log creation and set password in database
-      console.log('User created in Skyport. User ID:', response.data.userId);
       await db.set(`password-${email}`, password);
       await db.set(`id-${email}`, response.data.userId);
       fs.appendFile(process.env.LOGS_PATH, '[LOG] User created in Skyport.\n', (err) => {
@@ -110,6 +107,69 @@ passport.deserializeUser((user, done) => {
 // Discord routes
 router.get('/login/discord', passport.authenticate('discord'), (req, res) => {
   res.redirect('/');
+});
+
+router.get('/callback', (req, res) => {
+  const code = req.query.code;
+
+  if (code) {
+    res.send(`
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <style>
+          @keyframes slideDown {
+            from {
+              transform: translateY(-100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
+          #splashText {
+            animation: slideDown 0.3s ease-out;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+        </style>
+      </head>
+      <body class="bg-[#10181e] flex flex-col items-center justify-center min-h-screen">
+        <div class="flex flex-col items-center">
+          <img src="../public/spinner.png" class="h-10 w-10 animate-spin">
+          <span id="splashText" style="font-family: 'Space Grotesk'" class="mt-6 uppercase text-zinc-400/50 text-sm tracking-widest">...</span>
+        </div>
+        <script>
+          var splashTexts = ["Inventing new colors for the rainbow.", "Calculating the meaning of life."];
+          function updateSplashText() {
+            var randomIndex = Math.floor(Math.random() * splashTexts.length);
+            var splashText = splashTexts[randomIndex];
+            var splashElement = document.getElementById("splashText");
+            splashElement.style.animation = 'none';
+            splashElement.offsetHeight;
+            splashElement.style.animation = 'slideDown 0.3s ease-out';
+            splashElement.textContent = splashText;
+          }
+          setInterval(updateSplashText, 1000);
+          updateSplashText();
+        </script>
+        <script type="text/javascript" defer>
+          history.pushState('/login/discord', 'Logging in...', '/login/discord');
+          window.location.replace('/callback/discord?code=${encodeURIComponent(code.replace(/'/g, ""))}');
+        </script>
+      </body>
+      </html>
+    `);
+  } else {
+    res.redirect('/login/discord'); // Redirect to login if 'code' is missing
+  }
 });
 
 router.get('/callback/discord', passport.authenticate('discord', {

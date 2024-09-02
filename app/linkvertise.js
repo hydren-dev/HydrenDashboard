@@ -48,6 +48,7 @@ router.post('/lv/claim/submit', async (req, res) => {
         return res.status(400).send('Code is required');
     }
 
+
     try {
         // Make a request to add coins using the provided API key, email, and default coins
         const response = await axios.get(`${process.env.DASH_URL}/api/addcoins`, {

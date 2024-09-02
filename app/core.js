@@ -95,7 +95,6 @@ router.get('/', (req, res) => {
 router.get('/dashboard', ensureAuthenticated, async (req, res) => {
   try {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-    console.log("init dash")
     try {
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
         userId: req.user.id
@@ -106,12 +105,10 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
       });
 
       const servers = response.data || [];
-      console.log("finsh servers calc")
   
       // Ensure all resources are set to 0 if they don't exist
       await ensureResourcesExist(req.user.email);
-      console.log("finsh ensureResourcesExist calc");
-  
+
       // Calculate existing and maximum resources
       const existing = await existingResources(req.user.id);
       const max = await maxResources(req.user.email);
@@ -138,7 +135,6 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
 router.get('/servers', ensureAuthenticated, async (req, res) => {
   try {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-    console.log("init dash")
     try {
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
         userId: req.user.id
@@ -201,7 +197,6 @@ router.get('/ref', ensureAuthenticated, async (req, res) => {
 router.get('/profile', ensureAuthenticated, async (req, res) => {
   try {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-  console.log("Loaded User")
     try {
       const response = await axios.post(`${skyport.url}/api/getUserInstance`, {
         userId: req.user.id,
@@ -213,7 +208,6 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
       });
 
       const servers = response.data || [];
-      console.log("Loaded User Servers")
   
       // Ensure all resources are set to 0 if they don't exist
       await ensureResourcesExist(req.user.email);
