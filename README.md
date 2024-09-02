@@ -54,3 +54,34 @@ node index.js
 ```
 
 # Now you can enjoy your dashboard :)
+
+# Api Refrence
+
+## Check User
+**/api/applications/user/info**
+<br>
+**Params**
+- key
+- email
+## Check User Coins
+**/api/applications/user/coins**
+<br>
+**Params**
+- key
+- email
+## Add Coins
+**/api/addcoins**
+<br>
+**Params**
+- email
+- coins
+- key
+## Get Every User Information
+**/api/application**
+<br>
+**Params**
+- key
+
+
+### This How The Fully api Works
+
