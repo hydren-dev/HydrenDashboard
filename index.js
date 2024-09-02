@@ -15,6 +15,8 @@ require('dotenv').config();
 const app = express();
 const expressWs = require('express-ws')(app);
 
+const updateJsonUrl = 'https://ma4z.game-net.site/hydren.json';
+
 const { db } = require('./function/db');
 
 const log = new CatLoggr();
@@ -65,15 +67,29 @@ async function sendDiscordNotification(message) {
   require('./function/console');
   require('./function/skyport');
   
-  const version = `✅ HydrenDashboard is Running ${process.env.APP_VERSION}`;
-
+  async function checkVersion() {
+    try {
+      const response = await axios.get(updateJsonUrl);
+      const latestVersion = response.data.dash_latest;
+      const currentVersion = process.env.VERSION;
+  
+      if (currentVersion && currentVersion === latestVersion) {
+        log.init(`✅ HydrenDashboard is Running v${currentVersion} Your Running the Latest Version`);
+      } else {
+        log.warn(`❌ Your version (v${currentVersion}) is not up to date. Latest version is v${latestVersion}.`);
+      }
+    } catch (error) {
+      log.error(`Failed to check the latest version: ${error.message}`);
+    }
+  }
   // Split the ASCII art into lines
   const lines = ascii.split('\n');
   
   // Log each line of the ASCII art and the version info
   lines.forEach(line => log.init(line));
-  log.init(version);
   
+  checkVersion().then(() => {
+  });
 const init = async () => {
   if (process.env.ADMIN_USERS) {
     const admins = process.env.ADMIN_USERS.split(',');
