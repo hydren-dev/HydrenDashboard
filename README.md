@@ -37,7 +37,7 @@ All features:
  - npm 10
 2. Clone the Repo
 ```git
-git clone https://github.com/MrStateGaming1/HydrenDashboard.git
+git clone https://github.com/hydren-dev/HydrenDashboard.git
 ```
 3.Enter the Directory and install depencencies
 ```bash
