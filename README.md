@@ -1,5 +1,5 @@
-![Login Page](https://github-production-user-asset-6210df.s3.amazonaws.com/164923658/359977458-4199b55a-67b8-476c-98f5-953d51c51386.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T152016Z&X-Amz-Expires=300&X-Amz-Signature=b22c21f9135b6681cb50c0d324823578dc95354e24b87a552033dbb02b1d7186&X-Amz-SignedHeaders=host&actor_id=164923658&key_id=0&repo_id=845004282)
-![Image](https://github-production-user-asset-6210df.s3.amazonaws.com/164923658/359978078-f0ee3ee6-03f6-4c6f-a2ba-4f374e802fce.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T152159Z&X-Amz-Expires=300&X-Amz-Signature=bc28e9672eb5bd0a95d6db26d048f1aa4f8c40b673e474c4f8c724a116ab9e7a&X-Amz-SignedHeaders=host&actor_id=164923658&key_id=0&repo_id=845004282)
+
+![Image](https://raw.githubusercontent.com/hydren-dev/HydrenDashboard/main/image.png)
 # HydrenDashboard
 
 All features:
