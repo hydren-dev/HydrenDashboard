@@ -12,33 +12,33 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   </head>
   <% if (req.query.err == "INTERNALERROR") { %>
-   <div class="bg-red-900/50 border-l-4 border-red-400 rounded-lg text-red-100 px-4 py-3 relative" role="alert">
-     <div class="flex">
-       <div class="py-1">
-         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400 mr-3">
-           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-         </svg>
-       </div>
-       <div>
-         <p class="font-bold">Internal Server Error</p>
-         <p class="text-sm relative"><%= name %> couldn't process the action due to an internal issue.</p>
-       </div>
-     </div>
-   </div>
+   <div class="rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 p-8 mb-5">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <img src="https://img.icons8.com/?size=48&id=13903&format=png" class="h-7 w-7 mt-2">
+        </div>
+        <div class="ml-5">
+          <h3 class="text-md font-medium tracking-tight text-white">INTERNALERROR</h3>
+          <div class="mt-1 text-sm text-zinc-400">
+            <p>A Error is Coming While Processing the Login.</p>
+          </div>
+        </div>
+      </div>
+    </div>
    <% } %> <% if (req.query.err == "BANNED") { %>
-     <div class="bg-red-900/50 border-l-4 border-red-400 rounded-lg text-red-100 px-4 py-3 relative" role="alert">
-       <div class="flex">
-         <div class="py-1">
-           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400 mr-3">
-             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-           </svg>
-         </div>
-         <div>
-           <span data-config-id="auto-txt-15-2">Your account has been banned</span>
-           <p class="text-sm relative">You were banned for this reason: <%= req.query.reason %></p>
+      <div class="rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 p-8 mb-5">
+         <div class="flex">
+           <div class="flex-shrink-0">
+             <img src="https://img.icons8.com/?size=48&id=13903&format=png" class="h-7 w-7 mt-2">
+           </div>
+           <div class="ml-5">
+             <h3 class="text-md font-medium tracking-tight text-white">You are Banned</h3>
+             <div class="mt-1 text-sm text-zinc-400">
+               <p>You are Banned cause of Reason: <%= req.query.reason %>.</p>
+             </div>
+           </div>
          </div>
        </div>
-     </div>
      <% } %>      
 <body class="h-full bg-[#10181e] p-12" style="font-family: 'Space Grotesk'">
     <div class="" id="content">

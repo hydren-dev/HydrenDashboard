@@ -59,6 +59,7 @@
                 </div>
               </div>
             </div>
+            <% } %>
           <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
             <% for (let server of servers) { %>
             <div class="px-4 py-4 rounded-2xl bg-[#162027]/30 flex justify-center shadow border-t border-white/5">
@@ -72,7 +73,7 @@
                   <p class="text-sm font-light text-zinc-500 mt-4"> <%= server.Cpu || 0 %> CPU core(s) / <%= server.Memory || 0 %> GB RAM / <%= server.Disk || 0 %> GB storage</p>
                 </div>
                 <div class="flex space-x-3 mt-6">
-                  <a href="../edit?id="  type="button" class="inline-flex  justify-center flex-1 items-center rounded-2xl border-none bg-[#0a9875] px-4 py-2.5 text-sm font-medium text-white ring-none focus:outline-none">
+                  <a href="../edit?id=<%= server.ContainerId %>"  type="button" class="inline-flex  justify-center flex-1 items-center rounded-2xl border-none bg-[#0a9875] px-4 py-2.5 text-sm font-medium text-white ring-none focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-2 h-5 inline-flex ">
                       <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
                       <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
@@ -85,7 +86,7 @@
                     </svg>                         
                     Delete
                   </a>
-                 <a href="" type="button" class="inline-flex  justify-center flex-1 items-center rounded-2xl border-none bg-white/5 px-4 py-2.5 text-sm font-medium text-white ring-none focus:outline-none">
+                 <a href="<%= panel %>/instance/<%= server.ContainerId %>" type="button" class="inline-flex  justify-center flex-1 items-center rounded-2xl border-none bg-white/5 px-4 py-2.5 text-sm font-medium text-white ring-none focus:outline-none">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-2 h-5 inline-flex ">
                     <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />
                     <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 0 0 1.06.053L16.5 4.44v2.81a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.553l-9.056 8.194a.75.75 0 0 0-.053 1.06Z" clip-rule="evenodd" />
@@ -105,7 +106,7 @@
                   </a>
                 </div>
               </div>
-              <% } %>
+             
           </dl>
         </div>
       </div>

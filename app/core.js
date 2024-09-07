@@ -160,6 +160,7 @@ router.get('/servers', ensureAuthenticated, async (req, res) => {
         req: req, // Request (queries)
         name: process.env.APP_NAME || "HydrenDashboard", // Dashboard name
         user: req.user, // User info
+        panel: process.env.SKYPORT_URL, // User info
         servers, // Servers the user owns
         existing, // Existing resources
         discordserver: process.env.DISCORD_SERVER,
@@ -211,7 +212,7 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
   
       // Ensure all resources are set to 0 if they don't exist
       await ensureResourcesExist(req.user.email);
-      console.log("Loaded User Resources");
+      console.log("");
   
       // Calculate existing and maximum resources
       const existing = await existingResources(req.user.id);

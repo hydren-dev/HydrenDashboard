@@ -51,7 +51,7 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
 
         if (server.data.User !== userId) return res.redirect('../servers?err=DONOTOWN');
 
-        console.log("a")
+        console.log("")
         await axios.delete(`${skyport.url}/api/instance/delete`, {
           headers: {
             'x-api-key': skyport.key
@@ -67,7 +67,7 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
         if (error.response && error.response.status === 404) return res.redirect('../servers?err=NOTFOUND');
         
         console.error(error);
-        res.redirect('../servers?err=INTERNALERROR');
+        res.send('Internal Error While Deleting the Server');
     }
 });
 

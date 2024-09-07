@@ -4,8 +4,7 @@ require('dotenv').config(); // Load environment variables
 
 const router = express.Router();
 
-// Initialize Keyv instance (e.g., with SQLite or any other supported storage)
-const keyv = new Keyv('sqlite://storage/database.sqlite'); // or use other storage like 'redis://user:pass@localhost:6379'
+const keyv = new Keyv('sqlite://storage/database.sqlite'); 
 
 // Middleware to check API key
 function authenticate(req, res, next) {
@@ -35,7 +34,7 @@ router.get('/application/user/coins', authenticate, async (req, res) => {
     try {
         const coins = await getUserCoins(email);
         if (coins === undefined) {
-            return res.status(404).json({ error: "No data found for this user" });
+            return res.status(404).json({ error: "User not Found in Database" });
         }
         res.json({ email, coins });
     } catch (error) {

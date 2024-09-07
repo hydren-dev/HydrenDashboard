@@ -68,7 +68,7 @@ router.get('/scanimages', ensureAuthenticated, async (req, res) => {
             res.redirect('/admin?success=COMPLETE');
         } catch (error) {
             console.error(`Error fetching images: ${error}`);
-            res.redirect('/admin?err=FETCH_FAILED');
+            res.send(`Error fetching images: ${error}`);
         }
     } else {
         res.redirect('/dashboard');
@@ -109,7 +109,7 @@ router.get('/scannodes', ensureAuthenticated, async (req, res) => {
             res.redirect('/admin?success=COMPLETE');
         } catch (error) {
             console.error(`Error fetching nodes: ${error}`);
-            res.redirect('/admin?err=FETCH_FAILED');
+            res.send(`Error Fetching Nodes${error}`);
         }
     } else {
         res.redirect('/dashboard');
