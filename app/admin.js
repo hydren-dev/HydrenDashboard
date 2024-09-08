@@ -29,6 +29,39 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/images', ensureAuthenticated, async (req, res) => {
+    if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
+      if (await db.get(`admin-${req.user.email}`) == true) {
+          res.render('admin_images', {
+              user: req.user, // User info
+              coins: await db.get(`coins-${req.user.email}`), // User's coins
+              discordserver: process.env.DISCORD_SERVER,
+              req: req, // Request (queries)
+              admin: await db.get(`admin-${req.user.email}`), // Admin status
+              images: require('../storage/images.json'), // Images data
+              name: process.env.APP_NAME // App name
+          });
+      } else {
+          res.redirect('/dashboard');
+      }
+  });
+  router.get('/nodes', ensureAuthenticated, async (req, res) => {
+    if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
+      if (await db.get(`admin-${req.user.email}`) == true) {
+          res.render('admin_nodes', {
+              user: req.user, // User info
+              coins: await db.get(`coins-${req.user.email}`), // User's coins
+              discordserver: process.env.DISCORD_SERVER,
+              req: req, // Request (queries)
+              admin: await db.get(`admin-${req.user.email}`), // Admin status
+              nodes: require('../storage/nodes.json'), // Images data
+              name: process.env.APP_NAME // App name
+          });
+      } else {
+          res.redirect('/dashboard');
+      }
+  });  
+
 // Scan eggs & locations
 router.get('/scanimages', ensureAuthenticated, async (req, res) => {
     if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');

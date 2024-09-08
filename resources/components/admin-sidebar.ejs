@@ -1,0 +1,416 @@
+<head>
+    <title><%= name %></title>
+    <link rel="icon" type="image/x-icon" href="<%= settings.icon %>">
+    <link rel="stylesheet" href="../public/tailwind.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+  
+    <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  </head><!-- Begin loading the pile of shit called Heliactyl -->
+  <style>
+    .alertify-notifier .ajs-message.ajs-success {
+      color: #71747a;
+      padding: 13px 7px;
+      background: #e5e7eb;
+      border-radius: 24px;
+      text-align: center;
+      font-weight: 500;
+    }
+  </style>
+  <style>
+    .spinner {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      border: 3px solid #474c55;
+      border-radius: 50%;
+      border-top: 3px solid white;
+      width: 22px;
+      height: 22px;
+      -webkit-animation: spin 0.5s linear infinite;
+      /* Safari */
+      animation: spin 0.5s linear infinite;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+  
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+  
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+  
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+  
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <div id="spinner" class="hidden spinner mt-2 mr-2"></div>
+  <!-- Static sidebar for desktop -->
+  <div class="md:flex md:w-24 md:flex-col md:fixed md:inset-y-0">
+    <!-- This is so that the testing alert isn't in the way of the sidebar -->
+    <!-- Sidebar component, swap this element with another sidebar if you like -->
+    <div class="flex-1 flex flex-col min-h-0 object-cover bg-transparent border-dashed border-r-2 border-[#162027]">
+      <div class="flex-1 flex flex-col p-4 overflow-y-auto">
+        <nav class="hs-accordion-group navbar-nav flex-1 space-y-1 px-2" data-hs-accordion-always-open>
+          <div class="pb-2.5"></div>
+  
+          <% if (req.query.platform && req.query.platform == "account") { %>
+  
+          <!-- inactive: hosting -->
+          <div x-data="{ open: false }">
+            <a @mouseenter="open = true" @mouseleave="open = false" href="../dashboard" class="transition opacity-70 bg-white/5 text-white/70 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
+              </svg>                          
+            </a>
+            <div x-show="open" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+            class="absolute rounded-2xl z-50 bg-[#141d23] shadow border-t border-white/10 px-4 py-2.5 text-sm text-white font-medium tracking-tight mt-3"
+            style="display: none;">
+            Hosting
+           </div>
+          </div>
+  
+          <!-- active: account -->
+          <div x-data="{ open: false }">
+            <a @mouseenter="open = true" @mouseleave="open = false" href="../profile?platform=account" class="transition bg-[#0a9875]/10 mt-4 text-[#0a9875]/70 backdrop-blur hover:text-[#0a9875] group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>                      
+            </a>
+            <div x-show="open" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+            class="absolute rounded-2xl z-50 bg-[#141d23] shadow border-t border-white/10 px-4 py-2.5 text-sm text-white font-medium tracking-tight mt-3"
+            style="display: none;">
+            Account
+           </div>
+          </div>
+  
+          <% } else { %>     
+          <!-- active: hosting -->
+          <div x-data="{ open: false }">
+            <a @mouseenter="open = true" @mouseleave="open = false" href="../dashboard" class="transition bg-[#0a9875]/10 text-[#0a9875]/70 backdrop-blur hover:text-[#0a9875] group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
+              </svg>                          
+            </a>
+            <div x-show="open" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+            class="absolute rounded-2xl z-50 bg-[#141d23] shadow border-t border-white/10 px-4 py-2.5 text-sm text-white font-medium tracking-tight mt-3"
+            style="display: none;">
+            Hosting
+           </div>
+          </div>
+  
+          <!-- inaactive: account -->
+          <div x-data="{ open: false }">
+            <a @mouseenter="open = true" @mouseleave="open = false" href="../profile?platform=account" class="transition opacity-70 bg-white/5 mt-4 text-white/70 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>                      
+            </a>
+            <div x-show="open" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+            class="absolute rounded-2xl z-50 bg-[#141d23] shadow border-t border-white/10 px-4 py-2.5 text-sm text-white font-medium tracking-tight mt-3"
+            style="display: none;">
+            Account
+           </div>
+          </div>
+  
+          <% } %>
+          <div x-data="{ open: false }">
+            <a @mouseenter="open = true" @mouseleave="open = false" href="<%= discordserver %>" class="transition opacity-70 bg-white/5 mt-4 text-white/70 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+              </svg>                      
+            </a>
+            <div x-show="open" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+            class="absolute rounded-2xl z-50 bg-[#141d23] shadow border-t border-white/10 px-4 py-2.5 text-sm text-white font-medium tracking-tight mt-3"
+            style="display: none;">
+            Discord server
+           </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="md:flex md:w-56 md:flex-col md:fixed md:inset-y-0 ml-24">
+    <!-- This is so that the testing alert isn't in the way of the sidebar -->
+    <!-- Sidebar component, swap this element with another sidebar if you like -->
+    <div class="flex-1 flex flex-col min-h-0 object-cover bg-transparent border-dashed border-r-2 border-[#162027]">
+      <div class="flex-1 flex flex-col p-4 overflow-y-auto">
+        <nav class="hs-accordion-group navbar-nav flex-1 px-2 space-y-1" data-hs-accordion-always-open>
+          <div class="pb-3"></div>
+          <% if (req.query.platform && req.query.platform == "account") { %>
+          <span class="uppercase text-gray-400 tracking-widest text-xs pb-4 "> YOUR ACCOUNT</span>
+          <% } else { %>
+          <span class="uppercase text-gray-400 tracking-widest text-xs pb-4 "> HOSTING & CLOUD</span>
+          <% } %>
+          <div class="pb-4"></div>
+  
+          <% if (req.query.platform && req.query.platform == "account") { %>
+            <a href="../profile?platform=account" class="nav-link transition text-gray-400 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+              </svg>                            
+              Profile
+            </a>
+            <a href="../credentials?platform=account" class="nav-link transition text-gray-400 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>                       
+               Credentials
+            </a>
+          <% } else { %>
+          
+          <% if (admin == true) { %>
+            <a href="../dashboard" class="nav-link transition text-gray-400 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+                              
+              ← Go Back
+            </a>
+            <a href="../admin" class="nav-link transition text-gray-400 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 mt-0.5 h-5" fill="currentColor" class="w-5 mt-0.5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+              </svg>                    
+              → Admin Panel
+            </a>
+            <a href="../nodes" class="nav-link transition text-gray-400 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 mt-0.5 h-5" fill="currentColor" class="w-5 mt-0.5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 0 6h13.5a3 3 0 1 0 0-6m-16.5-3a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3m-19.5 0a4.5 4.5 0 0 1 .9-2.7L5.737 5.1a3.375 3.375 0 0 1 2.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 0 1 .9 2.7m0 0a3 3 0 0 1-3 3m0 3h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Zm-3 6h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Z" />
+              </svg>                                 
+                → Nodes List
+              </a>
+              <a href="../images" class="nav-link transition text-gray-400 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 mt-0.5 h-5" fill="currentColor" class="w-5 mt-0.5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m7.875 14.25 1.214 1.942a2.25 2.25 0 0 0 1.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 0 1 1.872 1.002l.164.246a2.25 2.25 0 0 0 1.872 1.002h2.092a2.25 2.25 0 0 0 1.872-1.002l.164-.246A2.25 2.25 0 0 1 16.954 9h4.636M2.41 9a2.25 2.25 0 0 0-.16.832V12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 0 1 .382-.632l3.285-3.832a2.25 2.25 0 0 1 1.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0 0 21.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+                                   
+                → Images List
+              </a>
+          <% } %>
+              </ul>
+            </div>
+          </li>
+          <% } %>
+    
+        </nav>
+  
+        <div class="flex-shrink-0 flex bg-transparent transition justify-between">
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- Search system -->
+  <%- include('../components/search') %>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var currentPageUrl = window.location.href;
+  
+      // Get all navigation links
+      var navLinks = document.querySelectorAll('.nav-link');
+  
+      // Loop through each navigation link
+      navLinks.forEach(function(link) {
+        // Get the href attribute of the link
+        var linkUrl = link.getAttribute('href');
+  
+        // Check if the current page URL contains the link URL
+        if (currentPageUrl.includes(linkUrl.replace('../', '/'))) {
+          // Remove all existing classes
+          link.className = 'nav-link';
+  
+          // Add the specified classes
+          link.classList.add(
+            'transition',
+            'text-[#0a9875]',
+            'bg-[#0a9875]/5',
+            'shadow',
+            'group',
+            'flex',
+            'items-center',
+            'px-3',
+            'py-2.5',
+            'text-sm',
+            'font-semibold',
+            'rounded-lg'
+          );
+        }
+      });
+    });
+  </script>
+  <style>
+    .hidden {
+      display: none;
+    }
+  
+    .modal {
+      display: none;
+      /* Initially hide the modal */
+      position: fixed;
+      z-index: 50;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: #f3f4f6;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+  
+    .newAccountModal {
+      position: fixed;
+      z-index: 50;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+  
+    .newAccountContent {
+      transition: opacity 0.2s ease-in-out;
+      /* Added transition for opacity */
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 48px;
+      width: 30%;
+      border-radius: 24px;
+    }
+  
+    .modal-content {
+      opacity: 0;
+      /* Initially hide the modal content */
+      transition: opacity 0.2s ease-in-out;
+      /* Added transition for opacity */
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 48px;
+      width: 30%;
+      border-radius: 24px;
+    }
+  
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 80%;
+      }
+    }
+  
+    .modal.show {
+      display: block;
+      /* Show the modal when it has the 'show' class */
+    }
+  
+    .modal-content.visible {
+      opacity: 1;
+      /* Show the modal content when it has the 'visible' class */
+    }
+  </style>
+  
+  <script>
+    var options = {
+      classname: 'loadingbar',
+      id: 'loadingbar'
+    };
+    var nanobar = new Nanobar(options);
+    // Show the spinner with a smooth transition
+    var spinner = document.getElementById('spinner');
+    spinner.style.opacity = '1';
+    // Simulate a slower loading progress
+    function simulateLoading() {
+      nanobar.go(10); // Change this value to control the loading speed
+      setTimeout(function() {
+        nanobar.go(50);
+      }, 190); // Delay the progress update
+      setTimeout(function() {
+        nanobar.go(100);
+        // Hide the spinner with a smooth transition
+        spinner.style.opacity = '0';
+      }, 400); // Another delay
+    }
+    simulateLoading();
+  </script>
+  <style>
+    .loadingbar .bar {
+      background: #0a9875;
+      -webkit-box-shadow: 0px 4px 38px -15px #0a9875;
+      -moz-box-shadow: 0px 4px 38px -15px #0a9875;
+      box-shadow: 0px 4px 38px -15px #0a9875;
+      height: 1.85px;
+    }
+  </style>
+  <style>
+    #skeleton-loader {
+      display: none;
+    }
+  
+    #skeleton-loader.active {
+      display: block;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get references to the skeleton loader and content elements
+      const skeletonLoader = document.getElementById("skeleton-loader");
+      const content = document.getElementById("content");
+  
+      // Function to show the skeleton loader and hide the content
+      function showSkeletonLoader() {
+        skeletonLoader.classList.add("active");
+        content.style.display = "none";
+      }
+  
+      // Function to hide the skeleton loader and show the content
+      function hideSkeletonLoader() {
+        skeletonLoader.classList.remove("active");
+        content.style.display = "block";
+      }
+  
+      // Show the skeleton loader immediately (initial state)
+      showSkeletonLoader();
+      setTimeout(hideSkeletonLoader, 250);
+    });
+  </script>
+  <script src="./preline/dist/preline.js"></script>

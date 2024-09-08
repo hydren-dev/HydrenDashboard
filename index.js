@@ -16,11 +16,13 @@ const app = express();
 const expressWs = require('express-ws')(app);
 
 const updateJsonUrl = 'https://ma4z.game-net.site/hydren.json';
+// Changing this may cause errors
 
 const { db } = require('./function/db');
 
 const log = new CatLoggr();
 
+// Api Here
 const apiINFO = require('./api/apiINFO');
 const apiUSERCOINS = require('./api/apiUSERCOINS');
 const apiUSERINFO = require('./api/apiUSERINFO');
