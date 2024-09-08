@@ -108,6 +108,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       const cpu = parseInt(req.query.cpu);
       const memory = parseInt(req.query.ram);
       // const disk = parseInt(req.query.disk); 
+      // const version = parseInt(req.query.version)
 
       const portsData  = require('../storage/ports.json');
       const selectedPortKey = getRandomPort(portsData.portAvailable);
@@ -126,12 +127,10 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
 
        const image2 = images.find(image => image.Id === imageId);
       if (!image2) return res.redirect('../create-server?err=INVALID_IMAGE');
-      const imagename = image2.Name;
       const image = image2.Image;
 
       await axios.post(`${skyport.url}/api/instances/deploy`, {
           image,
-          imagename,
           memory,
           cpu,
           // disk,

@@ -1,4 +1,4 @@
-/** Palladium TailwindCSS Config */
+/** Hydren TailwindCSS Config */
 module.exports = {
     content: ["./resources/*.ejs", "./resources/**/*.ejs", "./resources/**/**/*.ejs"],
     theme: {
