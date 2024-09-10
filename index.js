@@ -63,7 +63,7 @@ async function sendDiscordNotification(message) {
       await axios.post(webhookURL, data);
       log.init('✅ Notification sent to Discord successfully.');
     } catch (error) {
-      log.error(`❗ Error sending notification to Discord: ${error.message} | Error Code - 607`);
+      log.error(`❗ Error sending notification to Discord: ${error.message}`);
     }
   }
   require('./function/console');
@@ -167,7 +167,7 @@ const init = async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
     log.info(`✅ HydrenDashboard has been started on ${appUrl}:${process.env.APP_PORT}!`);
   // Send Discord notification that the server has started
-  await sendDiscordNotification(`✅ ${process.env.APP_NAME} has started.`);
+  await sendDiscordNotification(`✅ ${process.env.APP_NAME} is Booting Up.`);
 });
 }; 
 

@@ -125,6 +125,7 @@ router.get('/buyresource', ensureAuthenticated, async (req, res) => {
     }
 });
 
+// Buy plan
 router.get('/buyplan', ensureAuthenticated, async (req, res) => {
     if (!req.query.plan) return res.redirect('/store?err=MISSINGPARAMS');
 
@@ -153,15 +154,20 @@ router.get('/buyplan', ensureAuthenticated, async (req, res) => {
     if (coins < planCost) return res.redirect('/store?err=NOTENOUGHCOINS');
     if (currentPlan == selectedPlanName) return res.redirect('/store?err=ALREADYPLAN');
 
-    await db.set(`plan-${req.user.email}`, selectedPlanName);
-    await db.set(`coins-${req.user.email}`, parseInt(coins) - parseInt(planCost));
+    try {
+        await db.set(`plan-${req.user.email}`, selectedPlanName);
+        await db.set(`coins-${req.user.email}`, parseInt(coins) - parseInt(planCost));
 
-    // Set resources of plan
-    const resources = selectedPlan.resources;
-    for (const resource in resources) {
-        await db.set(`${resource}-${req.user.email}`, resources[resource]);
+        // Set resources of plan
+        const resources = selectedPlan.resources;
+        for (const resource in resources) {
+            await db.set(`${resource}-${req.user.email}`, resources[resource]);
+        }
+        return res.redirect('/store?success=BOUGHTPLAN');
+    } catch (error) {
+        console.error('Error buying plan:', error);
+        return res.redirect('/store?err=INTERNALERROR');
     }
-    return res.redirect('/store?success=BOUGHTPLAN');
 });
 
 module.exports = router;
