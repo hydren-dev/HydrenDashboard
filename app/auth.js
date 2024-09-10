@@ -53,7 +53,7 @@ async function checkAccount(email, username, id) {
 
     // Create user in Skyport
     try {
-      response = await axios.post(`${skyport.url}/api/users/create`, {
+      response = await axios.post(`${skyport.url}/api/auth/create-user`, {
         username,
         email,
         password,
