@@ -37,6 +37,7 @@ async function calculateResource(userID, resource) {
       });
   
       return totalResources;
+      console.log(`Calulating Resources for ${userID}`);
     } catch (err) {
       // Log errors to a file
       const errorMessage = `[LOG] Failed to calculate resources for user ${userID}. Error: ${err.message}\n`;

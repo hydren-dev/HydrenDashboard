@@ -147,7 +147,7 @@ router.get('/callback', (req, res) => {
           <span id="splashText" style="font-family: 'Space Grotesk'" class="mt-6 uppercase text-zinc-400/50 text-sm tracking-widest">...</span>
         </div>
         <script>
-          var splashTexts = ["Inventing new colors for the rainbow.", "Calculating the meaning of life."];
+          var splashTexts = ["Inventing new colors for the rainbow.","Checking Your life." ,"Calculating the meaning of life."];
           function updateSplashText() {
             var randomIndex = Math.floor(Math.random() * splashTexts.length);
             var splashText = splashTexts[randomIndex];
@@ -173,7 +173,7 @@ router.get('/callback', (req, res) => {
 });
 
 router.get('/callback/discord', passport.authenticate('discord', {
-  failureRedirect: '/login'
+  failureRedirect: '/login/discord'
 }), (req, res) => {
   checkAccount(req.user.email, req.user.username, req.user.id)
     .then(() => {
