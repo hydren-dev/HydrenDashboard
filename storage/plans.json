@@ -2,7 +2,7 @@
     "PLAN": {
         "BASIC": {
             "id": 1,
-            "name": "Basic",
+            "name": "Default",
             "price": 0,
             "resources": {
                 "cpu": 75,

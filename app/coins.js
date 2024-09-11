@@ -85,6 +85,30 @@ router.get('/store', ensureAuthenticated, async (req, res) => {
     });
 });
 
+router.get('/upgrade', ensureAuthenticated, async (req, res) => {
+    if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
+      
+      const userCurrentPlan = await db.get(`plan-${req.user.email}`);
+  
+      const resourcePlans = Object.values(plans.PLAN).map(plan => {
+        return {
+          ...plan,
+          hasPlan: userCurrentPlan === plan.name.toUpperCase()
+        };
+      });
+      res.render('plans', {
+          user: req.user, // User info
+          coins: await db.get(`coins-${req.user.email}`), // User's coins
+          req: req, // Request (queries)
+          discordserver: process.env.DISCORD_SERVER,
+          admin: await db.get(`admin-${req.user.email}`), // Admin status
+          name: process.env.APP_NAME, // App name
+          resourceCosts: resourceCosts, // Cost Ressources
+          resourcePlans: resourcePlans, // List plans
+          plans: require('../storage/plans.json') // Plans data
+      });
+  });
+
 router.get('/buyresource', ensureAuthenticated, async (req, res) => {
     if (!req.query.resource || !req.query.amount) return res.redirect('/store?err=MISSINGPARAMS');
     
@@ -127,10 +151,10 @@ router.get('/buyresource', ensureAuthenticated, async (req, res) => {
 
 // Buy plan
 router.get('/buyplan', ensureAuthenticated, async (req, res) => {
-    if (!req.query.plan) return res.redirect('/store?err=MISSINGPARAMS');
+    if (!req.query.plan) return res.redirect('/upgrade?err=MISSINGPARAMS');
 
     const planId = parseInt(req.query.plan);
-    if (isNaN(planId)) return res.redirect('/store?err=INVALIDPLAN');
+    if (isNaN(planId)) return res.redirect('/upgrade?err=INVALIDPLAN');
 
     // Filter
     let selectedPlan = null;
@@ -144,15 +168,15 @@ router.get('/buyplan', ensureAuthenticated, async (req, res) => {
     }
 
     // Ensure plan is a valid one
-    if (!selectedPlan) return res.redirect('/store?err=INVALIDPLAN');
+    if (!selectedPlan) return res.redirect('/upgrade?err=INVALIDPLAN');
 
     let coins = await db.get(`coins-${req.user.email}`);
     let currentPlan = await db.get(`plan-${req.user.email}`);
 
     // Plan costs
     let planCost = selectedPlan.price;
-    if (coins < planCost) return res.redirect('/store?err=NOTENOUGHCOINS');
-    if (currentPlan == selectedPlanName) return res.redirect('/store?err=ALREADYPLAN');
+    if (coins < planCost) return res.redirect('/upgrade?err=NOTENOUGHCOINS');
+    if (currentPlan == selectedPlanName) return res.redirect('/upgrade?err=ALREADYPLAN');
 
     try {
         await db.set(`plan-${req.user.email}`, selectedPlanName);
@@ -163,10 +187,10 @@ router.get('/buyplan', ensureAuthenticated, async (req, res) => {
         for (const resource in resources) {
             await db.set(`${resource}-${req.user.email}`, resources[resource]);
         }
-        return res.redirect('/store?success=BOUGHTPLAN');
+        return res.redirect('/upgrade?success=BOUGHTPLAN');
     } catch (error) {
         console.error('Error buying plan:', error);
-        return res.redirect('/store?err=INTERNALERROR');
+        return res.redirect('/upgrade?err=INTERNALERROR');
     }
 });
 
