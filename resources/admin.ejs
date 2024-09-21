@@ -69,6 +69,7 @@
                   Add Resources
                 </a>
               </div>
+              
               <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <!-- Ban -->
                 <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
@@ -82,7 +83,7 @@
                     Ban 
                   </a>
                 </div>
-                <!-- Ban -->
+                <!-- unBan -->
                 <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
                   <h1 class="text-lg font-semibold text-white">unBan Anyone</h1>
                   <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="unban-email" placeholder="Email">
@@ -111,6 +112,7 @@
                     Scan Images 
                   </a>
                 </div>
+                
             </div>
         </div>
       </main>
@@ -143,5 +145,6 @@
           let disk = encodeURIComponent(document.getElementById("ar-disk").value);
           document.location.href = `/addresources?email=${email}&cpu=${cpu}&ram=${ram}&disk=${disk}`;
         };
+        
   </script>
 </body>

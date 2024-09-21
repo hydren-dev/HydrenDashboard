@@ -10,17 +10,6 @@
                 "disk": 3072,
                 "server": 2
             }
-        },
-        "PREMIUM": {
-            "id": 2,
-            "name": "Pro",
-            "price": 400,
-            "resources": {
-                "cpu": 200,
-                "ram": 8096,
-                "disk": 20248,
-                "server": 3
-            }
         }
       }
    }

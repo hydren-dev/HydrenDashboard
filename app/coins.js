@@ -85,29 +85,6 @@ router.get('/store', ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.get('/upgrade', ensureAuthenticated, async (req, res) => {
-    if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-      
-      const userCurrentPlan = await db.get(`plan-${req.user.email}`);
-  
-      const resourcePlans = Object.values(plans.PLAN).map(plan => {
-        return {
-          ...plan,
-          hasPlan: userCurrentPlan === plan.name.toUpperCase()
-        };
-      });
-      res.render('plans', {
-          user: req.user, // User info
-          coins: await db.get(`coins-${req.user.email}`), // User's coins
-          req: req, // Request (queries)
-          discordserver: process.env.DISCORD_SERVER,
-          admin: await db.get(`admin-${req.user.email}`), // Admin status
-          name: process.env.APP_NAME, // App name
-          resourceCosts: resourceCosts, // Cost Ressources
-          resourcePlans: resourcePlans, // List plans
-          plans: require('../storage/plans.json') // Plans data
-      });
-  });
 
 router.get('/buyresource', ensureAuthenticated, async (req, res) => {
     if (!req.query.resource || !req.query.amount) return res.redirect('/store?err=MISSINGPARAMS');
