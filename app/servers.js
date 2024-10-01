@@ -74,31 +74,19 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
 // Create server
 router.get('/create', ensureAuthenticated, async (req, res) => {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-  if (!req.query.name || !req.query.node || !req.query.image || !req.query.cpu || !req.query.ram) return res.redirect('../create-server?err=MISSINGPARAMS'); //  || !req.query.disk
-  
-  // Check if user has enough resources to create a server
-
-  const max = await maxResources(req.user.email);
-  const existing = await existingResources(req.user.id);
-
-  if (parseInt(req.query.cpu) > parseInt(max.cpu - existing.cpu)) return res.redirect('../create-server?err=NOTENOUGHRESOURCES');
-  if (parseInt(req.query.ram) > parseInt(max.ram - existing.ram)) return res.redirect('../create-server?err=NOTENOUGHRESOURCES');
-  // if (parseInt(req.query.disk) > parseInt(max.disk - existing.disk)) return res.redirect('../create-server?err=NOTENOUGHRESOURCES');
+  if (!req.query.name || !req.query.node || !req.query.image || !req.query.cpu || !req.query.ram) return res.redirect('../create-server?err=MISSINGPARAMS'); 
 
   // Ensure resources are above 128MB / 0 core
-
   if (parseInt(req.query.ram) < 128) return res.redirect('../create-server?err=INVALID');
   if (parseInt(req.query.cpu) < 0) return res.redirect('../create-server?err=INVALID');
-  // if (parseInt(req.query.disk) < 128) return res.redirect('../create-server?err=INVALID');
 
   // Name checks
-
   if (req.query.name.length > 100) return res.redirect('../create-server?err=INVALID');
   if (req.query.name.length < 3) return res.redirect('../create-server?err=INVALID');
 
-  // Make sure node, image, resources are numbers
-  if ( isNaN(req.query.cpu) || isNaN(req.query.ram)) return res.redirect('../create-server?err=INVALID'); // || isNaN(req.query.disk) || isNaN(req.query.node) || isNaN(req.query.image) ||
-  if (req.query.cpu < 0 || req.query.ram < 1) return res.redirect('../create-server?err=INVALID'); // || req.query.disk < 1
+  // Make sure resources are numbers
+  if (isNaN(req.query.cpu) || isNaN(req.query.ram)) return res.redirect('../create-server?err=INVALID');
+  if (req.query.cpu < 0 || req.query.ram < 1) return res.redirect('../create-server?err=INVALID');
 
   try {
       const userId = await db.get(`id-${req.user.email}`);
@@ -107,15 +95,22 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       const imageId = req.query.image;
       const cpu = parseInt(req.query.cpu);
       const memory = parseInt(req.query.ram);
-      // const disk = parseInt(req.query.disk); 
-      // const version = parseInt(req.query.version)
+
+      // Capture dynamic variables
+      const variables = {};
+      for (const [key, value] of Object.entries(req.query)) {
+          if (key.startsWith('var_')) { // Assuming your variable inputs have keys like var_name
+              variables[key.replace('var_', '')] = value;
+          }
+      }
 
       const portsData  = require('../storage/ports.json');
       const selectedPortKey = getRandomPort(portsData.portAvailable);
       const selectedPort = portsData.portAvailable[selectedPortKey];
 
-      if(!selectedPort || !selectedPortKey) {
-        console.error('No ports available');
+      if (!selectedPort || !selectedPortKey) {
+          console.error('No ports available');
+          res.redirect('../create-server?err=NOPORTAVAILABLE')
       }
 
       portsData.portInUse[selectedPortKey] = selectedPort;
@@ -124,26 +119,28 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       fs.writeFileSync('./storage/ports.json', JSON.stringify(portsData, null, 2), 'utf-8');
 
       const images = require('../storage/images.json');
-
-       const image2 = images.find(image => image.Id === imageId);
+      const image2 = images.find(image => image.Id === imageId);
       if (!image2) return res.redirect('../create-server?err=INVALID_IMAGE');
       const image = image2.Image;
 
+      // Include the variables in the request
       await axios.post(`${skyport.url}/api/instances/deploy`, {
           image,
           memory,
           cpu,
-          // disk,
           ports: selectedPort,
           nodeId,
           name,
           user: userId,
-          primary: selectedPort
+          primary: selectedPort,
+          variables // Send variables here
       }, {
           headers: {
             'x-api-key': skyport.key
           }
-      }); 
+      });
+
+      res.redirect('/servers?err=CREATED');
 
   } catch (error) {
       console.error(error);

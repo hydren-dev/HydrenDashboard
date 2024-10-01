@@ -5,6 +5,13 @@
     "Env": [
       "START=java -Xms128M -XX:MaxRAMPercentage=95.0 -Dterminal.jline=false -Dterminal.ansi=true -jar server.jar"
     ],
+    "Variables": {
+      "Version": {
+        "type": "text",
+        "default": "1.21",
+        "required": true
+      }
+    },
     "Scripts": {
       "Install": [
         {
@@ -24,7 +31,7 @@
     "Meta": {
       "Version": "Skyport Images v2"
     },
-    "Id": "7b156065-6053-4d4f-9318-d105714000a8"
+    "Id": "c32d036f-9226-44f1-acfd-2e3ad17b4ca5"
   },
   {
     "Image": "quay.io/skyport/java:21",
@@ -32,10 +39,22 @@
     "Env": [
       "START=java -Xms128M -XX:MaxRAMPercentage=95.0 -Dterminal.jline=false -Dterminal.ansi=true -jar server.jar"
     ],
+    "Variables": {
+      "Version": {
+        "type": "text",
+        "default": "1.21.1",
+        "required": true
+      },
+      "Build": {
+        "type": "text",
+        "default": "89",
+        "required": true
+      }
+    },
     "Scripts": {
       "Install": [
         {
-          "Uri": "https://papermc.io/api/v2/projects/paper/versions/1.21/builds/119/downloads/paper-1.21-119.jar",
+          "Uri": "https://api.papermc.io/v2/projects/paper/versions/{{Version}}/builds/{{Build}}/downloads/paper-{{Version}}-{{Build}}.jar",
           "Path": "server.jar"
         },
         {
@@ -51,7 +70,7 @@
     "Meta": {
       "Version": "Skyport Images v2"
     },
-    "Id": "bfbac486-df83-482e-8a42-8a0ee2e4a603"
+    "Id": "adeb2512-f2b5-405f-9cbe-b7d25c4edccc"
   },
   {
     "Image": "quay.io/skyport/python:lts",
@@ -74,7 +93,7 @@
     "Meta": {
       "Version": "Skyport Images v2"
     },
-    "Id": "f7e272f8-7e02-4f41-a4aa-ef3b8d7bbec3"
+    "Id": "1c631088-61ce-4669-9cbe-dc7fb6b20743"
   },
   {
     "Image": "quay.io/skyport/nodejs:lts",
@@ -97,6 +116,6 @@
     "Meta": {
       "Version": "Skyport Images v2"
     },
-    "Id": "daec2050-0d48-41ed-adc5-5e60c0f8d859"
+    "Id": "d75f8fc3-91a1-4f73-b40e-250b931b599a"
   }
 ]

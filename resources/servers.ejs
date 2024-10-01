@@ -115,38 +115,3 @@
   </div>
   </div>
 </body>
-<script>
-function toggleModal() {
-  window.dispatchEvent(new CustomEvent('toggle-modal'));
-}
-
-    function selectLocation(name) {
-      const previous = document.querySelector('.location-card.card-selected');
-      if (previous) {
-        previous.classList.remove('card-selected');
-      }
-      const selected = document.querySelector(`.location-card[data-name="${name}"]`);
-      selected.classList.add('card-selected');
-      document.getElementById('InputLoc').value = name;
-    }
-  
-    function selectEgg(name) {
-      const previous = document.querySelector('.egg-card.card-selected');
-      if (previous) {
-        previous.classList.remove('card-selected');
-      }
-      const selected = document.querySelector(`.egg-card[data-name="${name}"]`);
-      selected.classList.add('card-selected');
-      document.getElementById('InputEgg').value = name;
-    }
-  
-    async function submitNew() {
-      let name = encodeURIComponent(document.getElementById("InputName").value);
-      let egg = encodeURIComponent(document.getElementById("InputEgg").value);
-      let ram = encodeURIComponent(document.getElementById("InputRAM").value * 1024);
-      let disk = encodeURIComponent(document.getElementById("InputDisk").value * 1024);
-      let cpu = encodeURIComponent(document.getElementById("InputCPU").value * 100);
-      let location = encodeURIComponent(document.getElementById("InputLoc").value);
-      document.location.href = `/create?name=${name}&egg=${egg}&ram=${ram}&disk=${disk}&cpu=${cpu}&location=${location}`;
-    };
-  </script>

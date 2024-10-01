@@ -165,7 +165,9 @@ router.get('/servers', ensureAuthenticated, async (req, res) => {
         existing, // Existing resources
         discordserver: process.env.DISCORD_SERVER,
         max, // Max resources,
-        admin: await db.get(`admin-${req.user.email}`) || false // Admin status
+        admin: await db.get(`admin-${req.user.email}`) || false,
+        images: require('../storage/images.json'), // Images data
+        nodes: require('../storage/nodes.json') // Nodes data
       });
     } catch (err) {
       res.redirect('/?err=INTERNALERROR');

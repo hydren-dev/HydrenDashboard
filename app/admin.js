@@ -78,6 +78,7 @@ router.get('/scanimages', ensureAuthenticated, async (req, res) => {
                 Image: image.Image,
                 Cmd: image.Cmd,
                 Env: image.Env,
+                Variables: image.Variables,
                 Scripts: image.Scripts,
                 Name: image.Name,
                 Description: image.Description,
@@ -140,6 +141,7 @@ router.get('/scannodes', ensureAuthenticated, async (req, res) => {
             fs.writeFileSync('storage/nodes.json', JSON.stringify(allNodes, null, 2));
 
             res.redirect('/admin?success=COMPLETE');
+            console.log(nodes);
         } catch (error) {
             console.error(`Error fetching nodes: ${error}`);
             res.send(`Error Fetching Nodes${error}`);

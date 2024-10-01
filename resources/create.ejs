@@ -75,32 +75,38 @@
             
                   
                   <label class="block mb-2 text-white font-medium text-sm">Software:</label>
-                  <select style="background-color: #141d23;" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl mb-4"  id="image">
+                  <select style="background-color: #141d23;" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl mb-4" id="image" onchange="checkVariables()">
                     <% images.forEach(function(image) { %>
-                        <option value="<%= image.Id %>"><%= image.Name %></option>
-                      <% }); %>
-                  </select>      
+                      <option value="<%= image.Id %>" data-variables='<%= JSON.stringify(image.Variables) %>'><%= image.Name %></option>
+                    <% }); %>
+                  </select>
+
+                  <div id="variablesContainer"></div>
+
             
-                  <div x-data="{ open: false }">
-                    <button @mouseenter="open = true" @mouseleave="open = false" type="button" onclick="submitNew()" class="bg-[#0a9875] text-white font-semibold py-2 px-4 rounded-2xl mt-4">
-                      Create Server
+                  <div x-data="{ open: false }" class="relative">
+                    <button 
+                        @mouseenter="open = true" 
+                        @mouseleave="open = false" 
+                        type="button" 
+                        onclick="submitForm()" 
+                        class="bg-[#0a9875] text-white font-semibold py-2 px-4 rounded-2xl mt-4">
+                        Create Server
                     </button>
-            
-                    <button type="button" onclick="toggleModal()" class="bg-transparent text-zinc-400 transition hover:text-zinc-200 font-medium py-2 px-4 rounded-2xl mt-4">
-                      Close
-                    </button>
-                    
-                    <div x-show="open" x-transition:enter="transition ease-out duration-300"
-                      x-transition:enter-start="opacity-0 transform scale-90"
-                      x-transition:enter-end="opacity-100 transform scale-100"
-                      x-transition:leave="transition ease-in duration-300"
-                      x-transition:leave-start="opacity-100 transform scale-100"
-                      x-transition:leave-end="opacity-0 transform scale-90"
-                      class="absolute rounded-2xl bg-[#141d23] shadow border-t border-white/10 px-4 py-2.5 text-sm text-white font-medium tracking-tight mt-3"
-                      style="display: none;">
-                     By clicking this, you are agreeing to the <%= settings.name %> User Agreement and Minecraft EULA.
-                   </div>
-                  </div>
+                
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 transform scale-90"
+                         x-transition:enter-end="opacity-100 transform scale-100"
+                         x-transition:leave="transition ease-in duration-300"
+                         x-transition:leave-start="opacity-100 transform scale-100"
+                         x-transition:leave-end="opacity-0 transform scale-90"
+                         class="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 rounded-2xl bg-[#141d23] shadow border-t border-white/10 px-4 py-2.5 text-sm text-white font-medium tracking-tight z-10"
+                         style="display: none;">
+                        By clicking this, you are agreeing to the <%= name %> User Agreement.
+                    </div>
+                </div>
+                     
                 </form>
               </div>
             </div>
@@ -138,9 +144,39 @@
                     let name = encodeURIComponent(document.getElementById("name").value);
                     let image = encodeURIComponent(document.getElementById("image").value);
                     let memory = encodeURIComponent(document.getElementById("memory").value);
-                    // let disk = encodeURIComponent(document.getElementById("disk").value);
                     let cpu = encodeURIComponent(document.getElementById("cpu").value);
                     let node = encodeURIComponent(document.getElementById("node").value);
-                    document.location.href = `/create?name=${name}&image=${image}&ram=${memory}&cpu=${cpu}&node=${node}`; // &disk=${disk}
+                    
+                    // Gather variable inputs
+                    const variableInputs = Array.from(document.querySelectorAll('#variablesContainer input'))
+                      .map(input => `${input.id}=${encodeURIComponent(input.value)}`)
+                      .join('&');
+                
+                    document.location.href = `/create?name=${name}&image=${image}&ram=${memory}&cpu=${cpu}&node=${node}&${variableInputs}`;
                   }
+                
+                  function checkVariables() {
+    const select = document.getElementById("image");
+    const selectedOption = select.options[select.selectedIndex];
+    const variables = JSON.parse(selectedOption.getAttribute('data-variables') || '{}'); // Fallback to empty object
+    const container = document.getElementById("variablesContainer");
+
+    container.innerHTML = ''; // Clear previous inputs
+
+    // Check if there are any variables
+    if (variables && Object.keys(variables).length > 0) {
+        for (const [key, value] of Object.entries(variables)) {
+            if (value.type === 'text' && value.required) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = `${key} (default: ${value.default})`;
+                input.className = 'w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl mb-4';
+                input.id = key; // Set an id for the input
+                container.appendChild(input);
+            }
+        }
+    }
+}
+
                 </script>
+                
