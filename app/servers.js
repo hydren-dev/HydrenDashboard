@@ -74,7 +74,14 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
 // Create server
 router.get('/create', ensureAuthenticated, async (req, res) => {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-  if (!req.query.name || !req.query.node || !req.query.image || !req.query.cpu || !req.query.ram) return res.redirect('../create-server?err=MISSINGPARAMS'); 
+  if (!req.query.name || !req.query.node || !req.query.image || !req.query.cpu || !req.query.ram) return res.redirect('../create-server?err=MISSINGPARAMS'); //  || !req.query.disk
+  
+  // Check if user has enough resources to create a server
+  const max = await maxResources(req.user.email);
+  const existing = await existingResources(req.user.id);
+  if (parseInt(req.query.cpu) > parseInt(max.cpu - existing.cpu)) return res.redirect('../create-server?err=NOTENOUGHRESOURCES');
+  if (parseInt(req.query.ram) > parseInt(max.ram - existing.ram)) return res.redirect('../create-server?err=NOTENOUGHRESOURCES');
+  // if (parseInt(req.query.disk) > parseInt(max.disk - existing.disk)) return res.redirect('../create-server?err=NOTENOUGHRESOURCES');
 
   // Ensure resources are above 128MB / 0 core
   if (parseInt(req.query.ram) < 128) return res.redirect('../create-server?err=INVALID');
