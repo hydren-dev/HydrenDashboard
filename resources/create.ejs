@@ -75,11 +75,13 @@
             
                   
                   <label class="block mb-2 text-white font-medium text-sm">Software:</label>
-                  <select style="background-color: #141d23;" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl mb-4" id="image" onchange="checkVariables()">
-                    <% images.forEach(function(image) { %>
-                      <option value="<%= image.Id %>" data-variables='<%= JSON.stringify(image.Variables) %>'><%= image.Name %></option>
-                    <% }); %>
-                  </select>
+<select style="background-color: #141d23;" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl mb-4" id="image" onchange="updateImageName()">
+    <% images.forEach(function(image) { %>
+        <option value="<%= image.Image %>" data-variables='<%= JSON.stringify(image.Variables) %>'><%= image.Name %></option>
+    <% }); %>
+</select>
+<input type="hidden" id="imageName" /> <!-- Hidden input for image name -->
+
 
                   <div id="variablesContainer"></div>
 
@@ -140,20 +142,28 @@
             }
             </style>
                 <script>
+                  function updateImageName() {
+                  const selectedOption = document.getElementById("image").options[document.getElementById("image").selectedIndex];
+                  document.getElementById("imageName").value = selectedOption.text; // Capture the image name
+                  checkVariables();
+                 }
+
                   async function submitForm() {
-                    let name = encodeURIComponent(document.getElementById("name").value);
-                    let image = encodeURIComponent(document.getElementById("image").value);
-                    let memory = encodeURIComponent(document.getElementById("memory").value);
-                    let cpu = encodeURIComponent(document.getElementById("cpu").value);
-                    let node = encodeURIComponent(document.getElementById("node").value);
-                    
-                    // Gather variable inputs
-                    const variableInputs = Array.from(document.querySelectorAll('#variablesContainer input'))
-                      .map(input => `${input.id}=${encodeURIComponent(input.value)}`)
-                      .join('&');
-                
-                    document.location.href = `/create?name=${name}&image=${image}&ram=${memory}&cpu=${cpu}&node=${node}&${variableInputs}`;
+                      let name = encodeURIComponent(document.getElementById("name").value);
+                      let image = encodeURIComponent(document.getElementById("image").value);
+                      let imageName = encodeURIComponent(document.getElementById("imageName").value); // Add this line
+                      let memory = encodeURIComponent(document.getElementById("memory").value);
+                      let cpu = encodeURIComponent(document.getElementById("cpu").value);
+                      let node = encodeURIComponent(document.getElementById("node").value);
+
+                      // Gather variable inputs
+                      const variableInputs = Array.from(document.querySelectorAll('#variablesContainer input'))
+                          .map(input => `${input.id}=${encodeURIComponent(input.value)}`)
+                          .join('&');
+
+                      document.location.href = `/create?name=${name}&image=${image}&imageName=${imageName}&ram=${memory}&cpu=${cpu}&node=${node}&${variableInputs}`; // Include imageName
                   }
+
                 
                   function checkVariables() {
     const select = document.getElementById("image");
