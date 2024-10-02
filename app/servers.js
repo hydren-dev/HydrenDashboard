@@ -109,6 +109,10 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       const selectedPortKey = getRandomPort(portsData.portAvailable);
       const selectedPort = portsData.portAvailable[selectedPortKey];
 
+      const primaryportsData  = require('../storage/primaryports.json');
+      const primaryselectedPortKey = getRandomPort(primaryportsData.portAvailable);
+      const primaryselectedPort = primaryportsData.portAvailable[primaryselectedPortKey];
+
       if (!selectedPort || !selectedPortKey) {
           console.error('No ports available');
           res.redirect('../create-server?err=NOPORTAVAILABLE');
@@ -120,7 +124,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       fs.writeFileSync('./storage/ports.json', JSON.stringify(portsData, null, 2), 'utf-8');
 
       const images = require('../storage/images.json');
-      const image2 = images.find(image => image.Id === imageId);
+      const image2 = images.find(image => image.Image === imageId);
       if (!image2) return res.redirect('../create-server?err=INVALID_IMAGE');
       const image = image2.Image;
 
@@ -133,7 +137,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
           nodeId,
           name,
           user: userId,
-          primary: selectedPort,
+          primary: primaryselectedPort,
           variables
       }, {
           headers: {
