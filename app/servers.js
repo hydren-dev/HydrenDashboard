@@ -120,7 +120,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       fs.writeFileSync('./storage/ports.json', JSON.stringify(portsData, null, 2), 'utf-8');
 
       const images = require('../storage/images.json');
-      const image2 = images.find(image => image.Id === imageId);
+      const image2 = images.find(image => image.Image === imageId);
       if (!image2) return res.redirect('../create-server?err=INVALID_IMAGE');
       const image = image2.Image;
 
