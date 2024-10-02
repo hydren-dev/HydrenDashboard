@@ -109,6 +109,10 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       const selectedPortKey = getRandomPort(portsData.portAvailable);
       const selectedPort = portsData.portAvailable[selectedPortKey];
 
+      const primaryportsData  = require('../storage/primaryports.json');
+      const primaryselectedPortKey = getRandomPort(primaryportsData.portAvailable);
+      const primaryselectedPort = primaryportsData.portAvailable[primaryselectedPortKey];
+
       if (!selectedPort || !selectedPortKey) {
           console.error('No ports available');
           res.redirect('../create-server?err=NOPORTAVAILABLE');
@@ -133,7 +137,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
           nodeId,
           name,
           user: userId,
-          primary: selectedPort,
+          primary: primaryselectedPort,
           variables
       }, {
           headers: {
