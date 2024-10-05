@@ -23,6 +23,41 @@ const discordStrategy = new DiscordStrategy({
   return done(null, profile);
 });
 
+async function sendDiscordNotification(message) {
+  const webhookURL = process.env.DISCORD_WEBHOOK_URL;
+  const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
+
+  if (!notificationsEnabled) {
+    return;
+  }
+
+  if (!webhookURL) {
+   log.warn('Discord webhook URL is not set.');
+    return;
+  }
+
+  const embed = {
+    title: 'Hydren Logging',
+    description: message,
+    color: 3066993, // Green color
+    thumbnail: {
+      url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+    },
+    timestamp: new Date().toISOString(),
+  };
+
+  const data = {
+    username: 'Dashboard',
+    embeds: [embed],
+  };
+
+  try {
+    await axios.post(webhookURL, data);
+  } catch (error) {
+    log.error(`❗ Error sending notification to Discord: ${error.message}`);
+  }
+}
+
 // Skyport account system
 async function checkAccount(email, username, id) {
   try {
@@ -65,7 +100,6 @@ async function checkAccount(email, username, id) {
         }
       });
 
-      // Log creation and set password in database
       await db.set(`password-${email}`, password);
       await db.set(`id-${email}`, response.data.userId);
       fs.appendFile(process.env.LOGS_PATH, '[LOG] User created in Skyport.\n', (err) => {
@@ -174,19 +208,23 @@ router.get('/callback', (req, res) => {
 
 router.get('/callback/discord', passport.authenticate('discord', {
   failureRedirect: '/login/discord'
-}), (req, res) => {
-  checkAccount(req.user.email, req.user.username, req.user.id)
-    .then(() => {
-      res.redirect(req.session.returnTo || '/dashboard');
-    })
-    .catch(error => {
-      console.error('Error during account check:', error.message);
-      fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Error during account check.\n', (err) => {
-        if (err) console.log(`Failed to save log: ${err}`);
-      });
-      res.redirect('/dashboard');
+}), async (req, res) => {
+  try {
+    await checkAccount(req.user.email, req.user.username, req.user.id);
+    
+    // Send Discord notification
+    await sendDiscordNotification(`${req.user.username} Have Logged in at Dashboard.`);
+    
+    res.redirect(req.session.returnTo || '/dashboard');
+  } catch (error) {
+    console.error('Error during account check:', error.message);
+    fs.appendFile(process.env.LOGS_ERROR_PATH, '[ERROR] Error during account check.\n', (err) => {
+      if (err) console.log(`Failed to save log: ${err}`);
     });
+    res.redirect('/dashboard');
+  }
 });
+
 
 // Logout route
 router.get('/logout', (req, res) => {

@@ -12,6 +12,41 @@ const skyport = {
     key: process.env.SKYPORT_KEY
 };
 
+async function sendDiscordNotification(message) {
+    const webhookURL = process.env.DISCORD_WEBHOOK_URL;
+    const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
+  
+    if (!notificationsEnabled) {
+      return;
+    }
+  
+    if (!webhookURL) {
+     log.warn('Discord webhook URL is not set.');
+      return;
+    }
+  
+    const embed = {
+      title: 'Hydren Logging',
+      description: message,
+      color: 3066993, // Green color
+      thumbnail: {
+        url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+      },
+      timestamp: new Date().toISOString(),
+    };
+  
+    const data = {
+      username: 'Dashboard',
+      embeds: [embed],
+    };
+  
+    try {
+      await axios.post(webhookURL, data);
+    } catch (error) {
+      log.error(`❗ Error sending notification to Discord: ${error.message}`);
+    }
+  }
+
 // Admin
 router.get('/admin', ensureAuthenticated, async (req, res) => {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
@@ -161,6 +196,7 @@ router.get('/addcoins', ensureAuthenticated, async (req, res) => {
         let amountParse = parseInt((await db.get(`coins-${email}`))) + parseInt(amount);
         await db.set(`coins-${email}`, amountParse);
         res.redirect('/admin?success=COMPLETE');
+        await sendDiscordNotification(`Admin Have Added ${amount} of coins in ${email} account.`);
     } else {
         res.redirect('/dashboard');
     }
@@ -175,6 +211,7 @@ router.get('/setcoins', ensureAuthenticated, async (req, res) => {
         let amountParse = parseInt(amount);
         await db.set(`coins-${email}`, amountParse);
         res.redirect('/admin?success=COMPLETE');
+        await sendDiscordNotification(`Admin Have Set ${amount} of coins in ${email} account.`);
     } else {
         res.redirect('/dashboard');
     }
@@ -245,6 +282,7 @@ router.get('/ban', ensureAuthenticated, async (req, res) => {
         
         await db.set(`banned-${email}`, reason);
         res.redirect('/admin?success=BANNED');
+        await sendDiscordNotification(`Admin Have Banned ${email} account With Reason ${reason}.`);
     } else {
         res.redirect('/dashboard');
     }
@@ -258,6 +296,7 @@ router.get('/unban', ensureAuthenticated, async (req, res) => {
         
         await db.delete(`banned-${email}`);
         res.redirect('/admin?success=UNBANNED');
+        await sendDiscordNotification(`Admin Have UnBanned ${email}.`);
     } else {
         res.redirect('/dashboard');
     }

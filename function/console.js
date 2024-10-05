@@ -18,14 +18,11 @@ function normalizeContent(content) {
 async function checkFileContent(filePath, contentToCheck) {
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        log.init('✅ Starting HydrenDashboard'); // Log the initialization
-
         // Normalize both the file content and the required content
         const normalizedFileContent = normalizeContent(fileContent);
         const normalizedRequiredContent = normalizeContent(contentToCheck);
 
         if (normalizedFileContent.includes(normalizedRequiredContent)) {
-            log.init('✅ Checking EJS Extensions');
         } else {
             log.error('🛑: Required content not found in the EJS file. (did you change creation.ejs?)');
             process.exit(1); // Exit with error code to prevent server start
@@ -51,8 +48,6 @@ async function main() {
     const requiredContent = await fetchRequiredContent();
 
     checkFileContent(ejsFilePath, requiredContent);
-
-    log.init('✅ HydrenDashboard LLC - Skyport');
 }
 
 main();

@@ -35,7 +35,6 @@ async function sendDiscordNotification(message) {
     const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
   
     if (!notificationsEnabled) {
-      log.warn('❗ Discord notifications are disabled.');
       return;
     }
   
@@ -61,7 +60,6 @@ async function sendDiscordNotification(message) {
   
     try {
       await axios.post(webhookURL, data);
-      log.init('✅ Notification sent to Discord successfully.');
     } catch (error) {
       log.error(`❗ Error sending notification to Discord: ${error.message}`);
     }
@@ -166,7 +164,6 @@ const init = async () => {
   app.listen(port, async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
     log.info(`✅ HydrenDashboard has been started on ${appUrl}:${process.env.APP_PORT}!`);
-  // Send Discord notification that the server has started
   await sendDiscordNotification(`✅ ${process.env.APP_NAME} is Booting Up.`);
 });
 }; 

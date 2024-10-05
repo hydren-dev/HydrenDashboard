@@ -9,6 +9,41 @@ const { getRandomPort } = require('../function/getRandomPort');
 
 const router = express.Router();
 
+async function sendDiscordNotification(message) {
+  const webhookURL = process.env.DISCORD_WEBHOOK_URL;
+  const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
+
+  if (!notificationsEnabled) {
+    return;
+  }
+
+  if (!webhookURL) {
+   log.warn('Discord webhook URL is not set.');
+    return;
+  }
+
+  const embed = {
+    title: 'Hydren Logging',
+    description: message,
+    color: 3066993, // Green color
+    thumbnail: {
+      url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+    },
+    timestamp: new Date().toISOString(),
+  };
+
+  const data = {
+    username: 'Dashboard',
+    embeds: [embed],
+  };
+
+  try {
+    await axios.post(webhookURL, data);
+  } catch (error) {
+    log.error(`❗ Error sending notification to Discord: ${error.message}`);
+  }
+}
+
 const skyport = {
   url: process.env.SKYPORT_URL,
   key: process.env.SKYPORT_KEY
@@ -35,43 +70,47 @@ const maxResources = async (email) => {
 // Delete server
 router.get('/delete', ensureAuthenticated, async (req, res) => {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
-    if (!req.query.id) return res.redirect('../servers?err=MISSINGPARAMS');
-    try {
-        const userId = await db.get(`id-${req.user.email}`);
-        const serverId = req.query.id;
+  if (!req.query.id) return res.redirect('../servers?err=MISSINGPARAMS');
+  
+  try {
+      const userId = await db.get(`id-${req.user.email}`);
+      const serverId = req.query.id;
 
-        const server = await axios.post(`${skyport.url}/api/getInstance`, {
+      const server = await axios.post(`${skyport.url}/api/getInstance`, {
           id: serverId
-        }, {
+      }, {
           headers: {
-            'x-api-key': skyport.key
+              'x-api-key': skyport.key
           }
-        });
-        console.log(server.data)
+      });
 
-        if (server.data.User !== userId) return res.redirect('../servers?err=DONOTOWN');
+      if (server.data.User !== userId) return res.redirect('../servers?err=DONOTOWN');
 
-        console.log("")
-        await axios.delete(`${skyport.url}/api/instance/delete`, {
+      // Delete the server instance
+      await axios.delete(`${skyport.url}/api/instance/delete`, {
           headers: {
-            'x-api-key': skyport.key
+              'x-api-key': skyport.key
           },
           data: {
-            id: serverId
+              id: serverId
           }
-        });
-        
+      });
 
-        res.redirect('/servers?success=DELETED');
-    } catch (error) {
-        if (error.response && error.response.status === 404) return res.redirect('../servers?err=NOTFOUND');
-        
-        console.error(error);
-        res.send('Internal Error While Deleting the Server');
-    }
+      // Delete the associated database table
+      const deleteTableQuery = `DROP TABLE IF EXISTS server_${serverId}`;
+      await db.run(deleteTableQuery);
+
+      res.redirect('/servers?success=DELETED');
+      await sendDiscordNotification(`${req.user.email} Have Deleted the Server with \n**ID**: ${serverId}.`);
+  } catch (error) {
+      if (error.response && error.response.status === 404) return res.redirect('../servers?err=NOTFOUND');
+      
+      console.error(error);
+      res.send('Internal Error While Deleting the Server');
+  }
 });
 
-// Create server
+
 // Create server
 router.get('/create', ensureAuthenticated, async (req, res) => {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
@@ -98,20 +137,12 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       const memory = parseInt(req.query.ram);
       const imagename = req.query.imageName; 
 
-      const variables = {};
-      for (const [key, value] of Object.entries(req.query)) {
-          if (key.startsWith('var_')) {
-              variables[key.replace('var_', '')] = value;
-          }
-      }
+      // Parse JSON variables
+      const variables = JSON.parse(decodeURIComponent(req.query.variables || '{}'));
 
       const portsData  = require('../storage/ports.json');
       const selectedPortKey = getRandomPort(portsData.portAvailable);
       const selectedPort = portsData.portAvailable[selectedPortKey];
-
-      const primaryportsData  = require('../storage/primaryports.json');
-      const primaryselectedPortKey = getRandomPort(primaryportsData.portAvailable);
-      const primaryselectedPort = primaryportsData.portAvailable[primaryselectedPortKey];
 
       if (!selectedPort || !selectedPortKey) {
           console.error('No ports available');
@@ -137,15 +168,34 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
           nodeId,
           name,
           user: userId,
-          primary: primaryselectedPort,
           variables
-      }, {
-          headers: {
-              'x-api-key': skyport.key
-          }
-      });
+      }).then(async (response) => {
+          const serverId = response.data.Id; // Assuming the server ID is in the response data
 
-      res.redirect('/servers?err=CREATED');
+          // Create new table in the database with the server ID
+          const createTableQuery = `
+              CREATE TABLE server_${serverId} (
+                  name TEXT,
+                  cpu INTEGER,
+                  memory INTEGER,
+                  image TEXT,
+                  variables JSON
+              )
+          `;
+
+          await db.run(createTableQuery);
+
+          // Insert values into the new table
+          const insertValuesQuery = `
+              INSERT INTO server_${serverId} (name, cpu, memory, image, variables)
+              VALUES (?, ?, ?, ?, ?)
+          `;
+
+          await db.run(insertValuesQuery, [name, cpu, memory, imageId, JSON.stringify(variables)]);
+
+          res.redirect('/servers?err=CREATED');
+          await sendDiscordNotification(`${req.user.email} Have Created a Server with:\n**CPU**: ${cpu}\n**RAM**: ${memory}\nName: ${name}.`);
+      });
 
   } catch (error) {
       console.error(error);

@@ -18,6 +18,41 @@ const resourceCosts = {
 
 let earners = {};
 
+async function sendDiscordNotification(message) {
+    const webhookURL = process.env.DISCORD_WEBHOOK_URL;
+    const notificationsEnabled = process.env.DISCORD_NOTIFICATIONS_ENABLED === 'true';
+  
+    if (!notificationsEnabled) {
+      return;
+    }
+  
+    if (!webhookURL) {
+     log.warn('Discord webhook URL is not set.');
+      return;
+    }
+  
+    const embed = {
+      title: 'Hydren Logging',
+      description: message,
+      color: 3066993, // Green color
+      thumbnail: {
+        url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+      },
+      timestamp: new Date().toISOString(),
+    };
+  
+    const data = {
+      username: 'Dashboard',
+      embeds: [embed],
+    };
+  
+    try {
+      await axios.post(webhookURL, data);
+    } catch (error) {
+      log.error(`❗ Error sending notification to Discord: ${error.message}`);
+    }
+  }
+
 // Afk
 
 router.ws('/afkwspath', async (ws, req) => {

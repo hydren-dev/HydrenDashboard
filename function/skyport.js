@@ -10,7 +10,7 @@ async function checkSkyport() {
     const url = process.env.SKYPORT_URL;
 
     if (!url) {
-        log.error('Skyport invalid URL');
+        log.error('Invalid Skyport URL');
         process.exit(1);
     }
 
@@ -18,7 +18,6 @@ async function checkSkyport() {
         const response = await axios.get(url);
 
         if (response.status === 200) {
-            log.info('✅ Skyport is Running Great');
         } else {
             log.error(`🛑 Skyport isn't Running. Status Code: ${response.status}`);
             process.exit(1);
@@ -34,7 +33,7 @@ async function checkSkyport() {
             process.exit(1);
         } else {
             // Something else happened in making the request
-            log.error('🛑 Skyport invalid URL');
+            log.error('🛑 Invalid Skyport URL');
             process.exit(1);
         }
     }

@@ -9,7 +9,8 @@
       "Version": {
         "type": "text",
         "default": "1.21",
-        "required": true
+        "required": false ,
+        "_note": "i have set that false for testing"
       }
     },
     "Scripts": {
