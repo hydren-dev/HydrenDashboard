@@ -160,32 +160,34 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       const image = image2.Image;
 
       await axios.post(`${skyport.url}/api/instances/deploy`, {
-          image,
-          imagename, 
-          memory,
-          cpu,
-          ports: selectedPort,
-          nodeId,
-          name,
-          user: userId,
-          variables
-      }).then(async (response) => {
-          const serverId = response.data.Id; // Assuming the server ID is in the response data
+       image,
+       imagename, 
+       memory,
+       cpu,
+       ports: selectedPort,
+       nodeId,
+       name,
+       user: userId,
+       variables
+      }, {
+       headers: {
+         'x-api-key': skyport.key
+       }
+   }).then(async (response) => {
+       const serverId = response.data.Id; 
+       const createTableQuery = `
+           CREATE TABLE server_${serverId} (
+               name TEXT,
+               cpu INTEGER,
+               memory INTEGER,
+               image TEXT,
+               variables JSON
+           )
+       `;
+   });
 
-          // Create new table in the database with the server ID
-          const createTableQuery = `
-              CREATE TABLE server_${serverId} (
-                  name TEXT,
-                  cpu INTEGER,
-                  memory INTEGER,
-                  image TEXT,
-                  variables JSON
-              )
-          `;
 
           await db.run(createTableQuery);
-
-          // Insert values into the new table
           const insertValuesQuery = `
               INSERT INTO server_${serverId} (name, cpu, memory, image, variables)
               VALUES (?, ?, ?, ?, ?)
