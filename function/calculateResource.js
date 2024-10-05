@@ -38,14 +38,6 @@ async function calculateResource(userID, resource) {
   
       return totalResources;
       console.log(`Calulating Resources for ${userID}`);
-    } catch (err) {
-      // Log errors to a file
-      const errorMessage = `[LOG] Failed to calculate resources for user ${userID}. Error: ${err.message}\n`;
-      console.error(errorMessage);
-      fs.appendFile(process.env.LOGS_ERROR_PATH, errorMessage, (err) => {
-        if (err) console.error(`Failed to save log: ${err.message}`);
-      });
-      throw err;
     }
 };
 
