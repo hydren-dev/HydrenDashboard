@@ -71,7 +71,7 @@ const maxResources = async (email) => {
 router.get('/delete', ensureAuthenticated, async (req, res) => {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
   if (!req.query.id) return res.redirect('../servers?err=MISSINGPARAMS');
-  
+
   try {
       const userId = await db.get(`id-${req.user.email}`);
       const serverId = req.query.id;
@@ -96,9 +96,8 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
           }
       });
 
-      // Delete the associated database table
-      const deleteTableQuery = `DROP TABLE IF EXISTS server_${serverId}`;
-      await db.run(deleteTableQuery);
+      // Delete the associated server data from Keyv
+      await db.delete(`server_${userId}`);
 
       res.redirect('/servers?success=DELETED');
       await sendDiscordNotification(`${req.user.email} Have Deleted the Server with \n**ID**: ${serverId}.`);
@@ -109,6 +108,7 @@ router.get('/delete', ensureAuthenticated, async (req, res) => {
       res.send('Internal Error While Deleting the Server');
   }
 });
+
 
 
 // Create server
@@ -186,25 +186,24 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
             }
         });
 
-      const serverId = response.data.Id;
+        const serverData = {
+          name,
+          cpu,
+          memory,
+          image,
+          variables: JSON.stringify(variables),    
+      };
       
-      const serverData = {
-           name,
-           cpu,
-           memory,
-           image,
-           variables: JSON.stringify(variables),    
-       };
-   
-       await db.set(`server_${serverId}`, serverData);
-
-        res.redirect('/servers?err=CREATED');
-        await sendDiscordNotification(`${req.user.email} Have Created a Server with:\n**CPU**: ${cpu}\n**RAM**: ${memory}\nName: ${name}.`);
-
-    } catch (error) {
-        console.error(error);
-        res.redirect('../create-server?err=ERRORONCREATE');
-    }
+      // Use req.user.email as the key instead of serverId
+      await db.set(`server_${userId}`, serverData);
+      
+      res.redirect('/servers?err=CREATED');
+      await sendDiscordNotification(`${req.user.email} Have Created a Server with:\n**CPU**: ${cpu}\n**RAM**: ${memory}\nName: ${name}.`);
+      
+      } catch (error) {
+          console.error(error);
+          res.redirect('../create-server?err=ERRORONCREATE');
+      }      
 });
 
 
