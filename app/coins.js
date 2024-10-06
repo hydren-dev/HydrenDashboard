@@ -87,6 +87,7 @@ router.get('/afk', ensureAuthenticated, async (req, res) => {
         discordserver: process.env.DISCORD_SERVER,
         req: req, // Request (queries)
         admin: await db.get(`admin-${req.user.email}`), // Admin status
+        theme: require('../storage/theme.json'), // Theme data
         name: process.env.APP_NAME // App name
     });
 });
@@ -116,6 +117,7 @@ router.get('/store', ensureAuthenticated, async (req, res) => {
         admin: await db.get(`admin-${req.user.email}`), // Admin status
         name: process.env.APP_NAME, // App name
         resourceCosts: resourceCosts, // Cost Ressources
+        theme: require('../storage/theme.json'), // Theme data
         resourcePlans: resourcePlans // List plans
     });
 });

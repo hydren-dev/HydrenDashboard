@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const path = require('path');
 const fs = require('fs');
 
 const { db } = require('../function/db.js');
@@ -87,7 +88,8 @@ router.get('/', (req, res) => {
     req: req, // Requests (queries) 
     name: process.env.APP_NAME, // Dashboard name
     user: req.user, // User info (if logged in)
-    discordserver: process.env.DISCORD_SERVER
+    discordserver: process.env.DISCORD_SERVER,
+    theme: require('../storage/theme.json') // Theme data
   });
 });
 
@@ -122,6 +124,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
         discordserver: process.env.DISCORD_SERVER,
         existing, // Existing resources
         max, // Max resources,
+        theme: require('../storage/theme.json'), // Theme data
         admin: await db.get(`admin-${req.user.email}`) || false // Admin status
       });
     } catch (err) {
@@ -163,6 +166,7 @@ router.get('/servers', ensureAuthenticated, async (req, res) => {
         panel: process.env.SKYPORT_URL, // User info
         servers, // Servers the user owns
         existing, // Existing resources
+        theme: require('../storage/theme.json'), // Theme data
         discordserver: process.env.DISCORD_SERVER,
         max, // Max resources,
         admin: await db.get(`admin-${req.user.email}`) || false,
@@ -185,6 +189,7 @@ router.get('/credentials', ensureAuthenticated, async (req, res) => {
     req: req, // Request (queries)
     name: process.env.APP_NAME, // Dashboard name
     discordserver: process.env.DISCORD_SERVER,
+    theme: require('../storage/theme.json'), // Theme data
     user: req.user, // User info
     admin: await db.get(`admin-${req.user.email}`), // Admin status
     password: await checkPassword(req.user.email) // Account password
@@ -228,6 +233,7 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
         user: req.user, // User info
         servers, // Servers the user owns
         existing, // Existing resources
+        theme: require('../storage/theme.json'), // Theme data
         max, // Max resources,
         admin: await db.get(`admin-${req.user.email}`) || false // Admin status
       });
@@ -242,6 +248,43 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
 // Panel
 router.get('/panel', (req, res) => {
   res.redirect(`${skyport.url}/login`);
+});
+
+const storageDir = path.join(__dirname, '../storage');
+
+
+router.get('/get/set-theme', (req, res) => {
+  if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
+  
+  // Get the selected theme from query parameters
+  const selectedTheme = req.query.theme; // Accessing the theme from the query
+  let themeConfig;
+
+  if (selectedTheme === 'blue') {
+      themeConfig = {
+          "textcolor": "white",
+          "buttoncolor": "blue",
+          "somecolors": "blue"
+      };
+  } else {
+      themeConfig = {
+          "textcolor": "white",
+          "buttoncolor": "[#0a9875]",
+          "somecolors": "[#0a9875]"
+      };
+  }
+
+  // Create the storage directory if it doesn't exist
+  if (!fs.existsSync(storageDir)) {
+      fs.mkdirSync(storageDir);
+  }
+
+  // Write the theme configuration to theme.json
+  const themePath = path.join(storageDir, 'theme.json');
+  fs.writeFileSync(themePath, JSON.stringify(themeConfig, null, 2));
+
+  // Redirect with a success message
+  res.redirect('../theme?err=RESTART YOUR DASH TO TAKE EFFECT');
 });
 
 // Assets

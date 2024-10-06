@@ -48,8 +48,6 @@ async function calculateResource(userID, resource) {
                 totalResources += resourceValue;
             }
         }
-
-        console.log(`Calculating Resources for ${userID}: ${totalResources}`);
         return totalResources;
 
     } catch (error) {

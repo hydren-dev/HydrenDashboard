@@ -73,7 +73,7 @@
 
         <!-- inactive: hosting -->
         <div x-data="{ open: false }">
-          <a @mouseenter="open = true" @mouseleave="open = false" href="../dashboard" class="transition opacity-70 bg-white/5 text-white/70 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+          <a @mouseenter="open = true" @mouseleave="open = false" href="../dashboard" class="transition bg-[#0a9875]/10 text-<%= theme.buttoncolor %> backdrop-blur hover:text-<%= theme.buttoncolor %> group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
             </svg>                          
@@ -92,10 +92,10 @@
 
         <!-- active: account -->
         <div x-data="{ open: false }">
-          <a @mouseenter="open = true" @mouseleave="open = false" href="../profile?platform=account" class="transition bg-[#0a9875]/10 mt-4 text-[#0a9875]/70 backdrop-blur hover:text-[#0a9875] group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>                      
+          <a @mouseenter="open = true" @mouseleave="open = false" href="../profile?platform=account" class="transition bg-[#0a9875]/10 mt-4 text-<%= theme.buttoncolor %> backdrop-blur hover:text-<%= theme.buttoncolor %> group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+            </svg>                    
           </a>
           <div x-show="open" x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 transform scale-90"
@@ -112,7 +112,7 @@
         <% } else { %>     
         <!-- active: hosting -->
         <div x-data="{ open: false }">
-          <a @mouseenter="open = true" @mouseleave="open = false" href="../dashboard" class="transition bg-[#0a9875]/10 text-[#0a9875]/70 backdrop-blur hover:text-[#0a9875] group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
+          <a @mouseenter="open = true" @mouseleave="open = false" href="../dashboard" class="transition bg-[#0a9875]/10 text-<%= theme.buttoncolor %> backdrop-blur hover:text-<%= theme.buttoncolor %> group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
             </svg>                          
@@ -132,9 +132,9 @@
         <!-- inaactive: account -->
         <div x-data="{ open: false }">
           <a @mouseenter="open = true" @mouseleave="open = false" href="../profile?platform=account" class="transition opacity-70 bg-white/5 mt-4 text-white/70 backdrop-blur hover:text-white group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>                      
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+            </svg>                       
           </a>
           <div x-show="open" x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 transform scale-90"
@@ -272,8 +272,8 @@
         // Add the specified classes
         link.classList.add(
           'transition',
-          'text-[#0a9875]',
-          'bg-[#0a9875]/5',
+          'text-<%= theme.buttoncolor %>',
+          'bg-<%= theme.buttoncolor %>/5',
           'shadow',
           'group',
           'flex',

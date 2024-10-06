@@ -56,6 +56,7 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
             coins: await db.get(`coins-${req.user.email}`), // User's coins
             discordserver: process.env.DISCORD_SERVER,
             req: req, // Request (queries)
+            theme: require('../storage/theme.json'), // Theme data
             admin: await db.get(`admin-${req.user.email}`), // Admin status
             name: process.env.APP_NAME // App name
         });
@@ -64,6 +65,23 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/theme', ensureAuthenticated, async (req, res) => {
+    if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
+      if (await db.get(`admin-${req.user.email}`) == true) {
+          res.render('admin-theme', {
+              user: req.user, // User info
+              coins: await db.get(`coins-${req.user.email}`), // User's coins
+              discordserver: process.env.DISCORD_SERVER,
+              req: req, // Request (queries)
+              theme: require('../storage/theme.json'), // Theme data
+              admin: await db.get(`admin-${req.user.email}`), // Admin status
+              name: process.env.APP_NAME // App name
+          });
+      } else {
+          res.redirect('/dashboard');
+      }
+  });
+
 router.get('/images', ensureAuthenticated, async (req, res) => {
     if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
       if (await db.get(`admin-${req.user.email}`) == true) {
@@ -71,6 +89,7 @@ router.get('/images', ensureAuthenticated, async (req, res) => {
               user: req.user, // User info
               coins: await db.get(`coins-${req.user.email}`), // User's coins
               discordserver: process.env.DISCORD_SERVER,
+              theme: require('../storage/theme.json'), // Theme data
               req: req, // Request (queries)
               admin: await db.get(`admin-${req.user.email}`), // Admin status
               images: require('../storage/images.json'), // Images data
@@ -87,6 +106,7 @@ router.get('/images', ensureAuthenticated, async (req, res) => {
               user: req.user, // User info
               coins: await db.get(`coins-${req.user.email}`), // User's coins
               discordserver: process.env.DISCORD_SERVER,
+              theme: require('../storage/theme.json'), // Theme data
               req: req, // Request (queries)
               admin: await db.get(`admin-${req.user.email}`), // Admin status
               nodes: require('../storage/nodes.json'), // Images data

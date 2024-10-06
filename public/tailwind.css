@@ -3004,4 +3004,12 @@ select {
     --tw-bg-opacity: 1;
     background-color: rgb(38 38 38 / var(--tw-bg-opacity));
   }
+
+  .bg-blue {
+    background-color: #1b1092
+  }
+
+  .text-blue {
+    color: #5e50f7
+  }
 }

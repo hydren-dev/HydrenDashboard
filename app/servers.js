@@ -217,6 +217,7 @@ router.get('/create-server', ensureAuthenticated, async (req, res) => {
       discordserver: process.env.DISCORD_SERVER,
       coins: await db.get(`coins-${req.user.email}`), // Coins
       images: require('../storage/images.json'), // Images data
+      theme: require('../storage/theme.json'), // Theme data
       nodes: require('../storage/nodes.json') // Nodes data
     });
 });

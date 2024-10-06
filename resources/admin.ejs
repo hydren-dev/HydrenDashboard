@@ -44,9 +44,9 @@
               <!-- Add coins -->
               <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
                 <h1 class="text-lg font-semibold text-white">Add coins</h1>
-                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ac-email" placeholder="Email">
-                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ac-amount" placeholder="Amount">
-                <a href="javascript:addCoins()" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ac-email" placeholder="Email">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ac-amount" placeholder="Amount">
+                <a href="javascript:addCoins()" class="inline-flex items-center justify-center rounded-full border-none bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-<%= theme.buttoncolor %> transition-colors duration-200">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                   </svg>
@@ -58,11 +58,11 @@
               <!-- Add resources -->
               <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
                 <h1 class="text-lg font-semibold text-white">Add resources</h1>
-                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-email" placeholder="Email">
-                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-cpu" placeholder="CPU Cores">
-                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-ram" placeholder="Memory (GiB)">
-                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-disk" placeholder="Storage (GiB)">
-                <a href="javascript:addResources()" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-email" placeholder="Email">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-cpu" placeholder="CPU Cores">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-ram" placeholder="Memory (GiB)">
+                <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ar-disk" placeholder="Storage (GiB)">
+                <a href="javascript:addResources()" class="inline-flex items-center justify-center rounded-full border-none bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-<%= theme.buttoncolor %> transition-colors duration-200">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                   </svg>
@@ -74,8 +74,8 @@
                 <!-- Ban -->
                 <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
                   <h1 class="text-lg font-semibold text-white">Ban Anyone</h1>
-                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ban-email" placeholder="Email">
-                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ban-reason" placeholder="Reason">
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ban-email" placeholder="Email">
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="ban-reason" placeholder="Reason">
                   <a href="javascript:ban()" class="inline-flex items-center justify-center rounded-full border-none bg-red-600 px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-red-600 transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
@@ -86,8 +86,8 @@
                 <!-- unBan -->
                 <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
                   <h1 class="text-lg font-semibold text-white">unBan Anyone</h1>
-                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-[#0a9875] focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="unban-email" placeholder="Email">
-                  <a href="javascript:unban()" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                  <input type="text" class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" id="unban-email" placeholder="Email">
+                  <a href="javascript:unban()" class="inline-flex items-center justify-center rounded-full border-none bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-<%= theme.buttoncolor %> transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                     </svg>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
                   <h1 class="text-lg font-semibold text-white">Scan Nodes</h1>
-                  <a href="../scannodes" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                  <a href="../scannodes" class="inline-flex items-center justify-center rounded-full border-none bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-<%= theme.buttoncolor %> transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
                     </svg>  
@@ -105,7 +105,7 @@
                 </div>
                 <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
                   <h1 class="text-lg font-semibold text-white">Scan Images </h1>
-                  <a href="../scanimages" class="inline-flex items-center justify-center rounded-full border-none bg-[#0a9875] px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-[#0b8d6e] transition-colors duration-200">
+                  <a href="../scanimages" class="inline-flex items-center justify-center rounded-full border-none bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-<%= theme.buttoncolor %> transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
                     </svg>                    
