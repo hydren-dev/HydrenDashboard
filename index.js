@@ -16,13 +16,11 @@ const app = express();
 const expressWs = require('express-ws')(app);
 
 const updateJsonUrl = 'https://ma4z.game-net.site/hydren.json';
-// Changing this may cause errors
 
 const { db } = require('./function/db');
 
 const log = new CatLoggr();
 
-// Api Here
 const apiINFO = require('./api/apiINFO');
 const apiUSERCOINS = require('./api/apiUSERCOINS');
 const apiUSERINFO = require('./api/apiUSERINFO');
@@ -46,7 +44,7 @@ async function sendDiscordNotification(message) {
     const embed = {
       title: 'Hydren Logging',
       description: message,
-      color: 3066993, // Green color
+      color: 3066993,
       thumbnail: {
         url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
       },
@@ -86,7 +84,7 @@ async function sendDiscordNotification(message) {
   const lines = ascii.split('\n');
   
   // Log each line of the ASCII art and the version info
-  lines.forEach(line => log.init(line));
+  lines.forEach(line => console.log(line));
   
   checkVersion().then(() => {
   });
@@ -145,8 +143,6 @@ const init = async () => {
   app.use('/api', apiADDCOINS);
   app.use('/api', apiNODES);
   app.use('/api', apiIMAGES);
-
-
 
   const allRoutes = fs.readdirSync('./app');
   allRoutes.forEach(routeFile => {
