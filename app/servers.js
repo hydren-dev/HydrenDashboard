@@ -128,10 +128,15 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
     if (parseInt(req.query.ram) < 128) return res.redirect('../create-server?err=INVALID');
     if (parseInt(req.query.cpu) < 0) return res.redirect('../create-server?err=INVALID');
 
-    if (req.query.name.length > 100 || req.query.name.length < 3) 
-        return res.redirect('../create-server?err=INVALID');
-    if (isNaN(req.query.cpu) || isNaN(req.query.ram)) 
-        return res.redirect('../create-server?err=INVALID');
+  if (req.query.name.length > 100 || req.query.name.length < 3) {
+      return res.redirect('../create-server?err=INVALID_NAME');
+  }
+  if (isNaN(req.query.cpu)) {
+      return res.redirect('../create-server?err=INVALID_CPU');
+  }
+  if (isNaN(req.query.ram)) {
+      return res.redirect('../create-server?err=INVALID_RAM');
+  }
 
     try {
         const userId = await db.get(`id-${req.user.email}`);
@@ -170,6 +175,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
             memory,
             cpu,
             ports: selectedPort,
+            primary: selectedPort,
             nodeId,
             name,
             user: userId,
@@ -180,24 +186,17 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
             }
         });
 
-        const serverId = response.data.Id; 
-        const createTableQuery = `
-            CREATE TABLE server_${serverId} (
-                name TEXT,
-                cpu INTEGER,
-                memory INTEGER,
-                image TEXT,
-                variables JSON
-            )
-        `;
-
-        await db.run(createTableQuery);
-        const insertValuesQuery = `
-            INSERT INTO server_${serverId} (name, cpu, memory, image, variables)
-            VALUES (?, ?, ?, ?, ?)
-        `;
-
-        await db.run(insertValuesQuery, [name, cpu, memory, imageId, JSON.stringify(variables)]);
+      const serverId = response.data.Id;
+      
+      const serverData = {
+           name,
+           cpu,
+           memory,
+           image,
+           variables: JSON.stringify(variables),    
+       };
+   
+       await db.set(`server_${serverId}`, serverData);
 
         res.redirect('/servers?err=CREATED');
         await sendDiscordNotification(`${req.user.email} Have Created a Server with:\n**CPU**: ${cpu}\n**RAM**: ${memory}\nName: ${name}.`);
