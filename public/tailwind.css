@@ -3012,4 +3012,20 @@ select {
   .text-blue {
     color: #5e50f7
   }
+
+  .bg-purple {
+    background-color: #9B59B6
+  }
+
+  .text-purple {
+    color: #6A0Dad
+  }
+
+  .bg-orange {
+    background-color: #ff0000
+  }
+
+  .text-orange {
+    color: #ff0000
+  }
 }

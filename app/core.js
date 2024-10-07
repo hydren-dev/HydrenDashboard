@@ -261,18 +261,32 @@ router.get('/get/set-theme', (req, res) => {
   let themeConfig;
 
   if (selectedTheme === 'blue') {
-      themeConfig = {
-          "textcolor": "white",
-          "buttoncolor": "blue",
-          "somecolors": "blue"
-      };
-  } else {
-      themeConfig = {
-          "textcolor": "white",
-          "buttoncolor": "[#0a9875]",
-          "somecolors": "[#0a9875]"
-      };
-  }
+    themeConfig = {
+        "textcolor": "white",
+        "buttoncolor": "blue",
+        "somecolors": "blue"
+    };
+} else if (selectedTheme === 'purple') {
+    themeConfig = {
+        "textcolor": "white",
+        "buttoncolor": "purple",
+        "somecolors": "purple"
+    };
+} else if (selectedTheme === 'orange') {
+    themeConfig = {
+        "textcolor": "white",
+        "buttoncolor": "orange",
+        "somecolors": "orange"
+    };
+} else {
+    themeConfig = {
+        "textcolor": "white",
+        "buttoncolor": "[#0a9875]",
+        "somecolors": "[#0a9875]"
+    };
+}
+
+
 
   // Create the storage directory if it doesn't exist
   if (!fs.existsSync(storageDir)) {

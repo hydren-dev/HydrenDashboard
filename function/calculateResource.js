@@ -49,6 +49,7 @@ async function calculateResource(userID, resource) {
             }
         }
         return totalResources;
+        console.log(`Starting Resource Calulation for ${userID}`);
 
     } catch (error) {
         console.error(`Error calculating resources for user ${userID}:`, error.message);

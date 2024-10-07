@@ -137,6 +137,13 @@ const init = async () => {
     next();
   });
 
+  app.use(session({
+    secret: process.env.SESSION_SECRET || 'your-default-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set to true if using HTTPS
+  }));
+
   app.use('/api', apiINFO);
   app.use('/api', apiUSERCOINS);
   app.use('/api', apiUSERINFO);

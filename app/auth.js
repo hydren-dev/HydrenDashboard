@@ -4,6 +4,7 @@ const DiscordStrategy = require('passport-discord');
 const axios = require('axios');
 const fs = require('fs');
 const randomstring = require("randomstring");
+const session = require('express-session');
 const router = express.Router();
 
 const { db } = require('../function/db');
@@ -12,6 +13,19 @@ const skyport = {
   url: process.env.SKYPORT_URL,
   key: process.env.SKYPORT_KEY
 };
+
+// Configure session middleware
+const sessionMiddleware = session({
+  secret: process.env.SESSION_SECRET || 'your-default-secret', // Use a strong secret
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true if using HTTPS
+});
+
+// Use the session middleware
+router.use(sessionMiddleware);
+router.use(passport.initialize());
+router.use(passport.session());
 
 // Configure passport to use Discord
 const discordStrategy = new DiscordStrategy({
@@ -32,7 +46,7 @@ async function sendDiscordNotification(message) {
   }
 
   if (!webhookURL) {
-   log.warn('Discord webhook URL is not set.');
+    log.warn('Discord webhook URL is not set.');
     return;
   }
 
@@ -41,7 +55,7 @@ async function sendDiscordNotification(message) {
     description: message,
     color: 3066993, // Green color
     thumbnail: {
-      url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+      url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png'
     },
     timestamp: new Date().toISOString(),
   };
@@ -213,7 +227,7 @@ router.get('/callback/discord', passport.authenticate('discord', {
     await checkAccount(req.user.email, req.user.username, req.user.id);
     
     // Send Discord notification
-    await sendDiscordNotification(`${req.user.username} Have Logged in at Dashboard.`);
+    await sendDiscordNotification(`${req.user.username} has logged in at Dashboard.`);
     
     res.redirect(req.session.returnTo || '/dashboard');
   } catch (error) {
@@ -224,7 +238,6 @@ router.get('/callback/discord', passport.authenticate('discord', {
     res.redirect('/dashboard');
   }
 });
-
 
 // Logout route
 router.get('/logout', (req, res) => {
