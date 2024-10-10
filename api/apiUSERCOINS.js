@@ -6,7 +6,6 @@ const router = express.Router();
 
 const keyv = new Keyv('sqlite://storage/database.sqlite'); 
 
-// Middleware to check API key
 function authenticate(req, res, next) {
     const apiKey = req.query.key;
     if (apiKey && apiKey === process.env.API_KEY) {
@@ -17,13 +16,11 @@ function authenticate(req, res, next) {
     }
 }
 
-// Function to get a specific user's coins using Keyv
 async function getUserCoins(email) {
     const key = `coins-${email}`;
     return await keyv.get(key);
 }
 
-// API route to check user's coins by email
 router.get('/application/user/coins', authenticate, async (req, res) => {
     const email = req.query.email;
 

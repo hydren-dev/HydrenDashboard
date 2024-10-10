@@ -18,6 +18,8 @@ async function calculateResource(userID, resource) {
                 'Content-Type': 'application/json'
             }
         });
+        
+        console.log(`Instance Of ${userID} :\n`, response);
 
         if (!response.data || !Array.isArray(response.data)) {
             throw new Error('Invalid response data format');
@@ -43,17 +45,15 @@ async function calculateResource(userID, resource) {
             if (dbServerData && dbServerData[resource] !== undefined) {
                 let resourceValue = dbServerData[resource];
                 if (resource === 'Cpu') {
-                    resourceValue *= 100; // Again, applying conversion if necessary
+                    resourceValue *= 100; 
                 }
                 totalResources += resourceValue;
             }
         }
         return totalResources;
-        console.log(`Starting Resource Calulation for ${userID}`);
-
     } catch (error) {
         console.error(`Error calculating resources for user ${userID}:`, error.message);
-        throw error; // Optional: re-throw the error if you want to propagate it
+        throw error; 
     }
 }
 

@@ -46,7 +46,7 @@ async function sendDiscordNotification(message) {
       description: message,
       color: 3066993,
       thumbnail: {
-        url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+        url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png'
       },
       timestamp: new Date().toISOString(),
     };
@@ -71,24 +71,23 @@ async function sendDiscordNotification(message) {
       const latestVersion = response.data.dash_latest;
       const currentVersion = process.env.VERSION;
   
-      if (currentVersion && currentVersion === latestVersion) {
-        log.init(`✅ HydrenDashboard is Running v${currentVersion} Your Running the Latest Version`);
-      } else {
+      if (currentVersion && currentVersion === latestVersion) {} else {
         log.warn(`❌ Your version (v${currentVersion}) is not up to date. Latest version is v${latestVersion}.`);
       }
     } catch (error) {
       log.error(`Failed to check the latest version: ${error.message}`);
     }
   }
-  // Split the ASCII art into lines
-  const lines = ascii.split('\n');
-  
-  // Log each line of the ASCII art and the version info
-  lines.forEach(line => console.log(line));
+
+  const currentVersion = process.env.VERSION;
+
+  console.log(`${ascii}\n                          version v${currentVersion}\n`);
   
   checkVersion().then(() => {
   });
-const init = async () => {
+
+  const init = async () => {
+
   if (process.env.ADMIN_USERS) {
     const admins = process.env.ADMIN_USERS.split(',');
     admins.forEach(admin => db.set(`admin-${admin}`, true));
@@ -141,7 +140,7 @@ const init = async () => {
     secret: process.env.SESSION_SECRET || 'your-default-secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: false } 
   }));
 
   app.use('/api', apiINFO);
@@ -152,11 +151,22 @@ const init = async () => {
   app.use('/api', apiIMAGES);
 
   const allRoutes = fs.readdirSync('./app');
+
   allRoutes.forEach(routeFile => {
-    const route = require(`./app/${routeFile}`);
-    expressWs.applyTo(route);
-    app.use('/', route);
+    try {
+      const routePath = path.join(__dirname, 'app', routeFile);
+      const route = require(routePath);
+      
+      expressWs.applyTo(route); // Apply WebSocket if needed
+      app.use('/', route);
+      
+      log.init(`Loaded route: ${routeFile}`);
+    } catch (error) {
+      log.error(`Error loading route: ${routeFile}`);
+      log.error(error.message); // Log the specific error message
+    }
   });
+
   app.use(express.static(path.join(__dirname, 'public')));
 
   app.use((req, res) => {
@@ -166,7 +176,7 @@ const init = async () => {
   const port = process.env.APP_PORT || 3000;
   app.listen(port, async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
-    log.info(`✅ HydrenDashboard has been started on ${appUrl}:${process.env.APP_PORT}!`);
+    log.info(`Hydren is listening on port ${port}!`);
   await sendDiscordNotification(`✅ ${process.env.APP_NAME} is Booting Up.`);
 });
 }; 

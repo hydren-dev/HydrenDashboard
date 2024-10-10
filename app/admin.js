@@ -28,9 +28,9 @@ async function sendDiscordNotification(message) {
     const embed = {
       title: 'Hydren Logging',
       description: message,
-      color: 3066993, // Green color
+      color: 3066993, 
       thumbnail: {
-        url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png' // Default thumbnail URL
+        url: process.env.EMBED_THUMBNAIL_URL || 'https://example.com/default-thumbnail.png'
       },
       timestamp: new Date().toISOString(),
     };
@@ -53,12 +53,12 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
     if (await db.get(`admin-${req.user.email}`) == true) {
         res.render('admin', {
             user: req.user, // User info
-            coins: await db.get(`coins-${req.user.email}`), // User's coins
+            coins: await db.get(`coins-${req.user.email}`), 
             discordserver: process.env.DISCORD_SERVER,
             req: req, // Request (queries)
-            theme: require('../storage/theme.json'), // Theme data
-            admin: await db.get(`admin-${req.user.email}`), // Admin status
-            name: process.env.APP_NAME // App name
+            theme: require('../storage/theme.json'), 
+            admin: await db.get(`admin-${req.user.email}`),
+            name: process.env.APP_NAME
         });
     } else {
         res.redirect('/dashboard');
@@ -70,11 +70,11 @@ router.get('/theme', ensureAuthenticated, async (req, res) => {
       if (await db.get(`admin-${req.user.email}`) == true) {
           res.render('admin-theme', {
               user: req.user, // User info
-              coins: await db.get(`coins-${req.user.email}`), // User's coins
+              coins: await db.get(`coins-${req.user.email}`), 
               discordserver: process.env.DISCORD_SERVER,
               req: req, // Request (queries)
-              theme: require('../storage/theme.json'), // Theme data
-              admin: await db.get(`admin-${req.user.email}`), // Admin status
+              theme: require('../storage/theme.json'), 
+              admin: await db.get(`admin-${req.user.email}`),
               name: process.env.APP_NAME // App name
           });
       } else {
@@ -87,11 +87,11 @@ router.get('/images', ensureAuthenticated, async (req, res) => {
       if (await db.get(`admin-${req.user.email}`) == true) {
           res.render('admin_images', {
               user: req.user, // User info
-              coins: await db.get(`coins-${req.user.email}`), // User's coins
+              coins: await db.get(`coins-${req.user.email}`), 
               discordserver: process.env.DISCORD_SERVER,
-              theme: require('../storage/theme.json'), // Theme data
+              theme: require('../storage/theme.json'), 
               req: req, // Request (queries)
-              admin: await db.get(`admin-${req.user.email}`), // Admin status
+              admin: await db.get(`admin-${req.user.email}`),
               images: require('../storage/images.json'), // Images data
               name: process.env.APP_NAME // App name
           });
@@ -104,11 +104,11 @@ router.get('/images', ensureAuthenticated, async (req, res) => {
       if (await db.get(`admin-${req.user.email}`) == true) {
           res.render('admin_nodes', {
               user: req.user, // User info
-              coins: await db.get(`coins-${req.user.email}`), // User's coins
+              coins: await db.get(`coins-${req.user.email}`), 
               discordserver: process.env.DISCORD_SERVER,
-              theme: require('../storage/theme.json'), // Theme data
+              theme: require('../storage/theme.json'), 
               req: req, // Request (queries)
-              admin: await db.get(`admin-${req.user.email}`), // Admin status
+              admin: await db.get(`admin-${req.user.email}`),
               nodes: require('../storage/nodes.json'), // Images data
               name: process.env.APP_NAME // App name
           });

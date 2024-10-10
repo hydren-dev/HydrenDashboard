@@ -1,13 +1,11 @@
 const express = require('express');
 const Keyv = require('keyv');
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 
 const router = express.Router();
 
-// Initialize Keyv instance (e.g., with SQLite or any other supported storage)
-const keyv = new Keyv('sqlite://storage/database.sqlite'); // or use other storage like 'redis://user:pass@localhost:6379'
+const keyv = new Keyv('sqlite://storage/database.sqlite'); 
 
-// Middleware to check API key
 function authenticate(req, res, next) {
     const apiKey = req.query.key;
     if (apiKey && apiKey === process.env.API_KEY) {
@@ -17,7 +15,6 @@ function authenticate(req, res, next) {
     }
 }
 
-// Function to get user's information from Keyv
 async function getUserInfo(email) {
     const keys = {
         cpu: `cpu-${email}`,
@@ -35,7 +32,6 @@ async function getUserInfo(email) {
     return data;
 }
 
-// API route to get all user information by email
 router.get('/application/user/info', authenticate, async (req, res) => {
     const email = req.query.email;
 
