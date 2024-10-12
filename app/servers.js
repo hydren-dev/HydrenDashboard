@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 const { db } = require('../function/db');
 const { calculateResource } = require('../function/calculateResource');
@@ -8,6 +9,10 @@ const { ensureAuthenticated } = require('../function/ensureAuthenticated');
 const { getRandomPort } = require('../function/getRandomPort');
 
 const router = express.Router();
+
+function generateShortUUID() {
+  return uuidv4().replace(/-/g, '').substring(0, 6);
+}
 
 async function sendDiscordNotification(message) {
   const webhookURL = process.env.DISCORD_WEBHOOK_URL;
@@ -138,6 +143,8 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       return res.redirect('../create-server?err=INVALID_RAM');
   }
 
+  const uuid = generateShortUUID();
+
     try {
         const userId = await db.get(`id-${req.user.email}`);
         const name = req.query.name;
@@ -170,16 +177,15 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
         const image = image2.Image;
 
         const response = await axios.post(`${skyport.url}/api/instances/deploy`, {
+            user: userId,
+            nodeId, 
             image,
-            imagename, 
             memory,
             cpu,
             ports: selectedPort,
             primary: selectedPort,
-            nodeId,
             name,
-            user: userId,
-            variables
+            imagename
         }, {
             headers: {
                 'x-api-key': skyport.key
