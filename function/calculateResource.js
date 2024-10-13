@@ -19,8 +19,6 @@ async function calculateResource(userID, resource) {
             }
         });
         
-        console.log(`Instance Of ${userID} :\n`, response);
-
         if (!response.data || !Array.isArray(response.data)) {
             throw new Error('Invalid response data format');
         }
