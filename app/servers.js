@@ -207,7 +207,7 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       await sendDiscordNotification(`${req.user.email} Have Created a Server with:\n**CPU**: ${cpu}\n**RAM**: ${memory}\nName: ${name}.`);
       
       } catch (error) {
-          console.error(error);
+          console.error(error.data);
           res.redirect('../create-server?err=ERRORONCREATE');
       }      
 });
