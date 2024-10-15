@@ -9,6 +9,7 @@ const CatLoggr = require('cat-loggr');
 const axios = require('axios');
 const ipaddr = require('ipaddr.js');
 const requestIp = require('request-ip');
+const bodyParser = require('body-parser'); // Import body-parser
 
 require('dotenv').config();
 
@@ -109,6 +110,10 @@ async function sendDiscordNotification(message) {
   app.use(passport.session());
 
   app.use(requestIp.mw());
+
+  app.use(bodyParser.json());
+
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use(async (req, res, next) => {
     const ipAddress = req.clientIp;

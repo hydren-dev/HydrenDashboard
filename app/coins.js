@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const axios = require('axios');
 
 const { db } = require('../function/db');
 const { ensureAuthenticated } = require('../function/ensureAuthenticated.js');
@@ -161,6 +162,61 @@ router.get('/buyresource', ensureAuthenticated, async (req, res) => {
         await db.set(`coins-${req.user.email}`, parseInt(coins) - parseInt(resourceCost));
         return res.redirect('/store?success=BOUGHTRESOURCE');
     }
+});
+
+router.post('/claim-promocode', async (req, res) => {
+  const { code } = req.body;
+  const email = req.user.email; // Assuming user's email is available
+
+  if (!code || !email) {
+      return res.status(400).json({ error: 'Code is required.' });
+  }
+
+  // Fetch promo code data from the database
+  const promoData = await db.get(`code-${code}`);
+  if (!promoData) {
+      return res.status(404).json({ error: 'Invalid promo code.' });
+  }
+
+  // Check if the promo code has reached max uses
+  if (promoData.uses >= promoData.maxUses) {
+      return res.status(400).json({ error: 'Sorry, this code has reached the max limit.' });
+  }
+
+  // Check if the user has already claimed this promo code
+  const claimedCodes = await db.get(`claimed_codes-${email}`) || [];
+  
+  // If the code has already been claimed, return an error
+  if (claimedCodes.includes(code)) {
+      return res.status(400).json({ error: 'You have already claimed this promo code.' });
+  }
+
+  // Increment the usage count
+  await db.set(`code-${code}.uses`, promoData.uses + 1);
+
+  // Prepare coins to add
+  const coins = promoData.coins;
+
+  // Add coins to the user's account
+  try {
+      // Get current coins or default to 0
+      let currentCoins = parseInt(await db.get(`coins-${email}`)) || 0;
+
+      // Calculate new amount
+      let amountParse = currentCoins + parseInt(coins);
+
+      // Update the user's coins in the database
+      await db.set(`coins-${email}`, amountParse);
+
+      // Update the claimed codes for the user
+      claimedCodes.push(code);
+      await db.set(`claimed_codes-${email}`, claimedCodes);
+
+      // Respond with success message and new amount
+      res.status(200).json({ message: 'Promo code claimed successfully!', newAmount: amountParse });
+  } catch (error) {
+      res.status(500).json({ error: 'Failed to Add Coins', details: error.message });
+  }
 });
 
 // Buy plan

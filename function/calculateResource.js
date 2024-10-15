@@ -19,8 +19,6 @@ async function calculateResource(userID, resource) {
             }
         });
         
-        console.log(`Instance Of ${userID} :\n`, response);
-
         if (!response.data || !Array.isArray(response.data)) {
             throw new Error('Invalid response data format');
         }
@@ -40,7 +38,7 @@ async function calculateResource(userID, resource) {
         // Retrieve additional server resources from the database
         for (const server of response.data) {
             const serverId = server.Id; // Assuming the server has an Id property
-            const dbServerData = await db.get(`server_${serverId}`);
+            const dbServerData = await db.get(`instance_${serverId}`);
 
             if (dbServerData && dbServerData[resource] !== undefined) {
                 let resourceValue = dbServerData[resource];

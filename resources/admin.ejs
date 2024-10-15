@@ -69,6 +69,72 @@
                   Add Resources
                 </a>
               </div>
+              <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                <h1 class="text-lg font-semibold text-white">Add Announcement</h1>
+              
+                <input 
+                  type="text" 
+                  class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" 
+                  id="ann-title" 
+                  placeholder="Title" 
+                />
+                
+                <input 
+                  type="text" 
+                  class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" 
+                  id="ann-message" 
+                  placeholder="Message" 
+                />
+                
+                <input 
+                  type="text" 
+                  class="w-full border border-white/5 bg-[#162027]/30 focus:ring-<%= theme.buttoncolor %> focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" 
+                  id="ann-author" 
+                  placeholder="Author" 
+                />
+              
+                <a 
+                  href="javascript:addAnnouncement()" 
+                  class="inline-flex items-center justify-center rounded-full border-none bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white ring-none focus:outline-none hover:bg-<%= theme.buttoncolor %> transition-colors duration-200"
+                >
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-5 h-5 mr-2"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                  </svg>
+                  Add Announcement
+                </a>
+              </div>
+
+              <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+                <h1 class="text-lg font-semibold text-white">Add Promo Code</h1>
+              
+                <input type="text" id="promo-code" 
+                  class="w-full border border-white/5 bg-[#162027]/30 focus:ring-blue-500 focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" 
+                  placeholder="Promo Code">
+              
+                <input type="number" id="promo-max-uses" 
+                  class="w-full border border-white/5 bg-[#162027]/30 focus:ring-blue-500 focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" 
+                  placeholder="Max Uses">
+              
+                <input type="number" id="promo-coins" 
+                  class="w-full border border-white/5 bg-[#162027]/30 focus:ring-blue-500 focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" 
+                  placeholder="Coins">
+              
+                <a href="javascript:addPromoCode()" 
+                   class="inline-flex items-center justify-center rounded-full bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white transition-colors duration-200 hover:bg-blue-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                  </svg>
+                  Add Promo Code
+                </a>
+              </div>
+              
               
               <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <!-- Ban -->
@@ -145,6 +211,70 @@
           let disk = encodeURIComponent(document.getElementById("ar-disk").value);
           document.location.href = `/addresources?email=${email}&cpu=${cpu}&ram=${ram}&disk=${disk}`;
         };
-        
+
+        async function addAnnouncement() {
+          const title = document.getElementById('ann-title').value;
+          const message = document.getElementById('ann-message').value;
+          const author = document.getElementById('ann-author').value;
+
+           if (!title || !message || !author) {
+             alert('Please fill in all fields.');
+             return;
+           }
+
+           try {
+             const response = await fetch('/add-announcement', {
+               method: 'POST',
+               headers: {
+                 'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({ title, message, author }),
+             });
+         
+             const data = await response.json(); // Parse JSON response
+         
+             if (response.ok) {
+               alert(data.message); // Show success message
+               window.location.href = '/admin?err=COMPLETE'; // Redirect on success
+             } else {
+               alert(`Error: ${data.error}`); // Show error message
+             }
+           } catch (error) {
+             alert('Something went wrong. Please try again.'); // Handle network errors
+           }
+         }
+
+         async function addPromoCode() {
+  const code = document.getElementById('promo-code').value;
+  const maxUses = document.getElementById('promo-max-uses').value;
+  const coins = document.getElementById('promo-coins').value;
+
+  if (!code || !maxUses || !coins) {
+    alert('Please fill in all fields.');
+    return;
+  }
+
+  try {
+    const response = await fetch('/add-promocode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code, maxUses, coins }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message);
+      window.location.reload(); // Reload the page to reflect changes
+    } else {
+      alert(`Error: ${data.error}`);
+    }
+  } catch (error) {
+    alert('Something went wrong. Please try again.');
+  }
+}
+
   </script>
 </body>

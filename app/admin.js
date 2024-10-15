@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
 
 const { db } = require('../function/db');
 const { ensureAuthenticated } = require('../function/ensureAuthenticated.js');
@@ -47,6 +48,17 @@ async function sendDiscordNotification(message) {
     }
   }
 
+
+  const checkAdmin = async (req, res, next) => {
+    const isAdmin = await db.get(`admin-${req.user.email}`);
+    if (isAdmin === true) {
+        return next(); // Proceed to the requested route
+    } else {
+        return res.redirect('/dashboard'); // Redirect non-admins to dashboard
+    }
+};
+
+
 // Admin
 router.get('/admin', ensureAuthenticated, async (req, res) => {
   if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
@@ -62,6 +74,68 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
         });
     } else {
         res.redirect('/dashboard');
+    }
+});
+
+router.post('/add-announcement', checkAdmin, (req, res) => {
+    const { title, message, author } = req.body;
+
+    if (!title || !message || !author) {
+        return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    const newAnnouncement = {
+        id: Date.now(),
+        title,
+        message,
+        author,
+        createdAt: new Date().toISOString(),
+    };
+
+    const filePath = path.join(__dirname, '../storage/announcement.json');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to read file.' });
+        }
+
+        let announcements = [];
+        try {
+            announcements = JSON.parse(data || '[]'); // Ensure parsing works with empty files
+        } catch (parseErr) {
+            return res.status(500).json({ error: 'Failed to parse announcements.' });
+        }
+
+        announcements.push(newAnnouncement);
+
+        fs.writeFile(filePath, JSON.stringify(announcements, null, 2), (err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to write file.' });
+            }
+            // Respond with success message
+            res.status(201).json({ message: 'Announcement added successfully!' });
+        });
+    });
+});
+
+router.post('/add-promocode', checkAdmin, async (req, res) => {
+    const { code, maxUses, coins } = req.body;
+
+    if (!code || !maxUses || !coins) {
+        return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    try {
+        // Save promo code details to the database
+        await db.set(`code-${code}`, { 
+            maxUses: parseInt(maxUses), 
+            coins: parseInt(coins), 
+            uses: 0 // Initialize with 0 uses
+        });
+
+        res.status(201).json({ message: 'Promo code added successfully!' });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to add promo code.' });
     }
 });
 

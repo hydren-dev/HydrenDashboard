@@ -196,6 +196,21 @@ router.get('/credentials', ensureAuthenticated, async (req, res) => {
   }) 
 });
 
+router.get('/news', ensureAuthenticated, async (req, res) => {
+  if (!req.user || !req.user.email || !req.user.id) return res.redirect('/login/discord');
+  res.render('announcment', { 
+    coins: await db.get(`coins-${req.user.email}`), // User's coins
+    req: req, // Request (queries)
+    name: process.env.APP_NAME, // Dashboard name
+    discordserver: process.env.DISCORD_SERVER,
+    theme: require('../storage/theme.json'), // Theme data
+    announcements: require('../storage/announcement.json'),
+    user: req.user, // User info
+    admin: await db.get(`admin-${req.user.email}`), // Admin status
+    password: await checkPassword(req.user.email) // Account password
+  }) 
+});
+
 router.get('/ref', ensureAuthenticated, async (req, res) => {
   res.render('ref', { 
     name: process.env.APP_NAME, // Dashboard name

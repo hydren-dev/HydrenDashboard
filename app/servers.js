@@ -201,13 +201,13 @@ router.get('/create', ensureAuthenticated, async (req, res) => {
       };
       
       // Use req.user.email as the key instead of serverId
-      await db.set(`server_${userId}`, serverData);
+      await db.set(`instance_${userId}`, serverData);
       
       res.redirect('/servers?err=CREATED');
       await sendDiscordNotification(`${req.user.email} Have Created a Server with:\n**CPU**: ${cpu}\n**RAM**: ${memory}\nName: ${name}.`);
       
       } catch (error) {
-          console.error(error);
+          console.error(error.data);
           res.redirect('../create-server?err=ERRORONCREATE');
       }      
 });

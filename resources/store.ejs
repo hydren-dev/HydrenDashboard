@@ -130,6 +130,23 @@
   <div id="productList" class="flex flex-row gap-4 flex-wrap w-full mb-2">
   <!-- Products will be inserted here by JavaScript -->
   </div>
+
+  <div class="relative flex flex-col space-y-3 rounded-2xl bg-[#162027]/30 shadow border-t border-white/5 px-6 py-5 transition">
+    <h1 class="text-lg font-semibold text-white">Claim Promo Code</h1>
+  
+    <input type="text" id="claim-code" 
+      class="w-full border border-white/5 bg-[#162027]/30 focus:ring-blue-500 focus:border-transparent transition font-medium pl-4 py-3 text-sm text-zinc-400 placeholder:text-zinc-500 tracking-tight rounded-2xl" 
+      placeholder="Enter Promo Code">
+  
+    <a href="javascript:claimPromoCode()" 
+       class="inline-flex items-center justify-center rounded-full bg-<%= theme.buttoncolor %> px-6 py-2.5 text-sm font-normal text-white transition-colors duration-200 hover:bg-blue-600">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+      </svg>
+      Claim Promo Code
+    </a>
+  </div>
+  
   </div>
   </div>
   </main>
@@ -176,7 +193,36 @@
   </div>
   </div>
   </main>
+  <script>
+  async function claimPromoCode() {
+    const code = document.getElementById('claim-code').value;
   
+    if (!code) {
+      alert('Please enter the promo code.');
+      return;
+    }
+  
+    try {
+      const response = await fetch('/claim-promocode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }), // No userId is needed
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert(`Code Claimed`);
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+    }
+  }
+  </script>
   <%- include('./components/footer') %>
   </div>
   </div>
