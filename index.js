@@ -115,31 +115,36 @@ async function sendDiscordNotification(message) {
 
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use(async (req, res, next) => {
-    const ipAddress = req.clientIp;
+ app.use(async (req, res, next) => {
+  const ipAddress = req.clientIp;
 
-    if (!ipaddr.isValid(ipAddress)) {
-      console.error(`Invalid IP Address: ${ipAddress}`);
-      return res.status(400).json('Invalid IP address format.');
+  if (!ipaddr.isValid(ipAddress)) {
+    console.error(`Invalid IP Address: ${ipAddress}`);
+    return res.status(400).json('Invalid IP address format.');
+  }
+
+  const userIp = ipaddr.process(ipAddress).toString();
+  const proxycheckKey = process.env.PROXYCHECK_KEY;
+
+  try {
+    const proxyResponse = await axios.get(`http://proxycheck.io/v2/${userIp}?key=${proxycheckKey}`);
+    const proxyData = proxyResponse.data;
+
+    if (proxyData[userIp] && proxyData[userIp].proxy === 'yes') {
+      return res.status(403).json('Proxy/VPN detected. Please turn it off to continue.');
     }
+  } catch (error) {
+    console.error('Error checking proxy:', error);
+    return res.status(500).json('Error checking proxy.');
+  }
 
-    const userIp = ipaddr.process(ipAddress).toString();
-    const proxycheckKey = process.env.PROXYCHECK_KEY;
+  // Pass APP_LOGO to every EJS template
+  res.locals.app = {
+    logo: process.env.APP_LOGO || 'default-logo.png', // Default logo if not set
+  };
 
-    try {
-      const proxyResponse = await axios.get(`http://proxycheck.io/v2/${userIp}?key=${proxycheckKey}`);
-      const proxyData = proxyResponse.data;
-
-      if (proxyData[userIp] && proxyData[userIp].proxy === 'yes') {
-        return res.status(403).json('Proxy/VPN detected. Please turn it off to continue.');
-      }
-    } catch (error) {
-      console.error('Error checking proxy:', error);
-      return res.status(500).json('Error checking proxy.');
-    }
-
-    next();
-  });
+  next();
+});
 
   app.use(session({
     secret: process.env.SESSION_SECRET || 'your-default-secret',
