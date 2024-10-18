@@ -178,6 +178,14 @@ async function sendDiscordNotification(message) {
     res.status(404).render('404');
   });
 
+  app.use((req, res) => {
+    res.status(500).render('500');
+  });
+
+  app.use((req, res) => {
+    res.status(429).send('Too Many Requests');
+  });
+
   const port = process.env.APP_PORT || 3000;
   app.listen(port, async () => {
     const appUrl = process.env.APP_URL || `http://localhost:${port}`;
