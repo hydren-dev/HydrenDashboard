@@ -21,7 +21,7 @@
     "express-ws": "^5.0.2",
     "fs": "^0.0.1-security",
     "ipaddr.js": "^2.2.0",
-    "keyv": "^4.5.4",
+    "keyv": "^5.2.2",
     "passport": "^0.7.0",
     "passport-discord": "^0.1.4",
     "path": "^0.12.7",
